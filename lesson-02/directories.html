@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="pwd、ls、cdのコマンドと、ファイル・ディレクトリの階層を対応させる教材。">
+  <title>ファイルとディレクトリ | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="./directories.css">
+  <script defer src="./terminal-model.js"></script>
+  <script defer src="./directories.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#directory-lesson">教材へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a><button class="reset-button" id="directory-reset" type="button">↺ 初期化</button></header>
+  <main class="wrap">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><a href="./index.html">第2回</a></li><li><span aria-current="page">ファイルとディレクトリ</span></li></ol></nav>
+    <section class="directory-intro"><h1>ファイルとディレクトリ</h1><div class="directory-definitions"><p><strong>ファイル</strong><span>プログラムや文章などの内容を保存</span></p><p><strong>ディレクトリ</strong><span>ファイルやディレクトリをまとめる入れ物</span></p></div></section>
+    <div class="directory-layout" id="directory-lesson">
+      <section class="directory-panel terminal-panel" aria-labelledby="terminal-title">
+        <div class="directory-panel-heading"><h2 id="terminal-title"><span>01</span> ターミナル</h2><span class="panel-detail">コマンドと出力</span></div>
+        <div class="terminal-window">
+          <div class="terminal-bar"><span class="terminal-symbol" aria-hidden="true">&gt;_</span><span>student</span><span>terminal</span></div>
+          <div class="terminal-history" id="terminal-history" role="log" aria-live="polite" aria-label="コマンドの実行履歴" tabindex="0"><p class="history-empty">実行履歴：なし</p></div>
+          <form class="terminal-form" id="terminal-form" autocomplete="off"><label class="terminal-location" for="command-input"><span>現在地</span><code id="terminal-path">/home/student</code></label><div class="terminal-command-line"><span class="terminal-prompt" aria-hidden="true">$</span><input id="command-input" name="command" type="text" value="pwd" aria-label="コマンド" autocomplete="off" autocapitalize="off" spellcheck="false"><button id="command-submit" type="submit">実行 ↵</button></div></form>
+        </div>
+        <section class="command-presets" aria-labelledby="presets-title"><h3 id="presets-title">コマンド</h3><div class="inspect-presets"><button type="button" data-command="pwd"><code>pwd</code><span>現在地を表示</span></button><button type="button" data-command="ls"><code>ls</code><span>直下の中身を表示</span></button></div><div class="move-presets"><h4><code>cd</code><span>作業するディレクトリを変更</span></h4><div id="child-presets" class="child-presets"></div><div class="parent-presets"><button type="button" data-command="cd .."><code>cd ..</code><span>親へ</span></button><button type="button" data-command="cd"><code>cd</code><span>ホームへ</span></button></div></div></section>
+        <div class="command-feedback" id="command-feedback" role="status">現在地：ホームディレクトリ</div>
+      </section>
+      <section class="directory-panel visual-panel" aria-labelledby="filesystem-title">
+        <div class="directory-panel-heading"><h2 id="filesystem-title"><span>02</span> ファイルと現在地</h2><span class="panel-detail">ディレクトリ構造</span></div>
+        <div class="location-strip"><span class="location-dot" aria-hidden="true"></span><span>現在地</span><code id="visual-path">/home/student</code></div>
+        <div class="filesystem-stage" id="filesystem-stage"><ul id="filesystem-tree" class="filesystem-tree" aria-label="ファイルとディレクトリの階層"></ul></div>
+        <section class="contents-panel" aria-labelledby="contents-title"><div class="contents-heading"><h3 id="contents-title">現在地の中身</h3><span id="contents-count">2 項目</span></div><div class="contents-cards" id="contents-cards"></div></section>
+        <p class="filesystem-fact" id="filesystem-fact"><code>cd</code> は作業するディレクトリを変更する。ファイル自体は移動しない。</p>
+      </section>
+    </div>
+    <nav class="topic-navigation" aria-label="題材の移動"><a class="topic-overview" href="./index.html"><span>題材一覧</span><strong>第2回</strong></a><a class="topic-next" href="./bits.html"><span>次の題材</span><strong>整数型とビット列</strong></a></nav>
+    <footer class="site-footer"><span>プログラミングA · 第2回</span></footer>
+  </main>
+</body>
+</html>

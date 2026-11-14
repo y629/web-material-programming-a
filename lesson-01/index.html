@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="プログラミングA 第1回。最初のプログラム Hello, world! のコンパイルと実行、gccのオプション。">
+  <title>第1回の教材 | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./home.css">
+  <link rel="stylesheet" href="../assets/cover-motion.css">
+  <link rel="stylesheet" href="../assets/lesson-cover-motion.css">
+  <script defer src="../assets/cover-motion.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#topics">教材の一覧へ移動</a>
+  <header class="site-header wrap">
+    <a class="brand" href="../index.html">
+      <span class="brand-mark">A<span>_</span></span>
+      <span>プログラミングA</span>
+    </a>
+  </header>
+  <main class="wrap home-main">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><span aria-current="page">第1回</span></li></ol></nav>
+    <section class="lesson-cover" data-cover-motion aria-labelledby="page-title">
+      <div class="cover-type">
+        <h1 id="page-title">第1回の教材</h1>
+        <p class="cover-title">Hello,<br>world!<span class="cover-cursor cover-motion-cursor" data-cover-motion-element aria-hidden="true">_</span></p>
+      </div>
+      <div class="cover-illustration" aria-hidden="true">
+        <svg viewBox="0 0 480 290" xmlns="http://www.w3.org/2000/svg" focusable="false">
+          <path class="cover-motion-spark" data-cover-motion-element d="M358 14h62v62h-62z" fill="none" stroke="#A6D4FF" stroke-width="4"/>
+          <path class="cover-motion-spark lesson-art-spark-late" data-cover-motion-element d="M444 20v25M431.5 32.5h25" stroke="#fff" stroke-width="4"/>
+          <circle cx="37" cy="249" r="15" fill="#A6D4FF"/>
+          <g class="cover-motion-float" data-cover-motion-element><g transform="rotate(-8 102 108)">
+            <path d="M44 25h114l29 29v161H44z" fill="#141F68"/>
+            <path d="M35 16h114l29 29v161H35z" fill="#fff" stroke="#14216D" stroke-width="3"/>
+            <path d="M149 16v29h29" fill="#C8E5FF" stroke="#14216D" stroke-width="3"/>
+            <text x="51" y="49" fill="#24348D" font-family="Consolas,monospace" font-size="18" font-weight="700">hello.c</text>
+            <text x="53" y="112" fill="#2E3C9E" font-family="Consolas,monospace" font-size="59" font-weight="700">C</text>
+            <path d="M54 136h91M54 151h65M54 166h79M54 181h45" stroke="#2E3C9E" stroke-width="5"/>
+          </g></g>
+          <path d="M177 72h46v19" fill="none" stroke="#A6D4FF" stroke-width="7" stroke-linejoin="miter"/>
+          <path d="m211 83 12 14 12-14" fill="none" stroke="#A6D4FF" stroke-width="7" stroke-linejoin="miter"/>
+          <g class="cover-motion-float-alt" data-cover-motion-element><g transform="rotate(3 323 176)">
+            <rect x="189" y="109" width="277" height="160" rx="4" fill="#141F68"/>
+            <rect x="180" y="100" width="277" height="160" rx="4" fill="#111A55" stroke="#fff" stroke-width="3"/>
+            <path d="M181 128h275" stroke="#fff" stroke-width="2"/>
+            <circle cx="194" cy="114" r="3" fill="#C8E5FF"/>
+            <circle cx="206" cy="114" r="3" fill="#C8E5FF"/>
+            <circle cx="218" cy="114" r="3" fill="#C8E5FF"/>
+            <text x="441" y="119" fill="#fff" font-family="Consolas,monospace" font-size="13" text-anchor="end">terminal</text>
+            <text class="lesson-art-command-one" data-cover-motion-element x="198" y="157" fill="#C8E5FF" font-family="Consolas,monospace" font-size="17">$ gcc hello.c</text>
+            <text class="lesson-art-command-two" data-cover-motion-element x="198" y="185" fill="#C8E5FF" font-family="Consolas,monospace" font-size="17">$ ./a.out</text>
+            <text class="lesson-art-command-result" data-cover-motion-element x="198" y="222" fill="#fff" font-family="Consolas,monospace" font-size="23" font-weight="700">Hello, world!</text>
+            <path class="cover-motion-cursor" data-cover-motion-element d="M199 241h13" stroke="#A6D4FF" stroke-width="4"/>
+          </g></g>
+          <path class="lesson-art-arrow" data-cover-motion-element d="M95 241h49M129 226l15 15-15 15" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="miter"/>
+        </svg>
+      </div>
+      <button class="cover-motion-toggle" data-motion-toggle type="button" aria-pressed="false" aria-label="扉絵の動きを止める" title="扉絵の動きを止める"><span class="motion-pause-icon" aria-hidden="true"></span></button>
+    </section>
+    <nav class="topic-list" id="topics" aria-label="第1回の教材">
+      <a class="topic-card topic-primary" href="./basic.html">
+        <span class="topic-number" aria-hidden="true">01</span>
+        <span class="topic-content">
+          <strong>最初のプログラム</strong>
+          <span class="topic-subtitle"><span>Hello, world!</span> を実行するまで</span>
+        </span>
+        <span class="topic-arrow" aria-hidden="true">→</span>
+      </a>
+      <a class="topic-card topic-primary" href="./mechanism.html">
+        <span class="topic-number" aria-hidden="true">02</span>
+        <span class="topic-content">
+          <strong>gccのオプション</strong>
+          <span class="topic-subtitle"><code>-o</code> で出力名を指定、<code>-c</code> でオブジェクトファイルまで生成</span>
+        </span>
+        <span class="topic-arrow" aria-hidden="true">→</span>
+      </a>
+    </nav>
+  </main>
+</body>
+</html>

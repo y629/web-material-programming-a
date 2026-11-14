@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="プログラミングAの教材。Hello, world!の実行、gccのオプション、ファイルとディレクトリ、整数型とビット列・加減算、条件分岐と繰り返しのフローチャート。">
+  <title>講義一覧 | プログラミングA</title>
+  <link rel="stylesheet" href="./assets/site.css">
+  <link rel="stylesheet" href="./course.css">
+  <link rel="stylesheet" href="./assets/cover-motion.css">
+  <script defer src="./assets/cover-motion.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#lectures">講義一覧へ移動</a>
+  <header class="site-header wrap">
+    <a class="brand" href="./index.html" aria-current="page"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a>
+  </header>
+  <main class="wrap course-main">
+    <section class="course-cover" aria-labelledby="course-title" data-cover-motion>
+      <div class="course-type"><p>C言語</p><h1 id="course-title">プログラミングA</h1><div class="cover-code" aria-hidden="true">int main(void)<span>{ }</span></div></div>
+      <svg class="course-art" viewBox="0 0 420 260" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+        <path class="cover-motion-spark" data-cover-motion-element d="M320 15h55v55h-55z" fill="none" stroke="#A6D4FF" stroke-width="4"/>
+        <path class="cover-motion-spark" data-cover-motion-element style="animation-delay: -1.2s" d="M396 41v24M384 53h24" stroke="#fff" stroke-width="4"/>
+        <g class="cover-motion-float" data-cover-motion-element><g transform="rotate(-8 130 130)">
+          <path d="M65 27h113l39 39v172H65z" fill="#141F68"/>
+          <path d="M55 17h113l39 39v172H55z" fill="#fff" stroke="#15216D" stroke-width="3"/>
+          <path d="M168 17v39h39" fill="#C8E5FF" stroke="#15216D" stroke-width="3"/>
+          <text x="79" y="147" fill="#2E3C9E" font-size="100" font-family="Consolas,monospace" font-weight="700">C</text>
+          <path d="M78 172h103M78 190h69M78 208h88" stroke="#2E3C9E" stroke-width="5"/>
+        </g></g>
+        <g class="cover-motion-float-alt" data-cover-motion-element><g transform="rotate(4 297 168)">
+          <rect x="198" y="100" width="208" height="148" rx="5" fill="#141F68"/>
+          <rect x="189" y="91" width="208" height="148" rx="5" fill="#111A55" stroke="#fff" stroke-width="3"/>
+          <path d="M190 118h206" stroke="#fff" stroke-width="2"/>
+          <circle cx="204" cy="104" r="3" fill="#C8E5FF"/><circle cx="216" cy="104" r="3" fill="#C8E5FF"/><circle cx="228" cy="104" r="3" fill="#C8E5FF"/>
+          <path d="m211 145 14 11-14 11" fill="none" stroke="#A6D4FF" stroke-width="5"/>
+          <path class="course-command-line" data-cover-motion-element d="M240 156h123" fill="none" stroke="#C8E5FF" stroke-width="5" pathLength="1"/>
+          <path class="course-output-line course-output-first" data-cover-motion-element d="M211 183h145" fill="none" stroke="#fff" stroke-width="5" pathLength="1"/>
+          <path class="course-output-line course-output-second" data-cover-motion-element d="M211 201h101" fill="none" stroke="#A6D4FF" stroke-width="5" pathLength="1"/>
+          <path class="cover-motion-cursor" data-cover-motion-element d="M211 220h14" fill="none" stroke="#A6D4FF" stroke-width="5"/>
+        </g></g>
+        <path d="M15 192v28h28" fill="none" stroke="#A6D4FF" stroke-width="5"/>
+        <circle cx="35" cy="62" r="9" fill="#A6D4FF"/>
+      </svg>
+      <button type="button" class="cover-motion-toggle" data-motion-toggle aria-pressed="false" aria-label="扉絵の動きを止める" title="扉絵の動きを止める"><span class="motion-pause-icon" aria-hidden="true"></span></button>
+    </section>
+    <section class="lectures" aria-labelledby="lectures">
+      <h2 id="lectures">講義一覧</h2>
+      <nav class="lecture-list" aria-label="講義一覧">
+        <a class="lecture-card" href="./lesson-01/index.html">
+          <span class="lecture-number">第<span>1</span>回</span>
+          <span class="lecture-copy"><strong>概要説明と環境構築</strong><span><code>Hello, world!</code> の実行と、gccのオプション</span></span>
+          <span class="lecture-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="lecture-card" href="./lesson-02/index.html">
+          <span class="lecture-number">第<span>2</span>回</span>
+          <span class="lecture-copy"><strong>入出力，数値表現</strong><span>ファイルとディレクトリ、整数型とビット列、加減算</span></span>
+          <span class="lecture-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="lecture-card" href="./lesson-03/index.html">
+          <span class="lecture-number">第<span>3</span>回</span>
+          <span class="lecture-copy"><strong>条件分岐，繰り返し</strong><span>成績判定、円周と面積、FizzBuzzのフローチャート</span></span>
+          <span class="lecture-arrow" aria-hidden="true">→</span>
+        </a>
+        <div class="lecture-card lecture-card--unavailable">
+          <span class="lecture-number">第<span>4</span>回</span>
+          <span class="lecture-copy"><strong>条件分岐・繰り返し・配列</strong><span>Web教材なし</span></span>
+        </div>
+        <div class="lecture-card lecture-card--unavailable">
+          <span class="lecture-number">第<span>5</span>回</span>
+          <span class="lecture-copy"><strong>調整日</strong><span>Web教材なし</span></span>
+        </div>
+      </nav>
+    </section>
+  </main>
+</body>
+</html>

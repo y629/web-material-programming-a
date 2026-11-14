@@ -1,0 +1,50 @@
+.flowchart-pane {
+  position: relative;
+  height: 700px;
+  max-height: 700px;
+  min-height: 400px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: auto;
+  scrollbar-color: #7682b4 #edf3ff;
+  background: #fff;
+}
+.flowchart-root { min-width: 620px; width: 100%; padding: 10px 0 16px; }
+.program-flowchart { display: block; width: 100%; height: auto; overflow: visible; }
+.flow-node-shape {
+  fill: #fff;
+  stroke: #59647f;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.flow-node-label {
+  fill: #151a2d;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  font-size: 17px;
+  font-weight: 650;
+}
+.flow-node-decision .flow-node-label,
+.flow-node-process .flow-node-label { font-family: "SFMono-Regular", Consolas, "Liberation Mono", "Hiragino Kaku Gothic ProN", monospace; }
+.flow-node.is-visited .flow-node-shape { stroke: #2e3c9e; stroke-width: 2.5; }
+.flow-node.is-current .flow-node-shape { fill: #2e3c9e; stroke: #2e3c9e; stroke-width: 3; }
+.flow-node.is-current .flow-node-label { fill: #fff; font-weight: 750; }
+.flow-edge-path {
+  fill: none;
+  stroke: #59647f;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+.flow-edge-label rect { fill: #fff; }
+.flow-edge-label text { fill: #283047; font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif; font-size: 16px; font-weight: 700; }
+.flow-edge.is-active .flow-edge-path { stroke: #2e3c9e; stroke-width: 3.5; }
+.flow-edge.is-active .flow-edge-label rect { fill: #2e3c9e; }
+.flow-edge.is-active .flow-edge-label text { fill: #fff; }
+@media (max-width: 760px) {
+  .flowchart-pane { height: 520px; max-height: 520px; min-height: 360px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flowchart-pane { scroll-behavior: auto; }
+}

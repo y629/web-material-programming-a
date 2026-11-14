@@ -1,0 +1,84 @@
+/* Artwork only: headings, links and page geometry stay still. */
+[data-cover-motion] { position: relative; }
+[data-cover-motion] .course-art,
+[data-cover-motion] .cover-illustration {
+  animation: cover-art-enter 650ms cubic-bezier(.2,.8,.25,1.18) both;
+}
+[data-cover-motion-element] { transform-box: fill-box; transform-origin: center; }
+.cover-motion-float { animation: cover-art-float 4.8s ease-in-out infinite; }
+.cover-motion-float-alt { animation: cover-art-float-alt 5.8s ease-in-out infinite; }
+.cover-motion-cursor { animation: cover-art-cursor 1.2s steps(1, end) infinite; }
+.cover-motion-spark { animation: cover-art-spark 3.6s ease-in-out infinite; }
+.course-command-line, .course-output-line { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.course-command-line { animation: cover-art-command 6s ease-in-out infinite; }
+.course-output-first { animation: cover-art-output-first 6s ease-in-out infinite; }
+.course-output-second { animation: cover-art-output-second 6s ease-in-out infinite; }
+
+.cover-motion-toggle {
+  display: none;
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid #c8e5ff;
+  border-radius: 4px;
+  background: #23317f;
+  color: #fff;
+  cursor: pointer;
+}
+.cover-motion-ready .cover-motion-toggle { display: inline-flex; }
+.cover-motion-toggle:hover { background: #14216d; }
+.cover-motion-toggle:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.motion-pause-icon { width: 12px; height: 14px; border-left: 4px solid currentColor; border-right: 4px solid currentColor; }
+.cover-motion-toggle[aria-pressed="true"] .motion-pause-icon {
+  width: 0; height: 0; margin-left: 3px;
+  border: 7px solid transparent;
+  border-right: 0; border-left: 11px solid currentColor;
+}
+[data-motion-paused="true"] [data-cover-motion-element],
+[data-motion-paused="true"] .course-art,
+[data-motion-paused="true"] .cover-illustration { animation-play-state: paused; }
+
+@keyframes cover-art-enter {
+  from { transform: translateY(18px) scale(.94); }
+  to { transform: translateY(0) scale(1); }
+}
+@keyframes cover-art-float {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-9px) rotate(-2deg); }
+}
+@keyframes cover-art-float-alt {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(6px) rotate(1.5deg); }
+}
+@keyframes cover-art-cursor { 0%, 54% { opacity: 1; } 55%, 100% { opacity: 0; } }
+@keyframes cover-art-spark {
+  0%, 70%, 100% { transform: rotate(0) scale(1); }
+  36% { transform: rotate(12deg) scale(1.12); }
+}
+@keyframes cover-art-command {
+  0%, 8% { stroke-dashoffset: 1; }
+  28%, 92% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 1; }
+}
+@keyframes cover-art-output-first {
+  0%, 28% { stroke-dashoffset: 1; }
+  42%, 92% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 1; }
+}
+@keyframes cover-art-output-second {
+  0%, 42% { stroke-dashoffset: 1; }
+  54%, 92% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-cover-motion] [data-cover-motion-element],
+  [data-cover-motion] .course-art,
+  [data-cover-motion] .cover-illustration { animation: none !important; }
+  .cover-motion-ready .cover-motion-toggle { display: none; }
+}

@@ -1,0 +1,118 @@
+.bits-intro { padding: 5px 0 25px; }
+.bits-intro p { margin-top: 11px; font-size: 17px; color: var(--secondary); }
+.bits-layout { display: grid; grid-template-columns: 350px minmax(0, 1fr); gap: 24px; align-items: start; scroll-margin-top: 20px; }
+.bits-panel { min-width: 0; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; background: #fff; }
+.bits-panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 72px; padding: 17px 22px; background: var(--blue); color: #fff; }
+.bits-panel-heading h2 { display: flex; align-items: baseline; gap: 12px; font-size: 19px; line-height: 1.6; }
+.bits-panel-heading h2 > span { font-family: var(--mono); font-size: 15px; font-weight: 500; }
+.bits-panel-heading > span { font-size: 15px; white-space: nowrap; }
+.number-controls { padding: 22px; }
+.control-label { display: block; margin-bottom: 9px; font-size: 17px; font-weight: 700; }
+.control-label > span { margin-left: 8px; font-size: 15px; font-weight: 500; color: var(--secondary); }
+#integer-type { width: 100%; min-height: 48px; padding: 9px 12px; color: var(--ink); border: 1px solid var(--blue); border-radius: 4px; background: #fff; font-family: var(--mono); font-size: 19px; }
+.type-detail { margin-top: 9px; font-size: 16px; color: var(--secondary); }
+.number-label { margin-top: 25px; }
+#decimal-input { width: 100%; min-height: 58px; padding: 10px 12px; border: 2px solid var(--blue); border-radius: 4px; background: #fff; color: var(--ink); font: 500 22px/1.5 var(--mono); }
+#decimal-input:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+#decimal-input[aria-invalid="true"] { border-color: #a33612; }
+.input-message { min-height: 48px; margin-top: 10px; font-size: 14px; line-height: 1.7; color: var(--secondary); }
+.input-message.error { color: #842900; }
+.value-presets { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.value-presets button { min-height: 40px; flex: 1; padding: 7px 10px; border: 1px solid var(--blue); border-radius: 4px; background: #fff; color: var(--blue); font-size: 15px; font-weight: 700; white-space: nowrap; }
+.value-presets button:hover { background: var(--blue-soft); }
+.value-presets button:active { background: var(--blue); color: #fff; }
+.number-range { margin-top: 25px; padding-top: 19px; border-top: 1px solid var(--border); }
+.number-range h3 { font-size: 16px; }
+.number-range dl { display: grid; gap: 14px; margin: 14px 0 0; }
+.number-range dl > div { display: grid; gap: 3px; }
+.number-range dt { font-size: 14px; color: var(--secondary); }
+.number-range dd { margin: 0; font: 600 18px/1.6 var(--mono); overflow-wrap: anywhere; }
+.type-notice { padding: 16px 20px; border-top: 1px solid var(--border); border-left: 4px solid var(--blue); background: var(--blue-soft); color: var(--secondary); font-size: 15px; line-height: 1.8; }
+.binary-body { padding: 20px 24px 23px; }
+.current-value { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 21px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
+.current-value > span { flex-shrink: 0; font-size: 15px; color: var(--secondary); }
+.current-value output { color: var(--blue); font: 700 clamp(22px, 2.35vw, 30px)/1.5 var(--mono); overflow-wrap: anywhere; text-align: right; }
+.bit-grid-caption { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; color: var(--secondary); font-size: 14px; }
+.bit-grid-caption strong { color: var(--blue); font-family: var(--mono); font-size: 16px; }
+.byte-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 17px; }
+.byte-grid.single-byte { grid-template-columns: minmax(0, 1fr); max-width: 500px; }
+.bit-byte { min-width: 0; }
+.byte-title { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 6px; color: var(--secondary); font-size: 14px; line-height: 1.6; }
+.byte-title > span:last-child { color: var(--blue); font-size: 14px; }
+.byte-bits { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 3px; }
+.bit-cell { min-width: 0; display: grid; gap: 3px; justify-items: stretch; }
+.bit-position { font: 500 14px/1.6 var(--mono); color: var(--secondary); text-align: center; }
+.bit-button { display: block; width: 100%; min-width: 0; min-height: 43px; padding: 3px 0; border: 1px solid var(--blue); border-radius: 3px; background: #fff; color: var(--blue); font: 700 22px/1.5 var(--mono); }
+.bit-button[aria-pressed="true"] { background: var(--blue); color: #fff; }
+.bit-button:hover { box-shadow: inset 0 0 0 2px #7894de; }
+.bit-button.selected { outline: 2px solid var(--blue); outline-offset: 3px; }
+.bit-button:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.bit-cell.sign-cell .bit-position { font-weight: 800; color: var(--blue); }
+.bit-cell.sign-cell .bit-button { border-width: 2px; }
+.bit-button.bit-changed { animation: bit-change 320ms ease-out; }
+@keyframes bit-change { 0% { transform: scale(.88); box-shadow: 0 0 0 5px #c8dcff; } 65% { transform: scale(1.03); box-shadow: 0 0 0 2px #c8dcff; } 100% { transform: scale(1); box-shadow: 0 0 0 0 transparent; } }
+.bit-weight { margin-top: 22px; padding: 14px 17px; border-left: 4px solid var(--blue); background: var(--blue-soft); }
+.bit-weight h3 { font-size: 15px; color: var(--secondary); font-weight: 600; }
+.weight-equation { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; margin-top: 3px; color: var(--blue); font-family: var(--mono); }
+.weight-equation > span { font-size: 20px; white-space: nowrap; }
+.weight-equation sup { font-size: 14px; }
+.weight-equation code { font-size: 21px; font-weight: 700; overflow-wrap: anywhere; }
+.bit-weight p { margin-top: 4px; color: var(--secondary); font-size: 14px; overflow-wrap: anywhere; }
+.value-calculation { margin-top: 21px; }
+.value-calculation h3 { font-size: 17px; }
+.value-calculation > p { margin-top: 5px; font-size: 14px; color: var(--secondary); }
+.calculation-parts { display: flex; flex-wrap: wrap; align-items: end; gap: 10px 13px; margin-top: 14px; }
+.calculation-parts > div { display: grid; gap: 4px; min-width: 0; }
+.calculation-parts div > span { font-size: 14px; color: var(--secondary); }
+.calculation-parts code { font-size: 19px; font-weight: 650; overflow-wrap: anywhere; }
+.calculation-plus, .calculation-equals { color: var(--blue); font-size: 19px; line-height: 1.6; }
+.calculation-result code { color: var(--blue); }
+@media (max-width: 1150px) and (min-width: 1001px) {
+  .bits-layout { grid-template-columns: 310px minmax(0, 1fr); gap: 20px; }
+  .number-controls { padding: 18px; }
+  .binary-body { padding-inline: 18px; }
+  .byte-grid { gap: 16px 12px; }
+  .byte-bits { gap: 2px; }
+  .bits-panel-heading { padding-inline: 18px; }
+  #decimal-input { font-size: 20px; }
+}
+@media (max-width: 1000px) {
+  .bits-layout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .number-controls { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 24px; }
+  .control-label, #integer-type, .type-detail { grid-column: 1; }
+  .number-label { grid-column: 2; grid-row: 1; margin-top: 0; }
+  #decimal-input { grid-column: 2; grid-row: 2; min-height: 48px; }
+  .input-message { grid-column: 2; grid-row: 3 / span 2; margin-top: 9px; }
+  .value-presets { grid-column: 2; grid-row: 5; align-self: end; }
+  .number-range { grid-column: 1; grid-row: 4 / span 2; margin-top: 18px; padding-top: 14px; }
+  .number-range dl { gap: 8px; }
+}
+@media (max-width: 760px) {
+  .byte-grid { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 580px) {
+  .bits-intro h1 { font-size: 29px; }
+  .bits-intro p { font-size: 16px; }
+  .number-controls { display: block; padding: 18px; }
+  .number-label { margin-top: 22px; }
+  #decimal-input { min-height: 54px; font-size: 21px; }
+  .input-message { min-height: 24px; }
+  .value-presets { margin-top: 14px; }
+  .number-range { margin-top: 21px; padding-top: 16px; }
+  .number-range dl { gap: 12px; }
+  .bits-panel-heading { gap: 10px; padding: 16px 17px; min-height: 66px; }
+  .bits-panel-heading h2 { font-size: 18px; gap: 10px; }
+  .bits-panel-heading > span { font-size: 14px; }
+  .binary-body { padding: 18px 15px; }
+  .current-value { flex-wrap: wrap; gap: 4px 12px; }
+  .current-value output { font-size: 23px; margin-left: auto; }
+  .byte-grid, .byte-grid.single-byte { grid-template-columns: minmax(0, 1fr); max-width: none; gap: 16px; }
+  .bit-button { min-height: 44px; font-size: 22px; }
+  .bit-grid-caption { font-size: 14px; }
+  .bit-weight { margin-top: 20px; padding-inline: 13px; }
+  .weight-equation code { font-size: 19px; }
+  .calculation-parts { gap: 9px 11px; }
+  .calculation-parts code { font-size: 18px; }
+  .type-notice { padding-inline: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .bit-button.bit-changed { animation: none; } }

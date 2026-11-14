@@ -1,0 +1,111 @@
+/* The cover illustrations use their own timelines; lesson execution stays manual. */
+.lesson-art-spark-late { animation-delay: -1.8s; }
+.lesson-art-folder-late { animation-delay: -2.1s; }
+.lesson-art-file-late { animation-delay: -1.4s; }
+
+.lesson-art-command-one,
+.lesson-art-command-two,
+.lesson-art-command-result {
+  opacity: 1;
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-out;
+}
+.lesson-art-command-one { animation-name: lesson-art-command-one; }
+.lesson-art-command-two { animation-name: lesson-art-command-two; }
+.lesson-art-command-result { animation-name: lesson-art-command-result; }
+.lesson-art-arrow { animation: lesson-art-arrow 2.4s ease-in-out infinite; }
+@keyframes lesson-art-command-one {
+  0%, 4% { opacity: 0; transform: translateX(-5px); }
+  10%, 97% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; }
+}
+@keyframes lesson-art-command-two {
+  0%, 20% { opacity: 0; transform: translateX(-5px); }
+  26%, 97% { opacity: 1; transform: translateX(0); }
+  100% { opacity: 0; }
+}
+@keyframes lesson-art-command-result {
+  0%, 36% { opacity: 0; transform: translateY(5px); }
+  43%, 97% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; }
+}
+@keyframes lesson-art-arrow {
+  0%, 100% { transform: translateX(0); }
+  35% { transform: translateX(8px); }
+  50%, 70% { transform: translateX(5px); }
+}
+
+.lesson-art-trace {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 16 116;
+  stroke-dashoffset: 18;
+  opacity: 0;
+  pointer-events: none;
+}
+.lesson-art-folder-trace { animation: lesson-art-folder-trace 4.8s linear infinite; }
+.lesson-art-trace-late { animation-delay: -2.4s; }
+@keyframes lesson-art-folder-trace {
+  0%, 8% { stroke-dashoffset: 18; opacity: 0; }
+  10% { opacity: 1; }
+  72% { stroke-dashoffset: -112; opacity: 1; }
+  74%, 100% { stroke-dashoffset: -112; opacity: 0; }
+}
+
+.lesson-art-flow-start { animation: lesson-art-flow-start 8s ease-out infinite; }
+.lesson-art-flow-if { animation: lesson-art-flow-if 8s ease-out infinite; }
+.lesson-art-flow-body { animation: lesson-art-flow-body 8s ease-out infinite; }
+.lesson-art-flow-increment { animation: lesson-art-flow-increment 8s ease-out infinite; }
+.lesson-art-start-trace { animation: lesson-art-start-trace 8s linear infinite; }
+.lesson-art-true-trace { animation: lesson-art-true-trace 8s linear infinite; }
+.lesson-art-loop-trace { animation: lesson-art-loop-trace 8s linear infinite; }
+.lesson-art-false-trace { animation: lesson-art-false-trace 8s linear infinite; }
+@keyframes lesson-art-flow-start {
+  0%, 8% { fill: #a6d4ff; stroke: #fff; stroke-width: 4; }
+  12%, 100% { fill: #fff; stroke: #14216d; stroke-width: 3; }
+}
+@keyframes lesson-art-flow-if {
+  0%, 10%, 29%, 60%, 74%, 100% { fill: #fff; stroke: #14216d; stroke-width: 3; }
+  15%, 25%, 64%, 70% { fill: #a6d4ff; stroke: #fff; stroke-width: 4; }
+}
+@keyframes lesson-art-flow-body {
+  0%, 32%, 49%, 100% { fill: #c8e5ff; stroke: #14216d; stroke-width: 3; }
+  36%, 45% { fill: #fff; stroke: #fff; stroke-width: 4; }
+}
+@keyframes lesson-art-flow-increment {
+  0%, 80%, 97%, 100% { fill: #fff; stroke: #14216d; stroke-width: 3; }
+  84%, 93% { fill: #a6d4ff; stroke: #fff; stroke-width: 4; }
+}
+@keyframes lesson-art-start-trace {
+  0%, 3% { stroke-dashoffset: 18; opacity: 0; }
+  4% { opacity: 1; }
+  13% { stroke-dashoffset: -112; opacity: 1; }
+  14%, 100% { stroke-dashoffset: -112; opacity: 0; }
+}
+@keyframes lesson-art-true-trace {
+  0%, 25% { stroke-dashoffset: 18; opacity: 0; }
+  26% { opacity: 1; }
+  35% { stroke-dashoffset: -112; opacity: 1; }
+  36%, 100% { stroke-dashoffset: -112; opacity: 0; }
+}
+@keyframes lesson-art-loop-trace {
+  0%, 44% { stroke-dashoffset: 18; opacity: 0; }
+  45% { opacity: 1; }
+  63% { stroke-dashoffset: -112; opacity: 1; }
+  64%, 100% { stroke-dashoffset: -112; opacity: 0; }
+}
+@keyframes lesson-art-false-trace {
+  0%, 71% { stroke-dashoffset: 18; opacity: 0; }
+  72% { opacity: 1; }
+  82% { stroke-dashoffset: -112; opacity: 1; }
+  83%, 100% { stroke-dashoffset: -112; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-cover-motion] [data-cover-motion-element] { animation: none; }
+  .lesson-art-trace { display: none; }
+}
