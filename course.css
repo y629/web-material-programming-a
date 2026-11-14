@@ -18,6 +18,9 @@
 .cover-code { margin-top: 21px; color: #c8e5ff; font-family: var(--mono); font-size: 24px; line-height: 1.5; }
 .cover-code > span { display: inline-block; margin-left: 14px; color: #fff; }
 .course-art { display: block; justify-self: end; width: 100%; max-width: 370px; height: auto; animation: art-appear 300ms ease-out both; }
+.course-note { margin-top: 18px; padding: 17px 22px; border-left: 4px solid var(--blue); background: var(--blue-soft); color: var(--ink); font-size: 18px; line-height: 1.85; overflow-wrap: anywhere; }
+.course-note p { margin: 0; }
+.course-note strong { font-weight: 750; }
 .lectures { margin-top: 26px; }
 .lectures h2 { margin-bottom: 16px; font-size: 24px; font-weight: 750; line-height: 1.4; scroll-margin-top: 20px; }
 .lecture-list { display: grid; gap: 16px; }
@@ -62,6 +65,7 @@
   .course-type > p { font-size: 19px; }
   .cover-code { margin-top: 12px; font-size: 20px; }
   .course-art { width: min(80%, 280px); margin-top: 4px; }
+  .course-note { padding: 15px 17px; }
   .lectures { margin-top: 24px; }
   .lectures h2 { font-size: 23px; }
   .lecture-card { grid-template-columns: minmax(0, 1fr) 28px; gap: 12px; padding: 20px; }
