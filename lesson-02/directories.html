@@ -23,7 +23,7 @@
         <div class="terminal-window">
           <div class="terminal-bar"><span class="terminal-symbol" aria-hidden="true">&gt;_</span><span>student</span><span>terminal</span></div>
           <div class="terminal-history" id="terminal-history" role="log" aria-live="polite" aria-label="コマンドの実行履歴" tabindex="0"><p class="history-empty">実行履歴：なし</p></div>
-          <form class="terminal-form" id="terminal-form" autocomplete="off"><label class="terminal-location" for="command-input"><span>現在地</span><code id="terminal-path">/home/student</code></label><div class="terminal-command-line"><span class="terminal-prompt" aria-hidden="true">$</span><input id="command-input" name="command" type="text" value="pwd" aria-label="コマンド" autocomplete="off" autocapitalize="off" spellcheck="false"><button id="command-submit" type="submit">実行 ↵</button></div></form>
+          <div class="terminal-location-footer"><p class="terminal-location"><span>現在地</span><code id="terminal-path">/home/student</code></p></div>
         </div>
         <section class="command-presets" aria-labelledby="presets-title"><h3 id="presets-title">コマンド</h3><div class="inspect-presets"><button type="button" data-command="pwd"><code>pwd</code><span>現在地を表示</span></button><button type="button" data-command="ls"><code>ls</code><span>直下の中身を表示</span></button></div><div class="move-presets"><h4><code>cd</code><span>作業するディレクトリを変更</span></h4><div id="child-presets" class="child-presets"></div><div class="parent-presets"><button type="button" data-command="cd .."><code>cd ..</code><span>親へ</span></button><button type="button" data-command="cd"><code>cd</code><span>ホームへ</span></button></div></div></section>
         <div class="command-feedback" id="command-feedback" role="status">現在地：ホームディレクトリ</div>

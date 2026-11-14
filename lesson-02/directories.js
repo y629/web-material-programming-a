@@ -7,7 +7,6 @@
   const animations = new Set();
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let state = lab.createState();
-  let historyPosition = 0;
 
   function icon(type) {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -178,7 +177,6 @@
     if (result.kind === 'empty') return;
     cancelMotion();
     state = result.state;
-    historyPosition = state.history.length;
     appendHistory(result);
     renderLocation(result.kind === 'ls' ? result.highlightPaths : []);
     const feedback = byId('command-feedback');
@@ -201,35 +199,21 @@
   function reset() {
     cancelMotion();
     state = lab.createState();
-    historyPosition = 0;
     const empty = document.createElement('p');
     empty.className = 'history-empty';
     empty.textContent = '実行履歴：なし';
     byId('terminal-history').replaceChildren(empty);
-    byId('command-input').value = 'pwd';
     byId('command-feedback').classList.remove('error');
     byId('command-feedback').textContent = '現在地：ホームディレクトリ ' + lab.HOME;
     renderLocation([]);
   }
-  byId('terminal-form').addEventListener('submit', function (event) {
-    event.preventDefault();
-    execute(byId('command-input').value);
-    byId('command-input').focus({ preventScroll: true });
-  });
   document.querySelector('.command-presets').addEventListener('click', function (event) {
     const button = event.target.closest('button[data-command]');
     if (!button) return;
-    byId('command-input').value = button.dataset.command;
     execute(button.dataset.command);
-    byId('command-input').focus({ preventScroll: true });
-  });
-  byId('command-input').addEventListener('keydown', function (event) {
-    if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
-    if (!state.history.length) return;
-    event.preventDefault();
-    historyPosition = Math.max(0, Math.min(state.history.length, historyPosition + (event.key === 'ArrowUp' ? -1 : 1)));
-    event.target.value = historyPosition < state.history.length ? state.history[historyPosition].command : '';
-    event.target.setSelectionRange(event.target.value.length, event.target.value.length);
+    if (!button.isConnected) {
+      document.querySelector('button[data-command="cd .."]').focus({ preventScroll: true });
+    }
   });
   byId('directory-reset').addEventListener('click', reset);
   reducedMotion.addEventListener('change', function () { if (reducedMotion.matches) cancelMotion(); });
