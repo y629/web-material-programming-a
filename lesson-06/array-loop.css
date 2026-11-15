@@ -1,0 +1,72 @@
+main { padding-bottom: 28px; }
+.intro { margin: 10px 0 24px; color: var(--secondary); font-size: 18px; }
+.panel { min-width: 0; padding: 24px; border: 1px solid #c4cbdf; border-radius: 12px; background: #fff; box-shadow: 0 4px 18px #17235d08; }
+.panel h2 { font-size: 21px; }
+.panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.panel-heading small { margin-left: 8px; font: 14px var(--mono); color: var(--secondary); }
+.index-badge { padding: 5px 12px; border-radius: 6px; background: var(--blue); color: #fff; font: 700 16px var(--mono); white-space: nowrap; }
+.input-note, .code-note { font-size: 14px; color: var(--secondary); margin: 12px 0 18px; line-height: 1.7; }
+#input-error { color: #96232d; margin-bottom: 14px; font-weight: 650; }
+.buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+button { padding: 11px 16px; min-height: 46px; border: 1px solid var(--blue); border-radius: 6px; background: #fff; color: var(--blue); font-weight: 650; transition: transform 100ms, background-color 100ms; }
+button:hover:enabled { background: var(--blue-soft); transform: translateY(-1px); }
+button:active:enabled { transform: translateY(1px); }
+button:disabled { color: #626a7d; border-color: #c4cad8; background: #f2f3f6; }
+button.primary { background: var(--blue); color: #fff; box-shadow: 0 3px 0 #1d286e; }
+button.primary:hover:enabled { background: var(--blue-dark); }
+.toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; }
+#counter { color: var(--secondary); font: 13px var(--mono); }
+.layout { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: #505a76; }
+.array-stage { --cell-gap: 10px; position: relative; margin-top: 12px; padding-top: 40px; }
+.cells { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--cell-gap); }
+.scan-pointer { position: absolute; top: 0; width: calc((100% - 4 * var(--cell-gap)) / 5); text-align: center; transition: left 180ms ease-out; color: var(--blue); font: 700 13px var(--mono); }
+.scan-pointer span { display: inline-block; padding: 2px 8px; background: var(--blue); color: #fff; border-radius: 4px; }
+.scan-pointer::after { content: ''; display: block; margin: 3px auto 0; width: 0; border: 6px solid transparent; border-top-color: var(--blue); border-bottom: 0; }
+.cell { min-width: 0; text-align: center; padding: 12px 5px 9px; border: 2px solid #c4cbdf; border-radius: 8px; background: #fafbfe; transition: border-color 120ms, background-color 120ms, box-shadow 120ms; }
+.cell label { display: block; margin-bottom: 7px; font: 13px var(--mono); color: #505a76; }
+.cell input { width: 100%; min-width: 0; border: 1px solid transparent; border-bottom: 1px dashed #a2abc4; border-radius: 3px; background: transparent; color: var(--ink); padding: 5px 0; text-align: center; font: 750 clamp(19px, 2.3vw, 29px) var(--mono); }
+.cell input:hover { background: #fff; border-color: #a2abc4; }
+.cell input:focus-visible { outline: 3px solid var(--blue); outline-offset: 1px; background: #fff; }
+.cell input[aria-invalid="true"] { border-color: #a32633; background: #fff0f1; }
+.cell .state { display: block; min-height: 22px; font-size: 11px; margin-top: 8px; white-space: nowrap; }
+.cell.processed { background: #edf1f8; border-color: #a2aec9; }
+.cell.current { border-color: var(--blue); background: #e1eaff; box-shadow: 0 0 0 2px #2e3c9e19, 0 5px 12px #2e3c9e16; }
+.cell.current label, .cell.current .state { color: var(--blue); font-weight: 750; }
+.progress-heading { display: flex; align-items: center; justify-content: space-between; margin-top: 22px; font-size: 12px; color: #505a76; }
+#completion { color: #21664f; font-weight: 750; }
+progress { display: block; width: 100%; height: 5px; margin-top: 8px; border: 0; border-radius: 4px; overflow: hidden; accent-color: var(--blue); background: #edf0f8; }
+progress::-webkit-progress-bar { background: #edf0f8; }
+progress::-webkit-progress-value { background: var(--blue); transition: width 160ms ease-out; }
+progress::-moz-progress-bar { background: var(--blue); }
+.variables { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 24px 0 0; }
+.metric { min-width: 0; padding: 15px 12px; background: #edf3ff; border: 2px solid transparent; border-radius: 8px; }
+.metric dt { font: 750 18px var(--mono); color: var(--blue); }
+.metric dt span { display: block; margin-top: 4px; font: 12px var(--font); color: #505a76; }
+.metric dd { margin: 12px 0 8px; font: 750 clamp(25px, 3vw, 38px) var(--mono); line-height: 1.15; font-variant-numeric: tabular-nums; }
+.metric small { display: block; min-height: 36px; color: #505a76; font-size: 11px; overflow-wrap: anywhere; }
+.metric.changed { background: #fff1c9; border-color: #d3a634; }
+.metric.complete { border-color: #6d9f8e; background: #eaf5ef; }
+.source-panel { background: #17234a; border-color: #17234a; color: #fff; }
+.source-panel .code-note, .source-panel .explanation { color: #c1cdec; }
+.code { margin: 0; padding: 8px 0 8px 32px; font-family: var(--mono); font-size: 14px; overflow: auto; }
+.code li { white-space: pre; padding: 5px 8px; min-width: max-content; border-left: 3px solid transparent; color: #e1e8fb; }
+.code li::marker { color: #95a7d5; font-size: 12px; }
+.explanation { margin-top: 18px; padding-top: 16px; border-top: 1px solid #47557a; font-size: 13px; }
+@media (max-width: 1000px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 500px) {
+  .panel { padding: 16px 12px; } h1 { font-size: 27px; }
+  .controls button { flex: 1 1 44%; padding-inline: 8px; }
+  .array-stage { --cell-gap: 5px; }
+  .cell { padding-inline: 2px; }
+  .cell input { font-size: clamp(15px, 4vw, 20px); }
+  .cell label { font-size: 11px; }
+  .cell .state { font-size: 9px; }
+  .metric { padding: 12px 8px; }
+  .variables { gap: 6px; }
+  .metric dd { font-size: clamp(22px, 6vw, 30px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  button:hover:enabled, button:active:enabled { transform: none; }
+}

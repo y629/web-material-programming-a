@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="プログラミングA 第6回の教材一覧。配列の値を変えて学ぶ、最小・最大・合計のループ処理。線形探索・二分探索の注目位置と探索範囲を可視化します。">
+  <title>第6回の教材 | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="../lesson-01/home.css">
+  <link rel="stylesheet" href="./lesson-cover.css">
+  <link rel="stylesheet" href="../assets/cover-motion.css">
+  <script defer src="../assets/cover-motion.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#topics">教材の一覧へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap home-main">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><span aria-current="page">第6回</span></li></ol></nav>
+    <section class="lesson-cover" data-cover-motion aria-labelledby="page-title">
+      <div class="cover-type">
+        <h1 id="page-title">第6回の教材</h1>
+        <p class="cover-title">1次元配列，<br>探索<span class="cover-cursor cover-motion-cursor" data-cover-motion-element aria-hidden="true">_</span></p>
+      </div>
+      <div class="cover-illustration" aria-hidden="true">
+        <svg viewBox="0 0 480 280" xmlns="http://www.w3.org/2000/svg" focusable="false">
+          <g fill="#C8E5FF" font-family="Consolas,monospace" font-size="20" text-anchor="middle">
+            <text x="66" y="96">0</text><text x="150" y="96">1</text><text x="234" y="96">2</text><text x="318" y="96">3</text><text x="402" y="96">4</text>
+          </g>
+          <g stroke="#14216D" stroke-width="3">
+            <rect x="29" y="111" width="74" height="74" rx="5" fill="#fff"/>
+            <rect x="113" y="111" width="74" height="74" rx="5" fill="#fff"/>
+            <rect x="197" y="111" width="74" height="74" rx="5" fill="#A6D4FF" stroke="#fff" stroke-width="4"/>
+            <rect x="281" y="111" width="74" height="74" rx="5" fill="#fff"/>
+            <rect x="365" y="111" width="74" height="74" rx="5" fill="#fff"/>
+          </g>
+          <g fill="#14216D" font-family="Consolas,monospace" font-size="32" font-weight="700" text-anchor="middle">
+            <text x="66" y="160">8</text><text x="150" y="160">-3</text><text x="234" y="160">5</text><text x="318" y="160">8</text><text x="402" y="160">1</text>
+          </g>
+          <g class="cover-motion-float" data-cover-motion-element>
+            <text x="234" y="30" fill="#fff" font-family="Consolas,monospace" font-size="24" font-weight="700" text-anchor="middle">i = 2</text>
+            <path d="M234 43v26m-10-10 10 10 10-10" fill="none" stroke="#A6D4FF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+          <path d="M29 200v14h410v-14" fill="none" stroke="#A6D4FF" stroke-width="3"/>
+          <text x="234" y="252" fill="#fff" font-family="Consolas,monospace" font-size="23" text-anchor="middle">min / max / sum / search</text>
+          <path class="cover-motion-spark" data-cover-motion-element d="M411 38h22M422 27v22" stroke="#fff" stroke-width="4"/>
+          <circle cx="56" cy="46" r="8" fill="#A6D4FF"/>
+        </svg>
+      </div>
+      <button class="cover-motion-toggle" data-motion-toggle type="button" aria-pressed="false" aria-label="扉絵の動きを止める" title="扉絵の動きを止める"><span class="motion-pause-icon" aria-hidden="true"></span></button>
+    </section>
+    <section class="lesson-topics" id="topics" aria-label="第6回の教材" tabindex="-1">
+      <ul class="topic-list">
+        <li class="topic-ready"><a class="topic-card topic-primary" href="./array-loop.html">
+          <span class="topic-number" aria-hidden="true">01</span>
+          <div class="topic-content">
+            <h3>1次元配列のループ処理</h3>
+            <p class="topic-subtitle">最小・最大・合計</p>
+            <p class="topic-description">配列の要素をひとつずつ調べながら、最小値・最大値・合計がどう変わるかを追いかけます。</p>
+          </div>
+          <span class="topic-arrow" aria-hidden="true">→</span>
+        </a></li>
+        <li class="topic-ready"><a class="topic-card topic-primary" href="./search.html">
+          <span class="topic-number" aria-hidden="true">02</span>
+          <div class="topic-content">
+            <h3>線形探索・二分探索</h3>
+            <p class="topic-subtitle">順番に調べる・範囲を半分に絞る</p>
+            <p class="topic-description">配列と探す値を変えながら、注目する要素・探索範囲・繰り返し回数を比べます。二分探索では配列を昇順に並べて使います。</p>
+          </div>
+          <span class="topic-arrow" aria-hidden="true">→</span>
+        </a></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

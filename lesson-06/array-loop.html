@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <title>1次元配列のループ処理 | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="./array-loop.css">
+  <script defer src="./array-model.js"></script>
+  <script defer src="./array-loop.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#lab">教材へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><a href="./index.html">第6回</a></li><li><span aria-current="page">1次元配列のループ処理</span></li></ol></nav>
+    <h1>1次元配列のループ処理</h1>
+    <p class="intro">1ステップで1要素。値を変えて、合計・最小値・最大値の変化を追ってみましょう。</p>
+    <section id="lab" tabindex="-1" aria-label="配列の実行">
+      <div class="toolbar">
+        <div class="buttons controls"><button id="next" class="primary" type="button">次の要素 →</button><button id="back" type="button">← 1つ戻る</button><button id="reset" type="button">初期化</button></div>
+        <span id="counter" role="status" aria-live="polite"></span>
+      </div>
+      <div class="layout">
+        <section class="panel array-panel" aria-labelledby="array-title">
+          <div class="panel-heading"><h2 id="array-title">配列 <code>a</code> <small>N = 5</small></h2><span id="index-badge" class="index-badge">i = —</span></div>
+          <p class="input-note" id="input-note">数値を直接編集できます（整数 −999〜999）。変更すると最初に戻ります。</p>
+          <p id="input-error" role="alert" hidden></p>
+          <div class="legend"><span>○ 未処理</span><span>✓ 処理済み</span><span>▼ 注目中</span></div>
+          <div class="array-stage"><div id="pointer" class="scan-pointer" hidden><span></span></div><div id="cells" class="cells"></div></div>
+          <div class="progress-heading"><span id="progress-text">0 / 5 要素を処理</span><span id="completion" hidden>✓ 完了</span></div>
+          <progress id="progress" max="5" value="0" aria-label="処理済みの要素数"></progress>
+          <dl id="variables" class="variables"></dl>
+        </section>
+        <section class="panel source-panel" aria-labelledby="code-title"><h2 id="code-title">Cプログラム</h2><p class="code-note">各ステップは、1要素分の処理をまとめて表示します。</p><ol id="code" class="code"></ol><p class="explanation">min・max は a[0]、sum は 0.0 で初期化。合計に先頭も含めるため、i = 0 から調べます。</p></section>
+      </div>
+    </section>
+    <nav class="topic-navigation" aria-label="題材の移動"><a href="./index.html"><span>教材一覧へ戻る</span><strong>第6回</strong></a><a class="topic-next" href="./search.html"><span>次の教材</span><strong>線形探索・二分探索</strong></a></nav>
+  </main>
+</body>
+</html>

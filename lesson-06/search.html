@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <title>線形探索・二分探索 | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="./array-loop.css">
+  <link rel="stylesheet" href="./search.css">
+  <script defer src="./search-model.js"></script>
+  <script defer src="./search.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#search-lab">教材へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><a href="./index.html">第6回</a></li><li><span aria-current="page">線形探索・二分探索</span></li></ol></nav>
+    <h1>線形探索・二分探索</h1>
+    <p class="intro">1クリックで、それぞれ1要素を調べます。配列の値と探す値を変えて試しましょう。</p>
+    <section id="search-lab" tabindex="-1" aria-label="探索の実行">
+      <div class="search-controls">
+        <label class="target-label" for="target">探す値 <input id="target" type="text" value="68" maxlength="4" autocomplete="off" spellcheck="false" aria-describedby="search-note search-error"></label>
+        <div class="buttons controls"><button id="next-search" class="primary" type="button">次の探索 →</button><button id="back-search" type="button">← 1回戻る</button><button id="reset-search" type="button">初期化</button></div>
+      </div>
+      <p class="input-note" id="search-note">11要素の値を直接編集できます（整数 −999〜999）。両方の配列は連動し、変更すると最初に戻ります。</p>
+      <p id="search-error" role="alert" hidden></p>
+      <div class="sort-notice" id="sort-notice" hidden><span>二分探索には昇順の配列が必要です。線形探索はこのまま試せます。</span><button id="sort-array" type="button">昇順に並べ替え</button></div>
+      <section class="panel search-panel" aria-labelledby="linear-title">
+        <div class="panel-heading"><h2 id="linear-title">線形探索</h2><span class="search-count" id="linear-count">探索 0 回</span></div>
+        <div class="search-summary"><span>先頭から順番に</span><span class="search-result" id="linear-result" role="status"></span></div>
+        <div class="array-scroll" tabindex="0" role="region" aria-label="線形探索の配列。狭い画面では横にスクロールできます"><div class="search-stage linear-stage"><div class="search-marker marker-i" id="marker-i" hidden></div><div class="search-cells" id="linear-cells"></div></div></div>
+      </section>
+      <section class="panel search-panel" aria-labelledby="binary-title">
+        <div class="panel-heading"><h2 id="binary-title">二分探索</h2><span class="search-count" id="binary-count">探索 0 回</span></div>
+        <div class="search-summary"><span><code>l</code> から <code>r</code> の中央 <code>mid</code> を調べる</span><span class="search-result" id="binary-result" role="status"></span></div>
+        <div class="array-scroll" tabindex="0" role="region" aria-label="二分探索の配列。狭い画面では横にスクロールできます"><div class="search-stage binary-stage"><div class="search-marker marker-bound" id="marker-l" hidden></div><div class="search-marker marker-bound" id="marker-r" hidden></div><div class="search-marker marker-mid" id="marker-mid" hidden></div><div class="search-cells" id="binary-cells"></div><div class="range-band" id="range-band" hidden></div></div></div>
+        <div class="binary-legend"><span>枠内：今回の探索範囲</span><span class="excluded-key">薄い要素：探索範囲の外</span><span><code>mid = (l + r) / 2</code>（整数除算）</span></div>
+      </section>
+      <details class="search-code"><summary>Cコードを見る</summary><div class="source-columns">
+        <section class="panel source-panel"><h2>線形探索</h2><pre><code>int found = -1;
+for (int i = 0; i &lt; N; i++) {
+    if (a[i] == target) {
+        found = i;
+        break;
+    }
+}</code></pre></section>
+        <section class="panel source-panel"><h2>二分探索</h2><pre><code>int l = 0, r = N - 1;
+int found = -1;
+while (l &lt;= r) {
+    int mid = (l + r) / 2;
+    if (a[mid] == target) {
+        found = mid;
+        break;
+    } else if (a[mid] &lt; target) {
+        l = mid + 1;
+    } else {
+        r = mid - 1;
+    }
+}</code></pre></section>
+      </div><p class="input-note">l・r・mid は、その回に比較したときの位置です。次の探索で範囲を更新します。同じ値が複数あると、2つの探索で見つかる位置が異なる場合があります。</p></details>
+    </section>
+    <nav class="topic-navigation" aria-label="題材の移動"><a class="topic-prev" href="./array-loop.html"><span>前の教材</span><strong>1次元配列のループ処理</strong></a><a href="./index.html"><span>教材一覧へ戻る</span><strong>第6回</strong></a></nav>
+  </main>
+</body>
+</html>

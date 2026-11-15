@@ -1,0 +1,48 @@
+.cover-title {
+  font-family: var(--font);
+  font-size: clamp(40px, 4.6vw, 62px);
+  line-height: 1.25;
+  letter-spacing: -.035em;
+}
+
+.lesson-topics { margin-top: 26px; scroll-margin-top: 24px; }
+.topic-list { padding: 0; list-style: none; }
+.topic-pending {
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  border-color: #8d96a5;
+  background: #edf0f4;
+  transition: none;
+}
+.topic-pending:hover { background: #edf0f4; }
+.topic-pending:active { transform: none; }
+.topic-pending .topic-number { border-color: #8d96a5; background: #d5dae2; color: #30394b; }
+.topic-content h3 { font-size: 26px; font-weight: 750; line-height: 1.45; overflow-wrap: anywhere; }
+.topic-pending .topic-subtitle { font-size: 21px; font-weight: 650; }
+.topic-description { color: var(--secondary); font-size: 18px; line-height: 1.8; overflow-wrap: anywhere; }
+.topic-status {
+  align-self: start;
+  padding: 4px 12px;
+  border: 1px solid #8d96a5;
+  border-radius: 4px;
+  background: #fff;
+  color: #30394b;
+  font-size: 15px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.preparation-note { margin-top: 14px; color: var(--secondary); font-size: 16px; }
+
+@media (max-width: 1000px) and (min-width: 761px) {
+  .cover-title { font-size: 43px; }
+  .topic-content h3 { font-size: 25px; }
+}
+@media (max-width: 760px) {
+  .cover-title { font-size: 45px; }
+  .topic-pending { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .topic-status { justify-self: start; grid-row: 1; }
+  .topic-content h3 { font-size: 24px; }
+  .topic-pending .topic-subtitle { font-size: 20px; }
+}
+@media (max-width: 390px) {
+  .cover-title { font-size: 36px; }
+}
