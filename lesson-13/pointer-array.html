@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="演習13-4の配列とポインタを可視化。値への加算、アドレスへの加算、前置・後置インクリメントの違いを確かめます。">
+  <title>配列とポインタ | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="./pointers.css">
+  <link rel="stylesheet" href="./pointer-array.css">
+  <script defer src="../assets/lesson-motion.js"></script>
+  <script defer src="./pointer-array-model.js"></script>
+  <script defer src="./pointer-array.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#pa-lab">教材へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap pointer-main pa-main">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><a href="./index.html">第13回</a></li><li><span aria-current="page">配列とポインタ</span></li></ol></nav>
+    <h1>配列とポインタ：<span>どこに足す？</span></h1>
+    <p class="intro">演習13-4。値を増やすことと、見る場所を進めることを分けて追いかけます。</p>
+    <div class="pa-workspace">
+      <div class="pa-reference">
+    <section class="pointer-source pa-source" aria-labelledby="pa-source-title"><div class="pointer-source-heading"><h2 id="pa-source-title">ex13-4.c</h2><a href="#pa-lab">右の図を操作する →</a></div><pre tabindex="0" role="region" aria-labelledby="pa-source-title"><code id="pa-code"></code></pre><p class="pointer-source-note">黄色が「いまの式」。配列の値と k もコードに反映します。</p></section>
+      <details class="pa-console" id="pa-output-details"><summary id="pa-console-title">printf の出力履歴</summary><div id="pa-output" class="pa-output" aria-live="off" tabindex="0" role="region" aria-labelledby="pa-console-title">まだ表示していません</div></details>
+        <details class="pa-help"><summary>アドレスと配列の補足</summary>
+          <p id="pa-pointer-note" class="pa-note">p = arr で、先頭要素のアドレスを受け取ります。</p>
+        <p class="pa-note">アドレスは説明用。この図では int は4バイト、ポインタは8バイトとしています。実際のアドレスやサイズは環境によって異なります。</p>
+      <p class="pa-note"><code>arr</code> は配列です。このページの式で使うと先頭要素へのポインタになりますが、ポインタ変数 p そのものとは異なります。</p>
+        </details>
+      </div>
+    <section id="pa-lab" tabindex="-1" aria-label="配列とポインタの可視化">
+      <div class="toolbar pa-toolbar"><button id="pa-next" class="primary" type="button">1ステップ →</button><div id="pa-player"></div></div>
+      <div class="pa-options"><div class="pa-actions"><button id="pa-back" type="button" disabled>← 戻る</button><button id="pa-reset" type="button" disabled>最初へ</button><button id="pa-end" type="button">結果まで</button></div><label for="pa-k"><code>k</code><select id="pa-k" aria-label="式に足す数 k" aria-describedby="pa-input-hint pa-error"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option></select></label><button id="pa-default" type="button">初期値</button><span id="pa-progress">0 / 8 ステップ</span></div>
+      <p id="pa-error" class="input-error" role="alert" hidden></p>
+      <section class="pa-memory panel" id="pa-memory" aria-labelledby="pa-memory-title">
+        <div class="pa-heading"><h2 id="pa-memory-title">連続した5つの <code>int</code></h2><span class="pa-size-note">1要素 = 4バイト</span></div>
+        <div class="pa-pointer-row"><article id="pa-pointer-box" class="pa-pointer-box" aria-labelledby="pa-pointer-heading"><h3 id="pa-pointer-heading"><code>p</code></h3><div class="pa-stored-address"><span class="pa-small-label">格納アドレス</span><strong id="pa-address">未代入</strong><span id="pa-pointed">まだ指していません</span></div><div class="pa-dereferenced"><span class="pa-small-label">処理後の <code>*p</code></span><strong id="pa-current-value">—</strong></div><div class="pa-own-location"><span class="pa-small-label">自身の場所 <code>&amp;p</code></span><code>0x4000</code></div></article></div>
+        <svg id="pa-arrows" class="pa-arrows" aria-hidden="true" focusable="false"><path id="pa-pointer-line" d=""/><polygon id="pa-pointer-head" points=""/></svg>
+        <div id="pa-array-scroll" class="pa-array-scroll" tabindex="0" role="region" aria-label="配列の5要素。狭い画面では横にスクロールできます"><div class="pa-array">
+          <label class="pa-cell" id="pa-cell-0" for="pa-value-0"><span class="pa-markers"><span class="pa-p-marker" hidden>▼ p</span><span class="pa-read-marker" hidden>読取</span></span><code>arr[0]</code><input id="pa-value-0" type="number" min="-999" max="999" step="1" value="10" aria-describedby="pa-input-hint pa-error"><code class="pa-cell-address">0x3000</code></label>
+          <label class="pa-cell" id="pa-cell-1" for="pa-value-1"><span class="pa-markers"><span class="pa-p-marker" hidden>▼ p</span><span class="pa-read-marker" hidden>読取</span></span><code>arr[1]</code><input id="pa-value-1" type="number" min="-999" max="999" step="1" value="20" aria-describedby="pa-input-hint pa-error"><code class="pa-cell-address">0x3004</code></label>
+          <label class="pa-cell" id="pa-cell-2" for="pa-value-2"><span class="pa-markers"><span class="pa-p-marker" hidden>▼ p</span><span class="pa-read-marker" hidden>読取</span></span><code>arr[2]</code><input id="pa-value-2" type="number" min="-999" max="999" step="1" value="30" aria-describedby="pa-input-hint pa-error"><code class="pa-cell-address">0x3008</code></label>
+          <label class="pa-cell" id="pa-cell-3" for="pa-value-3"><span class="pa-markers"><span class="pa-p-marker" hidden>▼ p</span><span class="pa-read-marker" hidden>読取</span></span><code>arr[3]</code><input id="pa-value-3" type="number" min="-999" max="999" step="1" value="40" aria-describedby="pa-input-hint pa-error"><code class="pa-cell-address">0x300C</code></label>
+          <label class="pa-cell" id="pa-cell-4" for="pa-value-4"><span class="pa-markers"><span class="pa-p-marker" hidden>▼ p</span><span class="pa-read-marker" hidden>読取</span></span><code>arr[4]</code><input id="pa-value-4" type="number" min="-999" max="999" step="1" value="50" aria-describedby="pa-input-hint pa-error"><code class="pa-cell-address">0x3010</code></label>
+        </div></div>
+        <div class="pa-legend"><span><i class="pa-key-p" aria-hidden="true"></i>処理後の p が指す場所</span><span><i class="pa-key-read" aria-hidden="true"></i>今回、値を読んだ場所</span></div>
+        <p id="pa-input-hint" class="pa-note">値は直接編集できます（−999〜999）。値・k の変更で最初に戻ります。</p>
+      </section>
+      <div class="pa-operation-grid">
+        <section class="pa-operation" aria-labelledby="pa-operation-title"><div class="pa-heading"><h2 id="pa-operation-title">いまの式</h2><span id="pa-kind">準備</span></div><code id="pa-expression">int *p;</code><ol id="pa-order" class="pa-order"></ol><p id="pa-explanation">p はまだアドレスを受け取っていません。</p></section>
+        <section class="pa-result panel" aria-labelledby="pa-result-title"><h2 id="pa-result-title">式の値</h2><output id="pa-result">—</output><p id="pa-result-note">printf に渡す値を表示します。</p><div class="pa-pointer-change"><span>p の移動前<strong id="pa-before">未代入</strong></span><span aria-hidden="true">→</span><span>p の処理後<strong id="pa-after">未代入</strong></span></div></section>
+      </div>
+      <details class="pa-compare-section" id="pa-compare-details"><summary id="pa-compare-title">カッコの位置で比べる</summary><p class="pa-note">p = arr の状態で比較します。</p><div class="pa-comparison"><button id="pa-compare-value" class="pa-comparison-card pa-compare-value" type="button"><span class="pa-compare-label">値に足す</span><code id="pa-value-expression">*p + 4</code><span class="pa-compare-equation" id="pa-value-equation">10 + 4 = 14</span><span>この式のステップへ →</span></button><button id="pa-compare-offset" class="pa-comparison-card pa-compare-offset" type="button"><span class="pa-compare-label">アドレスを進めてから読む</span><code id="pa-offset-expression">*(p + 4)</code><span class="pa-compare-equation" id="pa-offset-equation">arr[4] = 50</span><span>この式のステップへ →</span></button></div><p class="pa-note"><code>p + 1</code> は1要素先。この図の <code>int *</code> なら、アドレスは4バイト先です。<code>p + k</code> だけでは p 自体は変わりません。</p></details>
+      <p id="pa-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+    </section>
+    </div>
+    <nav class="topic-navigation" aria-label="題材の移動"><a class="topic-prev" href="./pointer-divide.html"><span>前の教材</span><strong>商と余りを受け取る</strong></a><a class="topic-next" href="./stack.html"><span>次の教材</span><strong>スタック</strong></a></nav>
+  </main>
+</body>
+</html>

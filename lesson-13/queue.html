@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="演習13-6：キューの値とポインタの動きを可視化。値の出し入れを自由に試し、配列上の読み書き位置を確かめます。">
+  <title>演習13-6：キュー | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="./pointers.css">
+  <link rel="stylesheet" href="./stack-queue.css">
+  <script defer src="../assets/lesson-motion.js"></script>
+  <script defer src="./stack-queue-model.js"></script>
+  <script defer src="./stack-queue.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
+</head>
+<body data-structure="queue">
+  <a class="skip-link" href="#structure-lab">教材へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap pointer-main">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><a href="./index.html">第13回</a></li><li><span aria-current="page">演習13-6</span></li></ol></nav>
+    <h1>演習13-6：<span>キュー</span></h1>
+    <p class="intro">最初に入れた値から取り出す。front と rear の移動を追って、先入れ先出しを確かめます。</p>
+    <section class="pointer-source" aria-labelledby="sq-source-title">
+      <div class="pointer-source-heading"><h2 id="sq-source-title">ex13-6.c（ひな形）</h2><a href="#structure-lab">可視化を操作する ↓</a></div>
+      <p class="pointer-source-note">コードは容量100で、有効な操作を行う前提です。図では6要素に縮め、空・満杯の操作を止めます。</p>
+      <pre tabindex="0" role="region" aria-labelledby="sq-source-title"><code id="sq-source-code">#include &lt;stdio.h&gt;
+
+#define QUEUE_SIZE 100
+
+int queue[QUEUE_SIZE];
+int *front = queue;
+int *rear = queue;
+
+void enqueue(int x) {
+    /* ここを埋める */
+}
+
+int dequeue(void) {
+    /* ここを埋める */
+}
+
+int main(void){
+    enqueue(1);
+    dequeue();
+    enqueue(2);
+    enqueue(3);
+    dequeue();
+    enqueue(2);
+    enqueue(1);
+
+    dequeue();
+    dequeue();
+    dequeue();
+
+    return 0;
+}
+</code></pre>
+    </section>
+    <section id="structure-lab" tabindex="-1" aria-label="キューの操作">
+      <div class="sq-modes" role="group" aria-label="操作モード"><button id="sq-demo-mode" type="button" aria-pressed="true">資料の例を追う</button><button id="sq-free-mode" type="button" aria-pressed="false">自由に操作する</button></div>
+      <div id="sq-demo-controls">
+        <div class="toolbar"><button id="sq-next" class="primary" type="button">1ステップ →</button><div id="sq-player"></div></div>
+        <div class="sq-demo-sequence" id="sq-sequence" aria-label="資料の操作順"></div>
+      </div>
+      <div id="sq-free-controls" class="sq-free-controls" hidden>
+        <div class="input-row"><label for="sq-value">入れる値<input id="sq-value" type="number" min="-99" max="99" step="1" value="1" inputmode="numeric" aria-describedby="sq-value-hint sq-error"></label><button id="sq-in" class="primary" type="button">入れる →</button><button id="sq-out" class="sq-out-button" type="button">← 取り出す</button></div>
+        <p id="sq-value-hint" class="sq-note">−99〜99 の整数。空・満杯など、読み書きできない位置では操作を止めます。</p>
+        <p id="sq-error" class="input-error" role="alert" hidden></p>
+      </div>
+      <div class="secondary-actions"><button id="sq-back" type="button" disabled>← 1つ戻る</button><button id="sq-reset" type="button" disabled>空からやり直す</button><button id="sq-end" type="button">結果まで</button><span id="sq-free-presets" hidden><button id="sq-boundary" type="button">先頭が空いた例</button></span><span id="sq-step-count" class="sq-step-count">0 / 10 操作</span></div>
+      <div class="sq-workspace">
+        <section class="panel sq-memory" aria-labelledby="sq-memory-title"><div class="sq-panel-heading"><h2 id="sq-memory-title">キューの配列</h2><span id="sq-occupancy" class="sq-occupancy">0 / 6 個</span></div><div class="sq-command-line"><span id="sq-command" class="sq-command">まだ操作していません</span><span class="sq-direction">← 古い値　新しい値 →</span></div><div id="sq-scroll" class="sq-scroll" tabindex="0" role="region" aria-label="配列とポインタの位置"><div id="sq-array" class="sq-array"></div></div><p id="sq-status" class="sq-status">最初は空です。</p><p class="sq-note">見やすく6要素で表示（資料は100要素）。アドレスは説明用で、int を4バイトとして描いています。</p></section>
+        <div class="sq-sidebar">
+          <section class="panel sq-pointer-panel" aria-labelledby="sq-pointer-title"><h2 id="sq-pointer-title">ポインタが指す場所</h2><div class="sq-pointer-facts"><div class="sq-pointer-fact sq-read-fact"><h3>front <span>次に読む場所</span></h3><output id="sq-front-address"></output><p id="sq-front-target"></p></div><div class="sq-pointer-fact sq-write-fact"><h3>rear <span>次に書く場所</span></h3><output id="sq-rear-address"></output><p id="sq-rear-target"></p></div></div><p class="sq-note">front は次に取り出す位置、rear は次に書き込む位置。2つが同じ位置なら空です。</p></section>
+          <section class="panel sq-result-panel" aria-labelledby="sq-result-title"><div class="sq-panel-heading"><h2 id="sq-result-title">直前に取り出した値</h2><span id="sq-output-count" class="sq-output-count">0 個取り出し</span></div><output id="sq-last-output" class="sq-last-output">—</output><p class="sq-output-label">取り出した順</p><div id="sq-output-history" class="sq-output-history" aria-label="取り出した値の履歴"></div></section>
+        </div>
+      </div>
+      <p class="sq-footnote">薄い値は現在のキューの外。取り出しても、配列に古い値が残ることがあります。右端の「末尾の1つ先」は、指すことはできても読み書きはできません。</p>
+      <p class="sq-footnote">このキューは資料と同じく末尾へ進む方式です。先頭側の空きは再利用せず、rear が末尾に達すると追加できません。</p>
+      <p id="sq-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+    </section>
+    <nav class="topic-navigation" aria-label="題材の移動"><a class="topic-prev" href="./stack.html"><span>前の教材</span><strong>スタック</strong></a><a class="topic-next" href="./ring-buffer.html"><span>次の教材 · 発展編</span><strong>リングバッファ</strong></a></nav>
+  </main>
+</body>
+</html>

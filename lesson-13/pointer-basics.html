@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="演習13-1のポインタを可視化。p_val、*p_val、&p_valをメモリ図と出力に対応させ、参照先の変更と値の書き換えを操作します。">
+  <title>演習13-1：ポインタの中身と指す先 | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css"><link rel="stylesheet" href="./pointers.css"><link rel="stylesheet" href="./pointer-basics.css">
+  <script defer src="../assets/lesson-motion.js"></script><script defer src="./pointer-model.js"></script><script defer src="./pointer-basics.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#pointer-lab">教材へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap pointer-main pb-main">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><a href="./index.html">第13回</a></li><li><span aria-current="page">演習13-1</span></li></ol></nav>
+    <h1><span>ex13-1</span>：ポインタの中身と指す先</h1>
+    <p class="intro">アドレスを入れると、矢印がつながる。<code>*p_val</code> で書き換わるのは、矢印の先です。</p>
+    <div class="pb-workspace">
+    <section class="pointer-source pb-source" aria-labelledby="pb-source-title"><div class="pointer-source-heading"><h2 id="pb-source-title">ex13-1.c</h2><a href="#pointer-lab">右の図を操作する →</a></div><pre tabindex="0" role="region" aria-labelledby="pb-source-title"><code id="pb-source-code"></code></pre><p id="pb-source-note" class="pointer-source-note">黄色が現在の操作。入力値もコードに反映します。</p></section>
+    <section id="pointer-lab" class="pb-workbench" tabindex="-1" aria-label="ポインタの操作">
+      <div class="pb-modes" role="group" aria-label="操作モード"><button id="mode-example" type="button" aria-pressed="true">資料の流れ</button><button id="mode-free" type="button" aria-pressed="false">自分で試す</button></div>
+      <details class="pb-settings"><summary>値を変えて試す</summary><div class="pb-inputs"><div class="input-row">
+        <label for="initial-val1">val1 の初期値<input id="initial-val1" type="number" min="-999" max="999" step="1" value="100" aria-describedby="pb-input-hint pb-error"></label>
+        <label for="initial-val2">val2 の初期値<input id="initial-val2" type="number" min="-999" max="999" step="1" value="200" aria-describedby="pb-input-hint pb-error"></label>
+        <label for="write-value">代入する値<input id="write-value" type="number" min="-999" max="999" step="1" value="123" aria-describedby="pb-input-hint pb-error"></label>
+        <label for="add-value">加算する値<input id="add-value" type="number" min="-999" max="999" step="1" value="10" aria-describedby="pb-input-hint pb-error"></label>
+      </div><p id="pb-input-hint">−999〜999の整数。値を変えて、同じ流れを試せます。</p></div></details>
+      <p id="pb-error" class="input-error" role="alert" hidden></p>
+      <div class="toolbar"><button id="pb-next" class="primary" type="button">1ステップ →</button><div id="pb-player"></div></div>
+      <div class="secondary-actions"><button id="pb-back" type="button" disabled>← 1つ戻る</button><button id="pb-reset" type="button">最初へ</button><button id="pb-end" type="button">結果まで</button><button id="pb-default" type="button">資料の初期値</button><span id="pb-step-count">0 / 4 ステップ</span></div>
+      <nav id="pb-stages" class="pb-stages" aria-label="実行する操作"><button type="button" data-stage="0" aria-current="step">準備</button><button type="button" data-stage="1">① val1 を指す</button><button type="button" data-stage="2">② 値を代入</button><button type="button" data-stage="3">③ val2 を指す</button><button type="button" data-stage="4">④ 値を加算</button></nav>
+      <div class="pb-operation"><span id="pb-operation-kind">準備</span><code id="pb-operation-code">int val1, val2, *p_val;</code><p id="pb-operation-note">まずは参照先を決めます。</p></div>
+      <section class="pb-memory" id="pb-memory" aria-label="ポインタと変数のメモリ図">
+        <svg id="pb-wire-layer" class="pb-wire-layer" aria-hidden="true" focusable="false"><defs><marker id="pb-arrow-tip" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="4" markerHeight="4" orient="auto"><path d="M1 1L11 6L1 11Z" fill="context-stroke"></path></marker></defs><path id="pb-wire" class="pb-wire" marker-end="url(#pb-arrow-tip)" hidden></path></svg>
+        <article class="pb-pointer pb-memory-card" id="pb-pointer-card">
+          <div class="pb-card-heading"><h2>p_val</h2><span>int * · 8 B</span></div>
+          <p class="pb-field-label">中に入っているアドレス</p><strong id="pb-pointer-value" class="pb-address-value">未初期化</strong>
+          <p id="pb-target-name" class="pb-target-name">まだ指していません</p>
+          <div class="pb-own-address" id="pb-own-address"><span>この変数自身の場所 <code>&amp;p_val</code></span><strong>0x2000</strong><small>指す先を変えても同じ</small></div>
+        </article>
+        <div class="pb-values">
+          <article class="pb-memory-card pb-value-card" id="pb-val1-card"><div class="pb-card-heading"><h2>val1</h2><span>int · 4 B</span></div><div class="pb-value-line"><span>値</span><strong id="pb-val1-value">100</strong></div><div class="pb-location" id="pb-val1-address"><code>&amp;val1</code><strong>0x1000</strong></div><button class="pb-point-button" id="pb-point-val1" type="button" hidden>ここを指す</button></article>
+          <article class="pb-memory-card pb-value-card" id="pb-val2-card"><div class="pb-card-heading"><h2>val2</h2><span>int · 4 B</span></div><div class="pb-value-line"><span>値</span><strong id="pb-val2-value">200</strong></div><div class="pb-location" id="pb-val2-address"><code>&amp;val2</code><strong>0x1004</strong></div><button class="pb-point-button" id="pb-point-val2" type="button" hidden>ここを指す</button></article>
+        </div>
+      </section>
+      <div id="pb-free-controls" class="pb-free-controls" hidden><button id="pb-write" type="button" disabled><code>*p_val</code> に代入</button><button id="pb-add" type="button" disabled><code>*p_val</code> に加算</button><p>参照先の「ここを指す」を押し、上で指定した値を代入・加算できます。</p></div>
+      <p class="pb-model-note">説明用のアドレスと配置です。この図では int は4 B、ポインタは8 B。実際のアドレス・サイズ・配置は環境により異なります。</p>
+      <section class="pb-inspector" aria-labelledby="pb-inspector-title"><div class="pb-section-heading"><h2 id="pb-inspector-title">同じ名前でも、見ているものが違う</h2><span>クリックして図と対応させる</span></div><div class="pb-expressions">
+        <button class="pb-expression pb-expression-address" type="button" data-lens="pointer" aria-pressed="true"><code>p_val</code><strong id="pb-read-pointer">未初期化</strong><span>中に入っているアドレス</span></button>
+        <button class="pb-expression pb-expression-value" type="button" data-lens="dereference" aria-pressed="false"><code>*p_val</code><strong id="pb-read-dereference">参照前</strong><span>指した先の値</span></button>
+        <button class="pb-expression pb-expression-self" type="button" data-lens="self" aria-pressed="false"><code>&amp;p_val</code><strong>0x2000</strong><span>ポインタ自身のアドレス</span></button>
+      </div><p id="pb-lens-note" class="pb-lens-note">p_val は、参照先のアドレスを記憶する変数です。</p></section>
+      <section class="pb-output panel" aria-labelledby="pb-output-title"><div class="pb-section-heading"><h2 id="pb-output-title">printf の表示</h2><span>表示を押すと、その時点の図を確認できます</span></div><div id="pb-output-log" class="pb-output-log" tabindex="0" role="region" aria-label="これまでのprintfの表示"><p class="pb-output-empty">まだ printf は実行していません。</p></div></section>
+      <p id="pb-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+    </section>
+    </div>
+    <nav class="topic-navigation" aria-label="題材の移動"><a href="./index.html"><span>教材一覧へ戻る</span><strong>第13回</strong></a><a class="topic-next" href="./pointer-swap.html"><span>次の教材 · 演習13-2</span><strong>ポインタで2つの値を交換</strong></a></nav>
+  </main>
+</body>
+</html>

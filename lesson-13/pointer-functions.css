@@ -1,0 +1,100 @@
+.pf-inputs { display: flex; flex-wrap: wrap; align-items: end; gap: 12px 18px; padding: 16px 20px; background: #f5f8ff; border: 1px solid #c4cde5; border-radius: 10px; }
+.pf-inputs label { display: flex; align-items: center; gap: 12px; color: var(--blue); font-weight: 700; }
+.pf-inputs input { width: 100px; min-height: 44px; padding: 6px 9px; border: 1px solid #8c9dc8; border-radius: 5px; color: var(--ink); background: #fff; text-align: center; font: 750 22px var(--mono); }
+.pf-inputs input:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.pf-inputs input[aria-invalid="true"] { border-color: #ab2c3c; background: #fff0f0; }
+.pf-inputs button, .pf-secondary button { min-height: 36px; padding: 6px 12px; border: 1px solid #a6b3d6; border-radius: 5px; background: #fff; color: var(--blue); font: 650 13px var(--font); }
+.pf-inputs p { flex-basis: 100%; color: #566280; font-size: 12px; }
+.pf-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; padding-block: 10px; background: #fff; }
+.pf-toolbar .primary { min-height: 46px; padding: 10px 20px; border: 1px solid var(--blue); border-radius: 6px; background: var(--blue); color: #fff; font-weight: 750; }
+.pf-secondary { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 2px 0 18px; }
+.pf-secondary span { margin-left: auto; color: #566280; font-size: 12px; }
+.pf-toolbar button:disabled, .pf-secondary button:disabled { border-color: #c9cfdd; background: #f1f3f8; color: #6a7388; }
+.pf-action { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; padding: 14px 18px; border-left: 4px solid var(--blue); border-radius: 0 7px 7px 0; background: #edf3ff; }
+.pf-action code { color: var(--blue); font-size: 19px; font-weight: 750; }
+.pf-action span { color: #475473; font-size: 14px; }
+.pf-diagram { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 132px minmax(0, 1fr); gap: 12px; align-items: stretch; margin-top: 20px; }
+.pf-wires { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.pf-wire { fill: none; stroke: #6078be; stroke-width: 3; stroke-linecap: round; }
+.pf-wire.is-writing { stroke: #ba8514; stroke-width: 6; }
+.pf-return-wire { fill: none; stroke: #c49018; stroke-width: 7; stroke-linecap: round; stroke-dasharray: 1; }
+.pf-scope { position: relative; min-width: 0; padding: 20px; border: 2px solid #c0cbe5; border-radius: 12px; background: #f8faff; }
+.pf-scope.is-executing { border-color: var(--blue); background: #f3f6ff; }
+.pf-scope.is-returned { border-color: #c49018; box-shadow: 0 0 0 3px #f4dfaa; }
+.pf-scope-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px; }
+.pf-scope-heading h2 { color: var(--blue); font-size: 25px; }
+.pf-status { padding: 3px 9px; border-radius: 5px; background: #e8eefb; color: var(--blue); font-size: 12px; font-weight: 700; }
+.pf-caption { margin: 13px 0; min-height: 22px; color: #566280; font-size: 13px; }
+.pf-memory-list { display: grid; gap: 12px; }
+.pf-memory { position: relative; min-width: 0; min-height: 153px; padding: 12px 16px; border: 2px solid #c4cde3; border-radius: 8px; background: #fff; }
+.pf-memory-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.pf-memory-heading > code { color: #29385e; font-size: 19px; font-weight: 700; overflow-wrap: anywhere; }
+.pf-type { color: #63708d; font: 12px var(--mono); }
+.pf-number { display: block; margin: 2px 0 6px; color: #704b00; font: 750 36px/1.3 var(--mono); overflow-wrap: anywhere; }
+.pf-number.is-empty { color: #73809b; font: 650 21px/2.2 var(--font); }
+.pf-address-line { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 5px; color: var(--blue); font: 650 13px var(--mono); }
+.pf-change-note { display: block; min-height: 17px; margin-top: 3px; color: #775300; font-size: 11px; font-weight: 700; }
+.pf-memory.is-changed { border-color: #c18b1d; background: #fff6dc; }
+.pf-pointer-value { display: block; margin: 7px 0; color: var(--blue); font: 750 25px/1.4 var(--mono); overflow-wrap: anywhere; }
+.pf-deref { display: flex; align-items: center; gap: 16px; color: #704b00; font: 650 13px var(--mono); }
+.pf-deref strong { font-size: 21px; }
+.pf-own-address { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 3px 8px; margin-top: 8px; color: #69758e; font-size: 10px; }
+.pf-own-address code { font-size: 11px; }
+.pf-pointer.is-dormant { border-color: #d7dce7; background: #f1f3f7; }
+.pf-pointer.is-dormant .pf-pointer-value { color: #79849c; }
+.pf-call-site { margin-top: 18px; color: var(--blue); font-size: 15px; font-weight: 700; overflow-wrap: anywhere; }
+.pf-bridge { position: relative; z-index: 3; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; gap: 6px; padding-bottom: 24px; color: #566280; text-align: center; font-size: 12px; pointer-events: none; }
+.pf-bridge strong { font: 750 46px/1.1 var(--font); color: #7083b8; }
+.pf-bridge.is-returning { color: #805700; }
+.pf-bridge.is-returning strong { color: #b58110; }
+.pf-tmp { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; margin-top: 16px; padding: 10px 14px; border: 1px solid #c7cfe2; border-radius: 6px; background: #eaf0fb; }
+.pf-tmp code { color: var(--blue); font-size: 15px; font-weight: 700; }
+.pf-tmp strong { color: #704b00; font: 750 24px var(--mono); }
+.pf-tmp span { color: #566280; font-size: 11px; }
+.pf-tmp.is-changed { border-color: #c18b1d; background: #fff1c9; }
+.pf-calculation { margin-top: 16px; padding: 10px 14px; border-radius: 6px; background: #eaf0fb; }
+.pf-scalar-arguments { display: flex; flex-wrap: wrap; gap: 5px 16px; color: #566280; font-size: 12px; }
+.pf-scalar-arguments strong { color: var(--blue); font: 700 15px var(--mono); }
+.pf-calculation > strong { display: block; margin-top: 5px; color: #704b00; font: 750 20px var(--mono); overflow-wrap: anywhere; }
+.pf-lifetime { margin-top: 11px; color: #566280; font-size: 11px; }
+.pf-model-note { margin: 13px 0 18px; color: #63708b; font-size: 12px; }
+.pf-console { padding: 20px 22px; border-radius: 10px; background: #17234a; color: #fff; }
+.pf-console-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 15px; }
+.pf-console h2 { color: #d0dcf5; font-size: 15px; }
+.pf-console-heading span { color: #b7c5e3; font-size: 12px; }
+.pf-console output { display: block; margin-top: 12px; color: #ffe6a3; font: 700 22px/1.6 var(--mono); overflow-wrap: anywhere; }
+.pf-flight { position: fixed; z-index: 15; padding: 4px 10px; border: 2px solid var(--blue); border-radius: 6px; background: #e6edff; color: var(--blue); font: 750 20px var(--mono); pointer-events: none; box-shadow: 0 4px 12px #17234a20; }
+.pf-flight.is-value { border-color: #ba8514; background: #fff1c9; color: #704b00; }
+@media (max-width: 950px) {
+  .pf-diagram { grid-template-columns: minmax(0, 1fr) 100px minmax(0, 1fr); gap: 8px; }
+  .pf-scope { padding: 16px 12px; }
+  .pf-memory { padding: 11px 12px; }
+}
+@media (max-width: 700px) {
+  .pf-inputs { padding: 14px; }
+  .pf-inputs label { gap: 8px; font-size: 13px; }
+  .pf-inputs input { width: 86px; }
+  .pf-toolbar { position: sticky; top: 0; z-index: 5; border-bottom: 1px solid #c4cde3; }
+  #pf-player { width: 100%; }
+  .pf-secondary span { flex-basis: 100%; text-align: right; }
+  .pf-diagram { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .pf-memory-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pf-bridge { min-height: 104px; padding: 6px 0; justify-content: center; }
+  .pf-bridge strong { transform: rotate(90deg); }
+  .pf-scope { padding: 16px; }
+  .pf-memory-heading > code { font-size: 16px; }
+  .pf-number { font-size: 32px; }
+  .pf-pointer-value { font-size: 21px; }
+  .pf-own-address { font-size: 10px; }
+  .pf-action code { font-size: 17px; }
+  .pf-action span { font-size: 12px; }
+  .pf-console output { font-size: 18px; }
+}
+@media (max-width: 390px) {
+  .pf-scope { padding: 12px 10px; }
+  .pf-memory-list { gap: 8px; }
+  .pf-memory { padding: 10px 8px; }
+  .pf-memory-heading { gap: 4px; }
+  .pf-memory-heading > code { font-size: 14px; }
+  .pf-type { font-size: 10px; }
+}

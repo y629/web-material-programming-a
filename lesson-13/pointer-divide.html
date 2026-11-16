@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="関数にアドレスを渡して、呼び出し元の変数を書き換える仕組みを可視化。swapと商・余りの計算でポインタの仮引数を追います。">
+  <title>演習13-3：商と余りを書き込む | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="./pointers.css">
+  <link rel="stylesheet" href="./pointer-functions.css">
+  <script defer src="../assets/lesson-motion.js"></script>
+  <script defer src="./pointer-functions-model.js"></script>
+  <script defer src="./pointer-functions.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
+</head>
+<body data-pointer-function="divide">
+  <a class="skip-link" href="#pf-lab">教材へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap pointer-main">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><a href="./index.html">第13回</a></li><li><span aria-current="page">13-3：商と余り</span></li></ol></nav>
+    <h1>商と余りを、2つの変数に書き込む</h1>
+    <p class="intro">商・余りの保存先を渡すと、void型の関数から2つの変数を更新できます。</p>
+    <section class="pointer-source" aria-labelledby="pf-code-summary">
+      <div class="pointer-source-heading"><h2 id="pf-code-summary">ex13-3.c（ひな形）</h2><a href="#pf-lab">可視化を操作する ↓</a></div>
+      <pre tabindex="0" role="region" aria-labelledby="pf-code-summary"><code id="pf-code">#include &lt;stdio.h&gt;
+
+void divide(int x, int y, int *quotient, int *remainder) {
+    /* ここを埋める */
+}
+
+int main(void) {
+    int a = 100, b = 9;
+    int quotient, remainder;
+
+    divide(/* ここを埋める */);
+    printf(&quot;quotient=%d, remainder=%d\n&quot;, quotient, remainder);
+    return 0;
+}</code></pre>
+      <p id="pf-code-note" class="pointer-source-note">資料のひな形です。x・y は計算する値、quotient・remainder は結果を書き込む場所です。下の a・b を変えると、コードの初期値も変わります。</p>
+    </section>
+    <section id="pf-lab" tabindex="-1" aria-label="ポインタを仮引数に持つ関数">
+      <div id="pf-view">
+        <div class="pf-inputs"><label for="pf-a"><span id="pf-a-label">割られる数 a</span><input id="pf-a" type="number" min="-999" max="999" step="1" value="100" aria-describedby="pf-input-note pf-error"></label><label for="pf-b"><span id="pf-b-label">割る数 b</span><input id="pf-b" type="number" min="-999" max="999" step="1" value="9" aria-describedby="pf-input-note pf-error"></label><button id="pf-default" type="button">資料の値</button><p id="pf-input-note">−999〜999の整数。割る数は0以外。編集すると最初に戻ります。</p></div>
+        <p id="pf-error" class="input-error" role="alert" hidden></p>
+        <div class="pf-toolbar"><button id="pf-next" class="primary" type="button">1ステップ →</button><div id="pf-player"></div></div>
+        <div class="pf-secondary"><button id="pf-back" type="button" disabled>← 1つ戻る</button><button id="pf-reset" type="button" disabled>最初へ</button><button id="pf-end" type="button">結果まで</button><span id="pf-progress">0 / 5 ステップ</span></div>
+        <div class="pf-action"><code id="pf-operation">divide(a, b, &amp;quotient, &amp;remainder)</code><span id="pf-message">a・b の値と、商・余りを書き込む場所を divide に渡します。</span></div>
+        <div id="pf-diagram" class="pf-diagram">
+          <svg id="pf-wires" class="pf-wires" aria-hidden="true" focusable="false"></svg>
+          <section id="pf-main" class="pf-scope pf-main-scope" aria-labelledby="pf-main-title">
+            <div class="pf-scope-heading"><h2 id="pf-main-title"><code>main</code></h2><span id="pf-main-status" class="pf-status">実行中</span></div>
+            <p id="pf-main-caption" class="pf-caption">商と余りを保存する変数</p>
+            <div class="pf-memory-list">
+              <div id="pf-main-left" class="pf-memory"><div class="pf-memory-heading"><code id="pf-main-left-name">quotient</code><span class="pf-type">int</span></div><strong id="pf-main-left-value" class="pf-number is-empty">未代入</strong><div class="pf-address-line"><span id="pf-main-left-address-label">&amp;quotient</span><code id="pf-main-left-address">0x1010</code></div><span id="pf-main-left-change" class="pf-change-note"></span></div>
+              <div id="pf-main-right" class="pf-memory"><div class="pf-memory-heading"><code id="pf-main-right-name">remainder</code><span class="pf-type">int</span></div><strong id="pf-main-right-value" class="pf-number is-empty">未代入</strong><div class="pf-address-line"><span id="pf-main-right-address-label">&amp;remainder</span><code id="pf-main-right-address">0x1014</code></div><span id="pf-main-right-change" class="pf-change-note"></span></div>
+            </div>
+            <p id="pf-call-site" class="pf-call-site">divide(a, b, &amp;quotient, &amp;remainder);</p>
+          </section>
+          <div id="pf-bridge" class="pf-bridge"><span id="pf-bridge-label">アドレスを渡す</span><strong id="pf-bridge-arrow" aria-hidden="true">→</strong><span id="pf-return-note">void：戻り値なし</span></div>
+          <section id="pf-callee" class="pf-scope pf-callee-scope" aria-labelledby="pf-callee-title">
+            <div class="pf-scope-heading"><h2 id="pf-callee-title">divide</h2><span id="pf-callee-status" class="pf-status">呼び出し前</span></div>
+            <p class="pf-caption">関数内のポインタ変数（仮引数）</p>
+            <div class="pf-memory-list">
+              <div id="pf-local-left" class="pf-memory pf-pointer"><div class="pf-memory-heading"><code id="pf-local-left-name">quotient</code><span class="pf-type">int *</span></div><strong id="pf-local-left-value" class="pf-pointer-value">—</strong><div class="pf-deref"><code id="pf-local-left-deref">*quotient</code><strong id="pf-local-left-pointed">—</strong></div><div class="pf-own-address"><span id="pf-local-left-own-label">&amp;quotient（この変数の場所）</span><code id="pf-local-left-own">—</code></div></div>
+              <div id="pf-local-right" class="pf-memory pf-pointer"><div class="pf-memory-heading"><code id="pf-local-right-name">remainder</code><span class="pf-type">int *</span></div><strong id="pf-local-right-value" class="pf-pointer-value">—</strong><div class="pf-deref"><code id="pf-local-right-deref">*remainder</code><strong id="pf-local-right-pointed">—</strong></div><div class="pf-own-address"><span id="pf-local-right-own-label">&amp;remainder（この変数の場所）</span><code id="pf-local-right-own">—</code></div></div>
+            </div>
+            <div id="pf-tmp-box" class="pf-tmp" hidden><code>tmp</code><strong id="pf-tmp-value">—</strong><span>一時的に値を退避</span></div>
+            <div id="pf-calculation" class="pf-calculation"><div class="pf-scalar-arguments"><span><code>x</code> <strong id="pf-x">—</strong></span><span><code>y</code> <strong id="pf-y">—</strong></span><span>値をコピーした仮引数</span></div><strong id="pf-equation">100 ÷ 9</strong></div>
+            <p id="pf-lifetime" class="pf-lifetime">呼び出すと仮引数ができます。</p>
+          </section>
+        </div>
+        <p class="pf-model-note">アドレスは説明用です。同じ名前でも、main の変数と関数内の仮引数は別の場所にあります。</p>
+        <section class="pf-console" aria-labelledby="pf-console-title"><div class="pf-console-heading"><h2 id="pf-console-title">main の画面出力</h2><span id="pf-output-status">呼び出しから戻ってから表示</span></div><output id="pf-output" aria-live="off">まだ表示していません</output></section>
+        <p id="pf-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+      </div>
+    </section>
+    <nav class="topic-navigation" aria-label="題材の移動"><a class="topic-prev" href="./pointer-swap.html"><span>前の教材</span><strong>swapで値を入れ替える</strong></a><a class="topic-next" href="./pointer-array.html"><span>次の教材</span><strong>配列とポインタ</strong></a></nav>
+  </main>
+</body>
+</html>

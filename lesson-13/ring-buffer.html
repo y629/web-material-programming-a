@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="第13回の発展編。リングバッファの front・rear・count を動かし、末尾から先頭への折り返しと空いた場所の再利用を確かめます。">
+  <title>リングバッファ | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="./pointers.css">
+  <link rel="stylesheet" href="./ring-buffer.css">
+  <script defer src="../assets/lesson-motion.js"></script>
+  <script defer src="./ring-buffer-model.js"></script>
+  <script defer src="./ring-buffer.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#rb-lab">教材へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap pointer-main rb-main">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><a href="./index.html">第13回</a></li><li><span aria-current="page">リングバッファ</span></li></ol></nav>
+    <h1><span class="rb-advanced">発展編</span>リングバッファ</h1>
+    <p class="intro">末尾の次は、先頭へ。キューの空いた場所を繰り返し使います。</p>
+    <div class="rb-workspace">
+      <section class="pointer-source rb-source" aria-labelledby="rb-source-title">
+        <div class="pointer-source-heading"><h2 id="rb-source-title">ex13-7.c</h2><a href="#rb-lab">右の図を操作する →</a></div>
+        <pre tabindex="0" role="region" aria-labelledby="rb-source-title"><code id="rb-code">#include &lt;stdio.h&gt;
+
+#define QUEUE_SIZE 5
+
+int queue[QUEUE_SIZE];
+int *front = queue;
+int *rear = queue;
+int count = 0;
+
+/* 次の要素を指すポインタを返す */
+int *next_pointer(int *p) {
+    p++;
+    if (p == queue + QUEUE_SIZE) {
+        p = queue;
+    }
+    return p;
+}
+
+int enqueue(int x) {
+    if (count == QUEUE_SIZE) {
+        return 0;  /* 満杯 */
+    }
+    *rear = x;
+    rear = next_pointer(rear);
+    count++;
+    printf(&quot;IN : %d\n&quot;, x);
+    return 1;
+}
+
+int dequeue(int *x) {
+    if (count == 0) {
+        return 0;  /* 空 */
+    }
+    *x = *front;
+    front = next_pointer(front);
+    count--;
+    printf(&quot;OUT: %d\n&quot;, *x);
+    return 1;
+}
+
+int main(void) {
+    int x;
+
+    enqueue(10);
+    enqueue(20);
+    enqueue(30);
+    enqueue(40);
+    enqueue(50);
+
+    if (!enqueue(60)) {
+        printf(&quot;キューが満杯です．\n&quot;);
+    }
+
+    dequeue(&amp;x);  /* 10 */
+    dequeue(&amp;x);  /* 20 */
+
+    /* 空いた先頭側の領域が再利用される */
+    enqueue(60);
+    enqueue(70);
+
+    while (dequeue(&amp;x)) {
+    }
+
+    return 0;
+}
+</code></pre>
+        <p class="pointer-source-note">容量は5要素。front・rear の折り返しと、count による空・満杯の判定に注目します。</p>
+      </section>
+      <section id="rb-lab" tabindex="-1" aria-label="リングバッファの可視化">
+        <div class="rb-modes" aria-label="操作モード"><button id="rb-demo-mode" type="button" aria-pressed="true">コードの操作</button><button id="rb-free-mode" type="button" aria-pressed="false">自由に操作</button></div>
+        <div id="rb-demo-controls">
+          <div class="toolbar rb-toolbar"><button id="rb-next" class="primary" type="button">1ステップ →</button><div id="rb-player"></div></div>
+          <div id="rb-sequence" class="rb-sequence" aria-label="コードの操作順"></div>
+        </div>
+        <div id="rb-free-controls" class="rb-free-controls" hidden>
+          <div class="input-row"><label for="rb-value">入れる値<input id="rb-value" type="number" min="-99" max="99" step="1" value="60" inputmode="numeric" aria-describedby="rb-value-hint rb-error"></label><button id="rb-in" class="primary" type="button">入れる →</button><button id="rb-out" class="rb-out-button" type="button">← 取り出す</button></div>
+          <p id="rb-value-hint" class="rb-note">−99〜99 の整数。満杯なら追加できず、空なら取り出せません。</p>
+          <p id="rb-error" class="input-error" role="alert" hidden></p>
+        </div>
+        <div class="secondary-actions rb-actions"><button id="rb-back" type="button" disabled>← 戻る</button><button id="rb-reset" type="button" disabled>空からやり直す</button><button id="rb-end" type="button">結果まで</button><span id="rb-presets" hidden><button id="rb-reuse" type="button">先頭が空いた例</button><button id="rb-full" type="button">満杯</button></span><span id="rb-step-count">0 / 16 操作</span></div>
+        <section class="panel rb-memory" aria-labelledby="rb-memory-title">
+          <div class="rb-heading"><h2 id="rb-memory-title">5つの場所を、ぐるぐる使う</h2><code id="rb-command">まだ操作していません</code></div>
+          <div class="rb-visual">
+            <div id="rb-ring" class="rb-ring" role="group" aria-label="5要素のリングバッファ。添字0から4へ時計回りに進み、0へ戻ります。">
+              <svg class="rb-ring-track" viewBox="0 0 400 400" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <defs><marker id="rb-direction-tip" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M1 1 L6 4 L1 7" fill="none" stroke="#96A5CB" stroke-width="1.6"/></marker></defs>
+                <circle cx="200" cy="200" r="136" fill="none" stroke="#D6DEEF" stroke-width="2"/>
+                <path d="M253 75 A136 136 0 0 1 301 109 M335 216 A136 136 0 0 1 314 274 M231 332 A136 136 0 0 1 168 332 M86 274 A136 136 0 0 1 65 216 M99 109 A136 136 0 0 1 147 75" fill="none" stroke="#96A5CB" stroke-width="2" marker-end="url(#rb-direction-tip)"/>
+                <path id="rb-wrap-path" d="M70.66 157.97 A136 136 0 0 1 200 64" fill="none" stroke="#A7B7D8" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+              <div class="rb-center"><span>count</span><strong id="rb-count">0</strong><span id="rb-fullness">空</span></div>
+            </div>
+            <div class="rb-sidebar">
+              <div class="rb-pointer-fact rb-front-fact"><h3>front <span>次に読む</span></h3><output id="rb-pointer-front">queue[0]</output></div>
+              <div class="rb-pointer-fact rb-rear-fact"><h3>rear <span>次に書く</span></h3><output id="rb-pointer-rear">queue[0]</output></div>
+              <section class="rb-fifo-section" aria-labelledby="rb-fifo-title"><h3 id="rb-fifo-title">取り出される順</h3><div id="rb-fifo" class="rb-fifo">空です</div></section>
+              <section class="rb-output-section" aria-labelledby="rb-output-title"><h3 id="rb-output-title">直前に取り出した値</h3><output id="rb-last-output">—</output><div id="rb-output-history" class="rb-output-history" aria-label="取り出した値の履歴"></div></section>
+            </div>
+          </div>
+          <p id="rb-status" class="rb-status">最初は空です。front と rear は queue[0] を指しています。</p>
+          <p class="rb-note"><code>front == rear</code> でも、<code>count = 0</code> なら空、<code>count = 5</code> なら満杯です。</p>
+        </section>
+        <details class="rb-help"><summary>図の見方</summary><p>配列のメモリは連続しています。円は「末尾の次に先頭へ戻る」動きの表現です。薄い値は使用していない場所に残った値です。</p><p>アドレスは説明用。int を4バイトとして描いています。</p></details>
+        <p id="rb-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+      </section>
+    </div>
+    <nav class="topic-navigation" aria-label="題材の移動"><a class="topic-prev" href="./queue.html"><span>前の教材</span><strong>キュー</strong></a><a class="topic-next" href="./index.html"><span>教材一覧へ戻る</span><strong>第13回</strong></a></nav>
+  </main>
+</body>
+</html>

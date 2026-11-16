@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="プログラミングA 第13回。ポインタ、swap、商と余り、配列、スタック、キューと、発展編のリングバッファを操作して確かめる7つの教材。">
+  <title>第13回の教材 | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css"><link rel="stylesheet" href="../lesson-01/home.css"><link rel="stylesheet" href="./lesson-cover.css"><link rel="stylesheet" href="../assets/cover-motion.css">
+  <script defer src="../assets/lesson-motion.js"></script><script defer src="../assets/cover-motion.js"></script><link rel="stylesheet" href="../assets/lesson-motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#topics">教材の一覧へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap home-main">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><span aria-current="page">第13回</span></li></ol></nav>
+    <section class="lesson-cover" data-cover-motion aria-labelledby="page-title">
+      <div class="cover-type"><h1 id="page-title">第13回の教材</h1><p class="cover-title">場所を渡す。<br>値を動かす。<span class="cover-cursor cover-motion-cursor" data-cover-motion-element aria-hidden="true">_</span></p></div>
+      <div class="cover-illustration" aria-hidden="true"><svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" focusable="false">
+        <rect x="14" y="39" width="196" height="224" rx="10" fill="#fff"/><rect x="300" y="77" width="166" height="154" rx="10" fill="#EDF3FF"/>
+        <g fill="#14216D" font-family="Consolas,monospace" font-size="27" font-weight="700" text-anchor="middle"><text x="112" y="79">p_val</text><text x="383" y="116">val1</text></g>
+        <rect x="32" y="99" width="160" height="55" rx="5" fill="#E4ECFF" stroke="#90A3DA" stroke-width="2"/><text x="112" y="137" fill="#2E3C9E" font-family="Consolas,monospace" font-size="28" font-weight="700" text-anchor="middle">0x1000</text>
+        <path d="M219 127h62l-12-12m12 12-12 12" stroke="#C8E5FF" stroke-width="5" fill="none" stroke-linejoin="round"/>
+        <circle class="cover-pointer-packet" data-cover-motion-element cx="227" cy="127" r="6" fill="#FFE5A0"/>
+        <text x="383" y="164" fill="#694600" font-family="Consolas,monospace" font-size="38" font-weight="700" text-anchor="middle">123</text><text x="383" y="207" fill="#2E3C9E" font-family="Consolas,monospace" font-size="24" font-weight="700" text-anchor="middle">0x1000</text>
+        <rect x="32" y="181" width="160" height="62" rx="5" fill="#F3E8FF"/><g fill="#70419B" font-family="Consolas,monospace" text-anchor="middle"><text x="112" y="204" font-size="17">&amp;p_val</text><text x="112" y="231" font-size="23" font-weight="700">0x2000</text></g>
+      </svg></div>
+      <button class="cover-motion-toggle" data-motion-toggle type="button" aria-pressed="false" aria-label="扉絵の動きを止める" title="扉絵の動きを止める"><span class="motion-pause-icon" aria-hidden="true"></span></button>
+    </section>
+    <section class="lesson-topics" id="topics" aria-label="第13回の教材" tabindex="-1"><ul class="topic-list">
+      <li><a class="topic-card topic-primary" href="./pointer-basics.html"><span class="topic-number" aria-hidden="true">01</span><div class="topic-content"><span class="topic-exercise">演習13-1 · ex13-1.c</span><h3>ポインタの中身と指す先</h3><p class="topic-subtitle">p_val・*p_val・&amp;p_val を見分ける</p><p class="topic-description">参照先の変更と値の書き換えを動かし、printf の各表示をメモリ図に対応させます。</p></div><span class="topic-arrow" aria-hidden="true">→</span></a></li>
+      <li><a class="topic-card topic-primary" href="./pointer-swap.html"><span class="topic-number" aria-hidden="true">02</span><div class="topic-content"><span class="topic-exercise">演習13-2 · ex13-2.c</span><h3>ポインタで2つの値を交換</h3><p class="topic-subtitle">swap に渡すのは、変数のアドレス</p><p class="topic-description">一時変数に値を退避し、関数から main の2つの変数を書き換えます。</p></div><span class="topic-arrow" aria-hidden="true">→</span></a></li>
+      <li><a class="topic-card topic-primary" href="./pointer-divide.html"><span class="topic-number" aria-hidden="true">03</span><div class="topic-content"><span class="topic-exercise">演習13-3 · ex13-3.c</span><h3>商と余りを別々の場所へ</h3><p class="topic-subtitle">void の関数で、2つの結果を保存</p><p class="topic-description">商・余りの保存先をアドレスで渡し、結果がどこに書き込まれるかを確かめます。</p></div><span class="topic-arrow" aria-hidden="true">→</span></a></li>
+      <li><a class="topic-card topic-primary" href="./pointer-array.html"><span class="topic-number" aria-hidden="true">04</span><div class="topic-content"><span class="topic-exercise">演習13-4 · ex13-4.c</span><h3>配列とポインタの関係</h3><p class="topic-subtitle">値に足す？　アドレスを進める？</p><p class="topic-description">*p + k と *(p + k)、後置・前置の ++ を、参照先と計算結果で見比べます。</p></div><span class="topic-arrow" aria-hidden="true">→</span></a></li>
+      <li><a class="topic-card topic-primary" href="./stack.html"><span class="topic-number" aria-hidden="true">05</span><div class="topic-content"><span class="topic-exercise">演習13-5 · ex13-5.c</span><h3>ポインタで動くスタック</h3><p class="topic-subtitle">最後に入れた値から取り出す</p><p class="topic-description">push・pop を試し、次の空きを指す sp と、積み上がる値の関係を追います。</p></div><span class="topic-arrow" aria-hidden="true">→</span></a></li>
+      <li><a class="topic-card topic-primary" href="./queue.html"><span class="topic-number" aria-hidden="true">06</span><div class="topic-content"><span class="topic-exercise">演習13-6 · ex13-6.c</span><h3>ポインタで動くキュー</h3><p class="topic-subtitle">最初に入れた値から取り出す</p><p class="topic-description">enqueue・dequeue を試し、front と rear が別々に進む様子を確かめます。</p></div><span class="topic-arrow" aria-hidden="true">→</span></a></li>
+      <li><a class="topic-card topic-primary" href="./ring-buffer.html"><span class="topic-number" aria-hidden="true">07</span><div class="topic-content"><span class="topic-badge">発展編</span><h3>リングバッファ</h3><p class="topic-subtitle">末尾から先頭へ。空いた場所をもう一度使う</p><p class="topic-description">front・rear の折り返しと、count で空と満杯を区別する様子を確かめます。</p></div><span class="topic-arrow" aria-hidden="true">→</span></a></li>
+    </ul></section>
+  </main>
+</body>
+</html>
