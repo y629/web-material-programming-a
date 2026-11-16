@@ -1,0 +1,11 @@
+.cover-title { font-family: var(--font); font-size: clamp(34px, 3.7vw, 52px); line-height: 1.4; letter-spacing: -.045em; }
+.lesson-topics { margin-top: 26px; scroll-margin-top: 24px; }
+.topic-list { padding: 0; list-style: none; }
+.topic-content h3 { font-size: 26px; font-weight: 750; line-height: 1.45; overflow-wrap: anywhere; }
+.topic-description { color: var(--secondary); font-size: 18px; line-height: 1.8; overflow-wrap: anywhere; }
+.cover-compact { animation: compact-character 4.8s ease-in-out infinite; }
+.cover-run { animation: group-characters 4.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes compact-character { 0%, 100% { transform: translateX(9px); } 30%, 70% { transform: translateX(0); } }
+@keyframes group-characters { 0%, 100% { transform: scale(1); } 35%, 65% { transform: scale(1.06); } }
+@media (max-width: 760px) { .cover-title { font-size: clamp(30px, 7vw, 44px); } .topic-content h3 { font-size: 23px; } }
+@media (prefers-reduced-motion: reduce) { .cover-compact, .cover-run { animation: none; } }

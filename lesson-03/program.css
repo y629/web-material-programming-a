@@ -4,3 +4,20 @@
 @media(max-width:760px){.program-intro h1{font-size:29px}.program-layout{grid-template-columns:1fr;gap:20px;scroll-margin-top:130px}.execution-controls{padding:11px 12px}.execution-buttons{width:100%}.execution-buttons button{flex:1;white-space:nowrap;padding-inline:9px}.execution-buttons .next-output{flex:0 0 auto;font-size:14px}.step-counter{font-size:14px}.stdin-panel{gap:10px 13px;padding-top:16px}.stdin-panel p{flex-basis:100%}.execution-status{padding-block:13px}.program-panel-heading{padding-inline:18px}.source-code{font-size:17px}.source-pane{max-height:650px}.variable-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.variable-card{padding:9px}.variable-card dt{font-size:16px;gap:5px}.variable-card dt>span{font-size:14px}.variable-card dd{font-size:16px}.program-output-wrap{padding:15px 16px;max-height:245px}}
 @media(max-width:420px){.program-intro h1{font-size:27px}.execution-controls{padding:10px}.execution-buttons{gap:7px}.execution-buttons button{font-size:14px;padding-inline:8px}.execution-buttons .next-output{font-size:14px;min-height:39px}.source-code{font-size:16px}.source-line{padding-left:44px;padding-right:12px}.source-line::before{left:4px;width:25px;font-size:14px}.program-panel-heading h2{font-size:17px;gap:9px}.program-panel-heading>code{font-size:15px}.variable-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.program-output-wrap pre{font-size:15px}.branch-state{padding-inline:16px}}
 .program-output-panel{scroll-margin-top:calc(var(--execution-controls-height,78px) + 16px);scroll-margin-bottom:16px}
+.execution-controls { flex-wrap: wrap; }
+.program-player:empty { display: none; }
+.program-player { margin-left: auto; }
+.execution-buttons .next-step { box-shadow: 0 3px 0 #1d286e; }
+.variable-card { border-width: 2px; transition: background-color 120ms, border-color 120ms; }
+.variable-card.changed { border-color: #b27d15; background: #fff1c9; }
+.variable-card.changed dd { color: #684408; font-weight: 750; }
+.output-new { color: #b8e8dc; }
+.has-new-output .output-heading { background: #1c3b4c; border-bottom-color: #72bfb2; }
+.branch-state { transition: background-color 120ms; }
+@media (max-width: 760px) {
+  .program-player { margin-left: 0; }
+  .step-counter { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .variable-card, .branch-state { transition: none; }
+}

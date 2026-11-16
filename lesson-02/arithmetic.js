@@ -7,15 +7,17 @@
   const right = byId('operand-b');
   const operator = byId('operator');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const motionEnabled = function () { return !reducedMotion.matches && window.LessonMotion?.enabled !== false; };
   const animations = new Set();
   const pretty = function (value) { return value.toString().replace('-', '−'); };
 
   function cancelMotion() {
     animations.forEach(function (animation) { animation.cancel(); });
     animations.clear();
+    byId('result-bits').classList.remove('result-reveal');
   }
   function animate(element, frames, ms) {
-    if (reducedMotion.matches || !element.animate) return;
+    if (!motionEnabled() || !element.animate) return;
     const animation = element.animate(frames, { duration: ms, easing: 'cubic-bezier(.2,.7,.2,1)' });
     animations.add(animation);
     animation.finished.catch(function () {}).then(function () { animations.delete(animation); });
@@ -105,6 +107,7 @@
           const digit = document.createElement('span');
           const value = source.bits[selected.width - index - 1];
           digit.className = 'bit-digit' + (value === '1' ? ' one' : '');
+          if (source.className === 'result-row') digit.style.setProperty('--bit-delay', Math.min(index, 16) * 8 + 'ms');
           digit.textContent = value;
           row.append(digit);
         }
@@ -166,8 +169,14 @@
     }
     byId('result-explanation').textContent = explanation;
     renderBits(result, selected);
-    animate(byId('result-bits'), [{ transform: 'translateY(7px)' }, { transform: 'translateY(0)' }], 240);
-    if (outside) animate(byId('carry-value'), [{ transform: 'scale(.86)' }, { transform: 'scale(1.08)', offset: 0.5 }, { transform: 'scale(1)' }], 300);
+    byId('result-bits').classList.toggle('result-reveal', motionEnabled());
+    window.LessonMotion?.pulse(byId('exact-value'), 'output');
+    if (result.kind === 'exact') window.LessonMotion?.celebrate(byId('stored-value'));
+    else {
+      window.LessonMotion?.pulse(byId('stored-value'), 'change');
+      window.LessonMotion?.pulse(byId('result-status'), 'focus');
+    }
+    if (outside) animate(byId('carry-value'), [{ transform: 'translateY(6px) scale(.75)' }, { transform: 'translateY(-4px) scale(1.14)', offset: 0.4 }, { transform: 'translateY(0) scale(1)' }], 340);
   }
   function example(which) {
     const range = model.limits(typeSelect.value);
@@ -200,5 +209,6 @@
   byId('example-min').addEventListener('click', function () { example('min'); });
   byId('arithmetic-reset').addEventListener('click', reset);
   reducedMotion.addEventListener('change', function () { if (reducedMotion.matches) cancelMotion(); });
+  document.addEventListener('lesson-motion-change', function () { if (!motionEnabled()) cancelMotion(); });
   reset();
 })();

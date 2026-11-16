@@ -1,0 +1,11 @@
+.cover-title { font-family: var(--font); font-size: clamp(34px, 3.7vw, 52px); line-height: 1.4; letter-spacing: -.045em; }
+.lesson-topics { margin-top: 26px; scroll-margin-top: 24px; }
+.topic-list { padding: 0; list-style: none; }
+.topic-content h3 { font-size: 26px; font-weight: 750; line-height: 1.45; overflow-wrap: anywhere; }
+.topic-description { color: var(--secondary); font-size: 18px; line-height: 1.8; overflow-wrap: anywhere; }
+.cover-arguments { animation: pass-arguments 4.8s ease-in-out infinite; }
+.cover-return { animation: pass-return 4.8s ease-in-out infinite; }
+@keyframes pass-arguments { 0%, 100% { transform: translateX(-9px); } 30%, 70% { transform: translateX(9px); } }
+@keyframes pass-return { 0%, 100% { transform: translateX(9px); } 30%, 70% { transform: translateX(-9px); } }
+@media (max-width: 760px) { .cover-title { font-size: clamp(30px, 7vw, 44px); } .topic-content h3 { font-size: 23px; } }
+@media (prefers-reduced-motion: reduce) { .cover-arguments, .cover-return { animation: none; } }

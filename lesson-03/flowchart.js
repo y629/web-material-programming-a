@@ -215,7 +215,7 @@
     function update(state, options) {
       if (destroyed || !state) return;
       cancelAnimations();
-      const animated = (!options || options.animate !== false) && !reducedMotion.matches;
+      const animated = (!options || options.animate !== false) && !reducedMotion.matches && (!window.LessonMotion || window.LessonMotion.enabled);
       const step = Number.isInteger(state.step) ? state.step : previousStep + 1;
       if (step === 0) stepNodes.clear();
       if (step < previousStep) {
@@ -244,12 +244,25 @@
         item.path.setAttribute('marker-end', `url(#${prefix}-arrow-active)`);
         // Merge routes may overlap; draw the active route above inactive ones.
         edgeLayer.append(item.group);
+        if (animated && item.path.animate && item.path.getTotalLength) {
+          const length = item.path.getTotalLength();
+          const animation = item.path.animate([
+            { strokeDasharray: length + ' ' + length, strokeDashoffset: length },
+            { strokeDasharray: length + ' ' + length, strokeDashoffset: 0 }
+          ], { duration: 280, easing: 'cubic-bezier(.2,.7,.2,1)' });
+          activeAnimations.add(animation);
+          animation.finished.catch(() => {}).then(() => activeAnimations.delete(animation));
+        }
       });
       const node = nodes.get(state.currentNode);
       const active = nodeElements.get(state.currentNode);
       if (node) description.textContent = '現在：' + node.label + '（' + node.line + '行目）。' + (state.branch ? '判定は' + state.branch.label + '。次は' + nodes.get(state.branch.to).label + '。' : state.done ? 'プログラム終了。' : state.nextNode && nodes.has(state.nextNode) ? '次は' + nodes.get(state.nextNode).label + '。' : '');
       if (active && animated && active.shape.animate) {
-        const animation = active.shape.animate([{transform: 'scale(.97)'}, {transform: 'scale(1)'}], {duration: 180, easing: 'ease-out'});
+        const animation = active.shape.animate([
+          { transform: 'scale(.96)' },
+          { transform: 'scale(1.045)', offset: .38 },
+          { transform: 'scale(1)' }
+        ], {duration: 240, easing: 'ease-out'});
         activeAnimations.add(animation);
         animation.finished.catch(() => {}).then(() => activeAnimations.delete(animation));
       }
@@ -260,11 +273,20 @@
       previousStep = step;
     }
 
+    function motionChanged() {
+      cancelAnimations();
+      if (pane) pane.scrollTo({ top: pane.scrollTop, left: pane.scrollLeft, behavior: 'instant' });
+    }
+    document.addEventListener('lesson-motion-change', motionChanged);
+    reducedMotion.addEventListener('change', motionChanged);
+
     function destroy() {
       destroyed = true;
       cancelAnimations();
       container.replaceChildren();
       container.classList.remove('flowchart-root');
+      document.removeEventListener('lesson-motion-change', motionChanged);
+      reducedMotion.removeEventListener('change', motionChanged);
     }
     return Object.freeze({update, destroy});
   }

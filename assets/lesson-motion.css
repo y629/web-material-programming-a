@@ -1,0 +1,33 @@
+/* Feedback follows the action; the underlying control never waits for it. */
+.site-header { flex-wrap: wrap; row-gap: 8px; padding-block: 12px; }
+.site-header .lesson-motion-toggle { flex: 0 0 auto; min-height: 34px; margin-left: auto; padding: 5px 10px; border: 1px solid #b0bdd9; border-radius: 6px; background: #f2f5fc; color: #344578; font: 650 12px var(--font); white-space: nowrap; box-shadow: none; }
+.site-header .lesson-motion-toggle[aria-pressed="true"] { background: #e7edff; border-color: #8da3d7; color: var(--blue); }
+.site-header .lesson-motion-toggle:disabled { color: #626a7d; cursor: default; }
+html[data-lesson-motion="on"] button:enabled:active { scale: .96; }
+html[data-lesson-motion="on"] :is(a.lecture-card, a.topic-card, .topic-navigation a) { transition: translate 160ms cubic-bezier(.2,.8,.3,1), box-shadow 160ms, background-color 160ms; }
+html[data-lesson-motion="on"] :is(a.lecture-card, a.topic-card, .topic-navigation a):is(:hover, :focus-visible) { translate: 0 -3px; box-shadow: 0 7px 0 #2e3c9e15, 0 12px 24px #17234a0d; background-image: radial-gradient(240px circle at var(--card-x, 50%) var(--card-y, 50%), #c8e5ff75, transparent); }
+html[data-lesson-motion="on"] :is(a.lecture-card, a.topic-card, .topic-navigation a):active { translate: 0 0; box-shadow: 0 2px 0 #2e3c9e18; }
+html[data-lesson-motion="on"] :is(a.lecture-card, a.topic-card):is(:hover, :focus-visible) :is(.lecture-arrow, .topic-arrow) { transform: translateX(8px); }
+.lesson-fx-layer { position: fixed; inset: 0; z-index: 80; overflow: hidden; pointer-events: none; contain: strict; }
+.lesson-spark { position: absolute; width: 6px; height: 6px; border-radius: 1px; pointer-events: none; }
+.lesson-player { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.lesson-player .lesson-play { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 9px 14px; border: 1px solid #4054b5; border-radius: 7px; background: #edf2ff; color: #263687; font: 700 14px var(--font); white-space: nowrap; box-shadow: 0 2px 0 #c3cdea; }
+.lesson-player .lesson-play:hover:enabled { background: #dfe8ff; }
+.lesson-player.is-playing .lesson-play { border-color: #a47613; background: #fff1c9; color: #67480b; box-shadow: 0 2px 0 #e5c573; }
+.lesson-player .lesson-play:disabled { color: #626a7d; border-color: #c4cad8; background: #f2f3f6; box-shadow: none; }
+.lesson-speed { display: inline-flex; align-items: center; gap: 6px; color: #505a76; font: 600 12px var(--font); white-space: nowrap; }
+.lesson-speed select { width: auto; min-width: 64px; min-height: 40px; margin: 0; padding: 5px 7px; border: 1px solid #b0bdd9; border-radius: 5px; background: #fff; color: #263687; font: 650 14px var(--mono); }
+.lesson-preset-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-block: 12px 16px; }
+.lesson-preset-row > span { color: #505a76; font: 600 12px var(--font); }
+.lesson-preset-row button { min-height: 36px; padding: 5px 10px; border: 1px solid #a7b7d8; border-radius: 5px; background: #f5f8ff; color: #344578; font: 650 12px var(--font); }
+html[data-lesson-motion="off"] *, html[data-lesson-motion="off"] *::before, html[data-lesson-motion="off"] *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+html[data-lesson-motion="off"] :is(button:active, button:hover, a.lecture-card, a.topic-card, .topic-navigation a, .lecture-arrow, .topic-arrow) { translate: none !important; scale: none !important; transform: none !important; }
+html[data-lesson-motion="off"] .cover-motion-toggle { display: none; }
+@media (max-width: 500px) {
+  .lesson-player { gap: 8px; width: 100%; }
+  .lesson-player .lesson-play { flex: 1; }
+  .lesson-speed select { min-height: 44px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html :is(button:active, a.lecture-card, a.topic-card, .topic-navigation a) { translate: none !important; scale: none !important; }
+}

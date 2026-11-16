@@ -8,8 +8,10 @@
   <title>整数型とビット列 | プログラミングA</title>
   <link rel="stylesheet" href="../assets/site.css">
   <link rel="stylesheet" href="./bits.css">
+  <script defer src="../assets/lesson-motion.js"></script>
   <script defer src="./bits-model.js"></script>
   <script defer src="./bits.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
 </head>
 <body>
   <a class="skip-link" href="#bits-lesson">教材へ移動</a>
@@ -41,7 +43,7 @@
       <section class="bits-panel binary-panel" aria-labelledby="binary-title">
         <div class="bits-panel-heading"><h2 id="binary-title"><span>02</span> ビット列</h2><span id="bit-size">8 ビット / 1 バイト</span></div>
         <div class="binary-body">
-          <div class="current-value"><span id="current-value-label">現在の値</span><output id="current-value" for="integer-type decimal-input">5</output></div>
+          <div class="current-value"><span id="current-value-label">現在の値</span><output id="current-value" for="integer-type decimal-input">5</output><div class="value-nudge" role="group" aria-label="数値を1ずつ変更"><button id="value-decrement" type="button" aria-label="値を1減らす">− 1</button><button id="value-increment" type="button" aria-label="値を1増やす">＋ 1</button></div></div>
           <div class="bit-grid-caption"><span>各ビットを押すと <strong>0 ↔ 1</strong></span><span>左が上位</span></div>
           <div class="byte-grid" id="byte-grid" aria-label="ビット列"></div>
           <section class="bit-weight" aria-labelledby="weight-title"><h3 id="weight-title">ビット0 の重み</h3><div class="weight-equation"><span><span id="weight-base">2</span><sup id="weight-exponent">0</sup> =</span><code id="weight-number">1</code></div><p id="weight-contribution">このビットは 1 → 値への寄与は 1</p></section>

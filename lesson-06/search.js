@@ -1,7 +1,8 @@
 (function () {
   'use strict';
   const $ = id => document.getElementById(id);
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const motion = window.LessonMotion;
+  let player, shown = { linear: null, binary: null };
   const raw = [3, 7, 12, 18, 25, 31, 42, 56, 68, 79, 90].map(String);
   const rows = {linear: [], binary: []};
   let traces = {linear: [], binary: []}, cursor = 0, valid = true, sorted = true;
@@ -23,6 +24,8 @@
     });
   });
   function rebuild() {
+    player?.stop();
+    shown = { linear: null, binary: null };
     valid = raw.every(integer) && integer($('target').value);
     $('target').setAttribute('aria-invalid', String(!integer($('target').value)));
     Object.values(rows).forEach(row => row.forEach(({input}, i) => input.setAttribute('aria-invalid', String(!integer(raw[i])))));
@@ -62,8 +65,18 @@
         const wasActive = cell.classList.contains('current');
         cell.classList.toggle('current', active); cell.classList.toggle('found', found); cell.classList.toggle('excluded', excluded); cell.classList.toggle('checked', checked);
         state.textContent = found ? '✓ 発見' : active ? '▼ 注目中' : excluded ? '範囲外' : checked ? '✓ 確認済み' : '○ 未確認';
-        if (animate && active && !wasActive && !reducedMotion.matches) cell.animate([{transform:'translateY(0)'},{transform:'translateY(-3px)',offset:.4},{transform:'translateY(0)'}],{duration:220,easing:'ease-out'});
+        if (animate && active && !wasActive) {
+          motion?.pulse(cell, 'focus');
+          const scroll = cell.closest('.array-scroll');
+          const bounds = scroll.getBoundingClientRect(), rect = cell.getBoundingClientRect();
+          if (rect.left < bounds.left || rect.right > bounds.right) {
+            scroll.scrollTo({ left: scroll.scrollLeft + rect.left - bounds.left - (bounds.width - rect.width) / 2, behavior: motion?.enabled ? 'smooth' : 'auto' });
+          }
+        }
+        if (animate && found && shown[kind]?.found !== i) motion?.celebrate(cell);
       });
+      if (animate && s?.count !== shown[kind]?.count) motion?.pulse($(kind + '-count'), 'change');
+      shown[kind] = s;
     });
     const linear = current('linear'), binary = current('binary');
     position('marker-i', linear ? linear.index : null, 'i = ' + (linear ? linear.index : ''));
@@ -79,19 +92,37 @@
     $('next-search').disabled = !valid || cursor >= last;
     $('back-search').disabled = !valid || cursor === 0;
     $('reset-search').disabled = !valid || cursor === 0;
+    ['search-first', 'search-last', 'search-missing'].forEach(id => { $(id).disabled = !raw.every(integer); });
+    player?.sync();
   }
   $('target').addEventListener('input', rebuild);
-  $('next-search').addEventListener('click', () => { cursor++; render(true); });
-  $('back-search').addEventListener('click', () => { if (cursor > 0) { cursor--; render(true); } });
-  $('reset-search').addEventListener('click', () => { cursor = 0; render(false); });
+  function next() { if (!$('next-search').disabled) { cursor++; render(true); } }
+  function reset() { cursor = 0; shown = { linear: null, binary: null }; render(false); }
+  $('next-search').addEventListener('click', () => { player?.stop(); next(); });
+  $('back-search').addEventListener('click', () => { player?.stop(); if (cursor > 0) { cursor--; render(true); } });
+  $('reset-search').addEventListener('click', () => { player?.stop(); reset(); });
   $('sort-array').addEventListener('click', () => {
     if (!valid) return;
     raw.splice(0, raw.length, ...raw.map(Number).sort((a, b) => a - b).map(String));
     Object.values(rows).forEach(row => row.forEach(({input}, i) => { input.value = raw[i]; }));
     rebuild();
   });
-  reducedMotion.addEventListener('change', () => {
-    if (reducedMotion.matches) Object.values(rows).flat().forEach(({cell}) => cell.getAnimations().forEach(animation => animation.cancel()));
+  function chooseTarget(value) {
+    if (!raw.every(integer)) return;
+    $('target').value = value;
+    rebuild();
+    motion?.pulse($('target'), 'change');
+  }
+  $('search-first').addEventListener('click', () => chooseTarget(Number(raw[0])));
+  $('search-last').addEventListener('click', () => chooseTarget(Number(raw[raw.length - 1])));
+  $('search-missing').addEventListener('click', () => {
+    const present = new Set(raw.map(Number));
+    let missing = 0;
+    while (present.has(missing)) missing++;
+    chooseTarget(missing);
   });
   rebuild();
+  player = motion?.connectPlayer({ container: $('search-player'), next, reset,
+    canAdvance: () => !$('next-search').disabled,
+    isComplete: () => valid && cursor > 0 && $('next-search').disabled });
 })();

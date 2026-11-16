@@ -8,8 +8,10 @@
   <link rel="stylesheet" href="../assets/site.css">
   <link rel="stylesheet" href="./array-loop.css">
   <link rel="stylesheet" href="./search.css">
+  <script defer src="../assets/lesson-motion.js"></script>
   <script defer src="./search-model.js"></script>
   <script defer src="./search.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
 </head>
 <body>
   <a class="skip-link" href="#search-lab">教材へ移動</a>
@@ -22,9 +24,11 @@
       <div class="search-controls">
         <label class="target-label" for="target">探す値 <input id="target" type="text" value="68" maxlength="4" autocomplete="off" spellcheck="false" aria-describedby="search-note search-error"></label>
         <div class="buttons controls"><button id="next-search" class="primary" type="button">次の探索 →</button><button id="back-search" type="button">← 1回戻る</button><button id="reset-search" type="button">初期化</button></div>
+        <div id="search-player"></div>
       </div>
       <p class="input-note" id="search-note">11要素の値を直接編集できます（整数 −999〜999）。両方の配列は連動し、変更すると最初に戻ります。</p>
       <p id="search-error" role="alert" hidden></p>
+      <div class="lesson-preset-row" aria-label="探す位置を変える"><button id="search-first" type="button">先頭の値を探す</button><button id="search-last" type="button">末尾の値を探す</button><button id="search-missing" type="button">ない値を探す</button></div>
       <div class="sort-notice" id="sort-notice" hidden><span>二分探索には昇順の配列が必要です。線形探索はこのまま試せます。</span><button id="sort-array" type="button">昇順に並べ替え</button></div>
       <section class="panel search-panel" aria-labelledby="linear-title">
         <div class="panel-heading"><h2 id="linear-title">線形探索</h2><span class="search-count" id="linear-count">探索 0 回</span></div>
@@ -60,7 +64,7 @@ while (l &lt;= r) {
 }</code></pre></section>
       </div><p class="input-note">l・r・mid は、その回に比較したときの位置です。次の探索で範囲を更新します。同じ値が複数あると、2つの探索で見つかる位置が異なる場合があります。</p></details>
     </section>
-    <nav class="topic-navigation" aria-label="題材の移動"><a class="topic-prev" href="./array-loop.html"><span>前の教材</span><strong>1次元配列のループ処理</strong></a><a href="./index.html"><span>教材一覧へ戻る</span><strong>第6回</strong></a></nav>
+    <nav class="topic-navigation" aria-label="題材の移動"><a class="topic-prev" href="./array-loop.html"><span>前の教材</span><strong>1次元配列のループ処理</strong></a><a class="topic-next" href="./matrix-product.html"><span>次の教材</span><strong>宿題：行列積</strong></a></nav>
   </main>
 </body>
 </html>

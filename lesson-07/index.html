@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="プログラミングA 第7回の教材一覧。配列で2の100乗と100!を計算し、各桁の掛け算と繰り上がりを可視化します。">
+  <title>第7回の教材 | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="../lesson-01/home.css">
+  <link rel="stylesheet" href="./lesson-cover.css">
+  <link rel="stylesheet" href="../assets/cover-motion.css">
+  <script defer src="../assets/lesson-motion.js"></script>
+  <script defer src="../assets/cover-motion.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#topics">教材の一覧へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap home-main">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><span aria-current="page">第7回</span></li></ol></nav>
+    <section class="lesson-cover" data-cover-motion aria-labelledby="page-title">
+      <div class="cover-type">
+        <h1 id="page-title">第7回の教材</h1>
+        <p class="cover-title">配列で<br>大きな数を計算<span class="cover-cursor cover-motion-cursor" data-cover-motion-element aria-hidden="true">_</span></p>
+      </div>
+      <div class="cover-illustration" aria-hidden="true">
+        <svg viewBox="0 0 480 290" xmlns="http://www.w3.org/2000/svg" focusable="false">
+          <text x="240" y="28" fill="#C8E5FF" font-family="Consolas,monospace" font-size="23" font-weight="700" text-anchor="middle">2 → 4 → 8 → 16</text>
+          <g stroke="#14216D" stroke-width="3">
+            <rect x="124" y="92" width="100" height="70" rx="6" fill="#E3EBFA"/>
+            <rect x="236" y="92" width="100" height="70" rx="6" fill="#FFE5A0"/>
+          </g>
+          <g fill="#14216D" font-family="Consolas,monospace" font-size="43" font-weight="700" text-anchor="middle">
+            <text x="174" y="141">0</text><text x="286" y="141">16</text>
+          </g>
+          <g class="carry-arrow" data-cover-motion-element>
+            <path d="M286 76H174m13-11-13 11 13 11" fill="none" stroke="#FFE5A0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <text x="230" y="63" fill="#FFE5A0" font-family="Consolas,monospace" font-size="23" font-weight="700" text-anchor="middle">1</text>
+          </g>
+          <path d="M230 172v23m-8-8 8 8 8-8" fill="none" stroke="#C8E5FF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <g stroke="#fff" stroke-width="3">
+            <rect x="124" y="208" width="100" height="64" rx="6" fill="#B8E8DC"/>
+            <rect x="236" y="208" width="100" height="64" rx="6" fill="#fff"/>
+          </g>
+          <g fill="#14216D" font-family="Consolas,monospace" font-size="43" font-weight="700" text-anchor="middle">
+            <text x="174" y="254">1</text><text x="286" y="254">6</text>
+          </g>
+          <circle cx="62" cy="116" r="7" fill="#A6D4FF"/>
+          <path d="M390 214h20m-10-10v20" stroke="#A6D4FF" stroke-width="4"/>
+        </svg>
+      </div>
+      <button class="cover-motion-toggle" data-motion-toggle type="button" aria-pressed="false" aria-label="扉絵の動きを止める" title="扉絵の動きを止める"><span class="motion-pause-icon" aria-hidden="true"></span></button>
+    </section>
+    <section class="lesson-topics" id="topics" aria-label="第7回の教材" tabindex="-1">
+      <ul class="topic-list">
+        <li><a class="topic-card topic-primary" href="./power.html">
+          <span class="topic-number" aria-hidden="true">01</span>
+          <div class="topic-content"><h3>2<sup>100</sup>の計算</h3><p class="topic-subtitle">2倍して、繰り上げる</p><p class="topic-description">1つの要素に1桁を入れ、掛け算と繰り上がりで大きな数ができる様子を確かめます。</p></div>
+          <span class="topic-arrow" aria-hidden="true">→</span>
+        </a></li>
+        <li><a class="topic-card topic-primary" href="./factorial.html">
+          <span class="topic-number" aria-hidden="true">02</span>
+          <div class="topic-content"><h3>宿題：100!</h3><p class="topic-subtitle">1から100まで掛け合わせる</p><p class="topic-description">掛ける数が大きくなると、繰り上がる数と桁数がどう変わるかを追いかけます。</p></div>
+          <span class="topic-arrow" aria-hidden="true">→</span>
+        </a></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

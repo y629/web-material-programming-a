@@ -8,8 +8,10 @@
   <title>最初のプログラム — Hello, world! を実行するまで | プログラミングA</title>
   <link rel="stylesheet" href="../assets/site.css">
   <link rel="stylesheet" href="./styles.css">
+  <script defer src="../assets/lesson-motion.js"></script>
   <script defer src="./model.js"></script>
   <script defer src="./app.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
 </head>
 <body class="basic-lesson">
   <a href="#lesson" class="skip-link">教材へ移動</a>
@@ -41,6 +43,7 @@
         <div class="folder-panel"><div class="folder-heading"><span aria-hidden="true">▱</span><strong>作業フォルダ</strong><span id="file-count">1 ファイル</span></div><div class="folder-tree"><div class="tree-row" id="tree-source"><span aria-hidden="true">├─</span><code>hello.c</code><span class="tree-note">ソース</span></div><div class="tree-row ghost" id="tree-executable"><span aria-hidden="true">└─</span><code class="file-hint" data-hint="-o を指定しないときの、実行ファイルのデフォルト名。" tabindex="0" aria-label="a.out。-o を指定しないときの、実行ファイルのデフォルト名。">a.out</code><span class="tree-note" id="tree-note">未生成</span></div></div></div>
       </section>
     </div>
+    <div class="basic-skip"><button id="skip-motion" type="button" hidden>結果まで進む ↠</button></div>
     <div class="takeaway" id="takeaway"><span class="takeaway-mark">✓</span><p><strong><code>gcc hello.c</code>：実行ファイルの生成</strong><span><code title="-o を指定しないときの、実行ファイルのデフォルト名。">./a.out</code>：実行</span></p><button id="repeat" class="reset-button">初期化 ↺</button></div>
     <nav class="topic-navigation" aria-label="題材の移動"><a class="topic-overview" href="./index.html"><span>題材一覧</span><strong>第1回</strong></a><a class="topic-next" href="./mechanism.html"><span>次の題材</span><strong>gccのオプション</strong></a></nav>
     <footer class="site-footer"><span>プログラミングA · 第1回</span></footer>

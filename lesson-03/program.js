@@ -16,6 +16,14 @@
   let state;
   let history = [];
   let chart;
+  let player;
+
+  function motionEnabled() {
+    return !reducedMotion.matches && (!window.LessonMotion || window.LessonMotion.enabled);
+  }
+  function waitingForInput() {
+    return programId === 'ex3-1' && state.nextNode === 'input';
+  }
 
   function appendTokens(element, text) {
     const pattern = /("(?:\\.|[^"\\])*")|(#\s*include\s*<[^>]+>)|\b(int|double|void|if|else|for|return)\b|\b(\d+(?:\.\d+)?)\b/g;
@@ -49,8 +57,10 @@
     animations.forEach(function (animation) { animation.cancel(); });
     animations.clear();
   }
-  function animate(element) {
-    if (reducedMotion.matches || !element.animate) return;
+  function animate(element, kind) {
+    if (!motionEnabled()) return;
+    if (window.LessonMotion) { window.LessonMotion.pulse(element, kind || 'change'); return; }
+    if (!element.animate) return;
     const animation = element.animate([{ transform: 'translateY(3px)' }, { transform: 'translateY(0)' }], { duration: 180, easing: 'ease-out' });
     animations.add(animation);
     animation.finished.catch(function () {}).then(function () { animations.delete(animation); });
@@ -99,7 +109,7 @@
     const rect = current.getBoundingClientRect();
     if (rect.top < bounds.top + 20 || rect.bottom > bounds.bottom - 20) {
       const target = pane.scrollTop + rect.top - bounds.top - pane.clientHeight / 2 + rect.height / 2;
-      pane.scrollTo({ top: target, behavior: animated && !reducedMotion.matches ? 'smooth' : 'auto' });
+      pane.scrollTo({ top: target, behavior: animated && motionEnabled() ? 'smooth' : 'auto' });
     }
   }
   function revealOutput() {
@@ -112,12 +122,13 @@
     const bounds = panel.getBoundingClientRect();
     document.documentElement.style.setProperty('--execution-controls-height', controls.offsetHeight + 'px');
     if (bounds.top >= visibleTop && bounds.bottom <= window.innerHeight) return;
-    panel.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+    panel.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: motionEnabled() ? 'smooth' : 'auto' });
   }
-  function render(previous, animated) {
+  function render(previous, animated, followOutput) {
     const current = nodeById.get(state.currentNode);
     const currentLabel = current ? current.label : state.done ? '終了' : '開始';
     byId('next-step').disabled = state.done;
+    byId('next-step').textContent = waitingForInput() ? '入力を読む →' : '次のステップ →';
     byId('previous-step').disabled = history.length < 2;
     byId('next-output').disabled = state.done;
     byId('next-output').hidden = programId === 'ex3-1';
@@ -134,19 +145,35 @@
     const outputPane = byId('program-output-wrap');
     const outputAdded = Boolean(animated && previous && state.output.length > previous.output.length && state.output.startsWith(previous.output));
     const atBottom = outputPane.scrollHeight - outputPane.scrollTop - outputPane.clientHeight < 24;
-    byId('program-output').textContent = state.output;
+    const output = byId('program-output');
+    output.textContent = state.output;
+    if (outputAdded) {
+      const added = document.createElement('span');
+      added.className = 'output-new';
+      added.textContent = state.output.slice(previous.output.length);
+      output.replaceChildren(document.createTextNode(previous.output), added);
+    }
+    document.querySelector('.program-output-panel').classList.toggle('has-new-output', outputAdded);
     byId('output-empty').hidden = state.output.length > 0;
     if (atBottom || outputAdded) outputPane.scrollTop = outputPane.scrollHeight;
-    if (outputAdded) animate(byId('program-output'));
+    if (outputAdded) animate(outputPane, 'output');
+    if (animated && state.branch) animate(byId('branch-state'), 'focus');
     chart.update(state, { animate: animated });
-    if (outputAdded) revealOutput();
+    if (outputAdded && followOutput !== false) revealOutput();
+    if (animated && previous && !previous.done && state.done && window.LessonMotion) {
+      window.LessonMotion.celebrate(byId('step-counter'));
+    }
+    if (waitingForInput() && player) player.stop();
+    if (player) player.sync();
   }
   function showError(message) {
+    if (player) player.stop();
     byId('execution-error').textContent = message;
     byId('execution-error').hidden = false;
     if (programId === 'ex3-1') byId('grade-input').setAttribute('aria-invalid', 'true');
   }
   function reset() {
+    if (player) player.stop();
     cancelMotion();
     state = model.createState(programId);
     if (programId === 'ex3-1') state = Object.assign({}, state, { inputValue: byId('grade-input').value });
@@ -155,7 +182,8 @@
     byId('source-pane').scrollLeft = 0;
     render(null, false);
   }
-  function nextStep() {
+  function nextStep(automatic) {
+    if (!automatic && player) player.stop();
     if (state.done) return;
     cancelMotion();
     const result = model.advance(state, byId('grade-input').value);
@@ -163,9 +191,10 @@
     const previous = state;
     state = result.state;
     history.push(state);
-    render(previous, true);
+    render(previous, true, !automatic);
   }
   function previousStep() {
+    if (player) player.stop();
     if (history.length < 2) return;
     cancelMotion();
     history.pop();
@@ -173,6 +202,7 @@
     render(null, false);
   }
   function nextOutput() {
+    if (player) player.stop();
     if (state.done) return;
     cancelMotion();
     const previous = state;
@@ -191,11 +221,26 @@
   byId('stdin-panel').hidden = programId !== 'ex3-1';
   renderSource();
   chart = window.Flowchart.create(byId('flowchart-root'), program);
-  byId('next-step').addEventListener('click', nextStep);
+  byId('next-step').addEventListener('click', function () { nextStep(false); });
   byId('previous-step').addEventListener('click', previousStep);
   byId('next-output').addEventListener('click', nextOutput);
   byId('program-reset').addEventListener('click', reset);
   byId('grade-input').addEventListener('input', reset);
   reducedMotion.addEventListener('change', function () { if (reducedMotion.matches) { cancelMotion(); chart.update(state, { animate: false }); } });
+  document.addEventListener('lesson-motion-change', function () {
+    cancelMotion();
+    chart.update(state, { animate: false });
+  });
   reset();
+  if (window.LessonMotion) {
+    player = window.LessonMotion.connectPlayer({
+      container: byId('program-player'),
+      next: function () { nextStep(true); },
+      reset,
+      canAdvance: function () { return !state.done && !waitingForInput(); },
+      isComplete: function () { return state.done; },
+      delay: 900
+    });
+    player.sync();
+  }
 })();

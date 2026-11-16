@@ -7,8 +7,10 @@
   <title>1次元配列のループ処理 | プログラミングA</title>
   <link rel="stylesheet" href="../assets/site.css">
   <link rel="stylesheet" href="./array-loop.css">
+  <script defer src="../assets/lesson-motion.js"></script>
   <script defer src="./array-model.js"></script>
   <script defer src="./array-loop.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
 </head>
 <body>
   <a class="skip-link" href="#lab">教材へ移動</a>
@@ -20,6 +22,7 @@
     <section id="lab" tabindex="-1" aria-label="配列の実行">
       <div class="toolbar">
         <div class="buttons controls"><button id="next" class="primary" type="button">次の要素 →</button><button id="back" type="button">← 1つ戻る</button><button id="reset" type="button">初期化</button></div>
+        <div id="array-player"></div>
         <span id="counter" role="status" aria-live="polite"></span>
       </div>
       <div class="layout">
@@ -27,6 +30,7 @@
           <div class="panel-heading"><h2 id="array-title">配列 <code>a</code> <small>N = 5</small></h2><span id="index-badge" class="index-badge">i = —</span></div>
           <p class="input-note" id="input-note">数値を直接編集できます（整数 −999〜999）。変更すると最初に戻ります。</p>
           <p id="input-error" role="alert" hidden></p>
+          <div class="lesson-preset-row" aria-label="配列を試す"><button id="array-shuffle" type="button">⇄ 並びをシャッフル</button><button id="array-negative" type="button">負数で試す</button><button id="array-default" type="button">初期値</button></div>
           <div class="legend"><span>○ 未処理</span><span>✓ 処理済み</span><span>▼ 注目中</span></div>
           <div class="array-stage"><div id="pointer" class="scan-pointer" hidden><span></span></div><div id="cells" class="cells"></div></div>
           <div class="progress-heading"><span id="progress-text">0 / 5 要素を処理</span><span id="completion" hidden>✓ 完了</span></div>

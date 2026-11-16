@@ -28,7 +28,7 @@
 .flow-node-decision .flow-node-label,
 .flow-node-process .flow-node-label { font-family: "SFMono-Regular", Consolas, "Liberation Mono", "Hiragino Kaku Gothic ProN", monospace; }
 .flow-node.is-visited .flow-node-shape { stroke: #2e3c9e; stroke-width: 2.5; }
-.flow-node.is-current .flow-node-shape { fill: #2e3c9e; stroke: #2e3c9e; stroke-width: 3; }
+.flow-node.is-current .flow-node-shape { fill: #2e3c9e; stroke: #2e3c9e; stroke-width: 3; filter: drop-shadow(0 3px 0 #19266c33); }
 .flow-node.is-current .flow-node-label { fill: #fff; font-weight: 750; }
 .flow-edge-path {
   fill: none;

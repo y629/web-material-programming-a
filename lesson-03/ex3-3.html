@@ -8,9 +8,11 @@
   <link rel="stylesheet" href="../assets/site.css">
   <link rel="stylesheet" href="./program.css">
   <link rel="stylesheet" href="./flowchart.css">
+  <script defer src="../assets/lesson-motion.js"></script>
   <script defer src="./program-model.js"></script>
   <script defer src="./flowchart.js"></script>
   <script defer src="./program.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
 </head>
 <body data-program="ex3-3">
   <a class="skip-link" href="#program-lesson">教材へ移動</a>
@@ -20,6 +22,7 @@
     <section class="program-intro"><h1>演習3-3 FizzBuzz</h1></section>
     <section class="execution-controls" aria-label="実行の操作">
       <div class="execution-buttons"><button id="next-step" class="next-step" type="button">次のステップ →</button><button id="previous-step" class="previous-step" type="button" disabled>← 1ステップ戻る</button><button id="next-output" class="next-output" type="button" hidden>次の出力まで</button></div>
+      <div id="program-player" class="program-player"></div>
       <p class="step-counter" id="step-counter">0 ステップ</p>
     </section>
     <div class="stdin-panel" id="stdin-panel" hidden><label for="grade-input">標準入力 <code>score</code></label><input id="grade-input" type="text" inputmode="text" value="85" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="16" aria-describedby="stdin-note"><p id="stdin-note">点数を変更すると、開始位置に戻ります。</p></div>

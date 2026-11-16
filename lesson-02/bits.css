@@ -29,9 +29,13 @@
 .number-range dd { margin: 0; font: 600 18px/1.6 var(--mono); overflow-wrap: anywhere; }
 .type-notice { padding: 16px 20px; border-top: 1px solid var(--border); border-left: 4px solid var(--blue); background: var(--blue-soft); color: var(--secondary); font-size: 15px; line-height: 1.8; }
 .binary-body { padding: 20px 24px 23px; }
-.current-value { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 21px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
+.current-value { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px 14px; margin-bottom: 21px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
 .current-value > span { flex-shrink: 0; font-size: 15px; color: var(--secondary); }
 .current-value output { color: var(--blue); font: 700 clamp(22px, 2.35vw, 30px)/1.5 var(--mono); overflow-wrap: anywhere; text-align: right; }
+.value-nudge { display: flex; justify-content: flex-end; gap: 8px; flex-basis: 100%; }
+.value-nudge button { min-width: 76px; min-height: 42px; padding: 6px 14px; border: 1px solid var(--blue); border-radius: 5px; background: var(--blue-soft); color: var(--blue); font: 700 17px var(--mono); box-shadow: 0 2px 0 #c4cee8; }
+.value-nudge button:hover:enabled { background: #dce8ff; }
+.value-nudge button:disabled { background: #f0f2f6; color: #647087; border-color: #c4cbda; box-shadow: none; }
 .bit-grid-caption { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 12px; color: var(--secondary); font-size: 14px; }
 .bit-grid-caption strong { color: var(--blue); font-family: var(--mono); font-size: 16px; }
 .byte-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 17px; }
@@ -49,8 +53,8 @@
 .bit-button:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
 .bit-cell.sign-cell .bit-position { font-weight: 800; color: var(--blue); }
 .bit-cell.sign-cell .bit-button { border-width: 2px; }
-.bit-button.bit-changed { animation: bit-change 320ms ease-out; }
-@keyframes bit-change { 0% { transform: scale(.88); box-shadow: 0 0 0 5px #c8dcff; } 65% { transform: scale(1.03); box-shadow: 0 0 0 2px #c8dcff; } 100% { transform: scale(1); box-shadow: 0 0 0 0 transparent; } }
+.bit-button.bit-changed { animation: bit-change 380ms cubic-bezier(.2,.8,.2,1); }
+@keyframes bit-change { 0% { transform: perspective(180px) rotateX(45deg) scale(.86); box-shadow: 0 0 0 4px #c8dcff; } 45% { transform: perspective(180px) rotateX(-10deg) translateY(-3px) scale(1.07); box-shadow: 0 0 0 2px #c8dcff; } 100% { transform: perspective(180px) rotateX(0) scale(1); box-shadow: 0 0 0 0 transparent; } }
 .bit-weight { margin-top: 22px; padding: 14px 17px; border-left: 4px solid var(--blue); background: var(--blue-soft); }
 .bit-weight h3 { font-size: 15px; color: var(--secondary); font-weight: 600; }
 .weight-equation { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; margin-top: 3px; color: var(--blue); font-family: var(--mono); }

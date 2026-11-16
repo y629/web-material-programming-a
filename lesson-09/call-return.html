@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="プログラミングA 第9回。関数へ引数の値を渡し、戻り値を受け取り、表示するまでの流れを操作して確かめます。">
+  <title>関数を呼んで、戻り値を受け取る | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="./functions.css">
+  <link rel="stylesheet" href="./call-return.css">
+  <script defer src="../assets/lesson-motion.js"></script>
+  <script defer src="./functions-model.js"></script>
+  <script defer src="./functions-ui.js"></script>
+  <script defer src="./call-return.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#call-lab">教材へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap function-main">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><a href="./index.html">第9回</a></li><li><span aria-current="page">呼び出しと戻り値</span></li></ol></nav>
+    <h1>関数を呼んで、戻り値を受け取る</h1>
+    <p class="function-intro">値を渡す、計算する、戻って続きを実行する。いま動いている関数を追いかけます。</p>
+    <section id="call-lab" tabindex="-1" aria-label="関数呼び出しの可視化">
+      <div class="function-controls">
+        <div class="function-actions">
+          <button id="call-next" class="primary" type="button">1ステップ →</button>
+          <button id="call-back" type="button" disabled>← 1つ戻る</button>
+          <button id="call-reset" type="button" disabled>最初へ</button>
+          <button id="call-end" type="button">結果まで</button>
+        </div>
+        <div id="call-player"></div>
+      </div>
+      <div class="call-options">
+        <div class="function-presets" aria-label="入力の例">
+          <button type="button" data-call-preset="3,5">3 ＋ 5</button>
+          <button type="button" data-call-preset="-3,5">−3 ＋ 5</button>
+          <button type="button" data-call-preset="0,7">0 ＋ 7</button>
+        </div>
+        <output id="call-progress" class="function-progress" aria-live="off">0 / 4 ステップ</output>
+      </div>
+      <ol class="function-timeline call-timeline" aria-label="呼び出しの段階">
+        <li data-call-phase="ready" aria-current="step"><span>0</span>準備</li>
+        <li data-call-phase="call"><span>1</span>引数を渡す</li>
+        <li data-call-phase="compute"><span>2</span>計算する</li>
+        <li data-call-phase="return"><span>3</span>戻り値を受け取る</li>
+        <li data-call-phase="print"><span>4</span>画面へ表示</li>
+      </ol>
+      <p id="call-error" class="input-error" role="alert" hidden></p>
+      <div class="call-diagram">
+        <article id="call-main-panel" class="function-panel call-scope" aria-labelledby="call-main-heading">
+          <div class="call-scope-heading"><h2 id="call-main-heading"><code>main</code></h2><span id="call-main-status" class="function-status">実行中</span></div>
+          <p class="call-scope-caption">呼び出す側の変数</p>
+          <div class="call-arguments">
+            <label class="function-variable call-arg-a" for="call-a"><span class="call-variable-name">a</span><input id="call-a" class="call-value-input" type="number" min="-99" max="99" step="1" value="3" aria-label="main の変数 a" aria-describedby="call-input-note call-error"></label>
+            <label class="function-variable call-arg-b" for="call-b"><span class="call-variable-name">b</span><input id="call-b" class="call-value-input" type="number" min="-99" max="99" step="1" value="5" aria-label="main の変数 b" aria-describedby="call-input-note call-error"></label>
+          </div>
+          <p id="call-input-note" class="call-input-note">値を直接編集できます（−99〜99の整数）。編集すると最初に戻ります。</p>
+          <div id="call-site" class="call-site"><code>result = add(a, b)</code><span id="call-site-status">ここから呼び出す</span></div>
+          <div id="call-result-box" class="call-result-box"><span class="call-variable-name">result</span><div class="call-typed-value"><span class="return-type-label type-int">int</span><strong id="call-result" class="function-value">—</strong></div><span id="call-result-note">まだ代入していない</span></div>
+        </article>
+        <div class="call-bridge" aria-label="関数間の値の受け渡し">
+          <div id="call-copy-route" class="call-route call-copy-route"><span>引数をコピー</span><strong id="call-copy-values">3 · 5</strong><span class="call-route-arrow" aria-hidden="true">→</span></div>
+          <div id="call-return-route" class="call-route call-return-route"><span>戻り値</span><div class="call-typed-value"><span class="return-type-label type-int">int</span><strong id="call-return-route-value">—</strong></div><span class="call-route-arrow" aria-hidden="true">←</span></div>
+        </div>
+        <article id="call-add-panel" class="function-panel call-scope" aria-labelledby="call-add-heading">
+          <div class="call-scope-heading"><h2 id="call-add-heading"><code>add</code></h2><span id="call-add-status" class="function-status">呼び出し前</span></div>
+          <p class="call-type-heading">戻り値の型 <span class="return-type-label type-int">int</span></p>
+          <pre class="function-code call-definition" tabindex="0" role="region" aria-label="add 関数の定義"><code><span class="code-type code-return-type type-int">int</span> add(int a, int b) {
+    <span class="code-return">return</span> a + b;
+}</code></pre>
+          <p class="call-code-note">先頭の <code>int</code> が、戻り値の型です。</p>
+          <p class="call-scope-caption">この関数だけの変数（仮引数）</p>
+          <div class="call-arguments">
+            <div id="call-local-a-box" class="function-variable call-arg-a"><span class="call-variable-name">a</span><strong id="call-local-a" class="function-value">—</strong></div>
+            <div id="call-local-b-box" class="function-variable call-arg-b"><span class="call-variable-name">b</span><strong id="call-local-b" class="function-value">—</strong></div>
+          </div>
+          <p id="call-lifetime" class="call-input-note">呼び出すと、値を受け取る変数ができます。</p>
+          <div id="call-computation" class="call-computation"><span>この関数の処理</span><strong id="call-equation">a ＋ b</strong></div>
+          <div id="call-return-box" class="call-return-box"><span id="call-return-label">戻す値</span><div class="call-typed-value"><span class="return-type-label type-int">int</span><strong id="call-return-value" class="function-value">—</strong></div><span id="call-return-note">計算してから返す</span></div>
+        </article>
+      </div>
+      <p id="call-message" class="call-message">main から add を呼び出してみよう。</p>
+      <section id="call-console-panel" class="call-console" aria-labelledby="call-console-heading">
+        <div class="call-console-heading"><h2 id="call-console-heading">画面への出力</h2><span id="call-print-status"><code>main</code> の表示処理はこれから</span></div>
+        <output id="call-output" aria-label="画面への出力">まだ表示していません</output>
+        <p id="call-output-note">return は値を返す操作。画面への表示は、その後の main の printf で行います。</p>
+      </section>
+      <p class="function-note call-scope-note">同じ名前の <code>a</code>・<code>b</code> でも、main と add では別の変数です。コピーしても main の値は残ります。</p>
+      <p id="call-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+    </section>
+    <nav class="topic-navigation" aria-label="題材の移動"><a href="./index.html"><span>教材一覧へ戻る</span><strong>第9回</strong></a><a class="topic-next" href="./arguments.html"><span>次の教材</span><strong>演習で見る関数の役割</strong></a></nav>
+  </main>
+</body>
+</html>

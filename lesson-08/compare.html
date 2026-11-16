@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="プログラミングA 第8回。5つのソートを、配列の値を変えながら可視化。比較・交換・確定の様子を1ステップずつ確かめます。">
+  <title>5つのソートを比較 | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="./sort.css">
+  <script defer src="../assets/lesson-motion.js"></script>
+  <script defer src="./sort-model.js"></script>
+  <script defer src="./sort.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
+</head>
+<body data-sort-mode="compare">
+  <a class="skip-link" href="#sort-lab">教材へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap sort-main">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><a href="./index.html">第8回</a></li><li><span aria-current="page">5つのソートを比較</span></li></ol></nav>
+    <div class="sort-heading"><h1>5つのソートを比較</h1></div>
+    <p class="sort-intro">同じ配列・同じ並び順でスタート。値の動きと、必要な操作の回数を見比べます。</p>
+    <section id="sort-lab" tabindex="-1" aria-label="5つのソートの比較">
+      <section class="sort-config" aria-labelledby="sort-input-title">
+        <div class="sort-config-top">
+          <h2 id="sort-input-title">はじめの配列</h2>
+          <div class="sort-settings">
+            <label for="sort-order">並び順<select id="sort-order"><option value="asc" selected>昇順（小 → 大）</option><option value="desc">降順（大 → 小）</option></select></label>
+            <label for="sort-size">要素数<select id="sort-size"><option value="8" selected>8</option><option value="16">16</option><option value="32">32</option></select></label>
+          </div>
+        </div>
+        <div id="sort-values" role="group" aria-label="配列の値" aria-describedby="sort-input-note sort-error"></div>
+        <p id="sort-input-note" class="sort-input-note">各値を直接編集できます（−99〜99の整数）。変えると最初に戻ります。</p>
+        <div class="sort-presets" aria-label="配列の例">
+          <button type="button" data-sort-preset="random">シャッフル</button>
+          <button type="button" data-sort-preset="ascending">小 → 大</button>
+          <button type="button" data-sort-preset="descending">大 → 小</button>
+          <button type="button" data-sort-preset="duplicates">同じ値を含む</button>
+          <button type="button" data-sort-preset="default">教材の初期値</button>
+        </div>
+        <p id="sort-error" class="sort-error" role="alert" hidden></p>
+      </section>
+      <div class="sort-controls">
+        <div class="sort-actions">
+          <button id="sort-next" class="primary" type="button">1ステップ →</button>
+          <button id="sort-back" type="button" disabled>← 1つ戻る</button>
+          <button id="sort-reset" type="button" disabled>最初へ</button>
+          <button id="sort-end" type="button">結果まで</button>
+        </div>
+        <div id="sort-player"></div>
+      </div>
+      <div class="sort-context">
+        <div class="sort-legend" aria-label="要素の状態"><span><i class="legend-compare" aria-hidden="true">?</i>比較中</span><span><i class="legend-change" aria-hidden="true">↔</i>交換・書込</span><span><i class="legend-candidate" aria-hidden="true">▼</i>候補・基準</span><span><i class="legend-sorted" aria-hidden="true">✓</i>位置が確定</span></div>
+        <output id="sort-progress" aria-live="off">0 ステップ</output>
+      </div>
+      <p class="sort-axis-note">棒の中央が 0。上が正、下が負。</p>
+      <div id="sort-boards" class="sort-boards is-comparison"></div>
+      <p class="sort-counts-note">比較は値同士の比較だけ。書込は主配列への書き込み（交換1回＝書込2回）。作業用配列へのコピーと、同じ位置への交換は数えません。</p>
+      <p class="sort-comparison-note">各方式の操作を1つずつ進めます。再生時間は実行速度を表しません。</p>
+      <section class="sort-result-section" aria-label="操作回数の比較"><div id="sort-results"></div></section>
+      <details class="sort-algorithm-note"><summary>この教材で使う方式</summary><p>最小値選択法・最大値選択法は、それぞれの候補を端へ移します。昇順の最大値選択法は最大値を右へ、降順の最小値選択法は最小値を右へ移します。バブルソートは途中終了なし、マージソートは半分ずつ分割、クイックソートは末尾を基準値にする方式です。配列の並びや選んだ方式によって、結果の回数は変わります。</p></details>
+      <p id="sort-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+    </section>
+    <nav class="sort-method-links" aria-label="それぞれのソートを詳しく見る"><a href="./selection-min.html">最小値選択法</a><a href="./selection-max.html">最大値選択法</a><a href="./bubble.html">バブルソート</a><a href="./merge.html">発展：マージソート</a><a href="./quick.html">発展：クイックソート</a></nav>
+    <nav class="topic-navigation" aria-label="題材の移動"><a href="./index.html"><span>教材一覧へ戻る</span><strong>第8回</strong></a></nav>
+  </main>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="プログラミングA 第8回の教材一覧。最小値・最大値選択法、バブルソートと、発展編のマージソート・クイックソートを可視化。同じ配列で5方式を比較できます。">
+  <title>第8回の教材 | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="../lesson-01/home.css">
+  <link rel="stylesheet" href="./lesson-cover.css">
+  <link rel="stylesheet" href="../assets/cover-motion.css">
+  <script defer src="../assets/lesson-motion.js"></script>
+  <script defer src="../assets/cover-motion.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#topics">教材の一覧へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap home-main">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><span aria-current="page">第8回</span></li></ol></nav>
+    <section class="lesson-cover" data-cover-motion aria-labelledby="page-title">
+      <div class="cover-type">
+        <h1 id="page-title">第8回の教材</h1>
+        <p class="cover-title">ソートを<br>見て、比べる<span class="cover-cursor cover-motion-cursor" data-cover-motion-element aria-hidden="true">_</span></p>
+      </div>
+      <div class="cover-illustration" aria-hidden="true">
+        <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" focusable="false">
+          <g fill="#fff" font-family="Consolas,monospace" font-size="21" font-weight="700" text-anchor="middle">
+            <g class="cover-sort-right" data-cover-motion-element>
+              <rect x="72" y="27" width="58" height="88" rx="5" fill="#FFE5A0"/>
+              <text x="101" y="140">8</text>
+            </g>
+            <g><rect x="160" y="82" width="58" height="33" rx="5" fill="#C8E5FF"/><text x="189" y="140">3</text></g>
+            <g><rect x="248" y="49" width="58" height="66" rx="5" fill="#C8E5FF"/><text x="277" y="140">6</text></g>
+            <g class="cover-sort-left" data-cover-motion-element>
+              <rect x="336" y="104" width="58" height="11" rx="4" fill="#FFE5A0"/>
+              <text x="365" y="140">1</text>
+            </g>
+          </g>
+          <path d="M58 118h350" stroke="#A6D4FF" stroke-width="2"/>
+          <path d="M233 153v28m-10-10 10 10 10-10" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <g fill="#B8E8DC">
+            <rect x="72" y="258" width="58" height="11" rx="4"/>
+            <rect x="160" y="236" width="58" height="33" rx="5"/>
+            <rect x="248" y="203" width="58" height="66" rx="5"/>
+            <rect x="336" y="181" width="58" height="88" rx="5"/>
+          </g>
+          <path d="M58 272h350" stroke="#B8E8DC" stroke-width="2"/>
+          <g fill="#fff" font-family="Consolas,monospace" font-size="21" font-weight="700" text-anchor="middle">
+            <text x="101" y="297">1</text><text x="189" y="297">3</text><text x="277" y="297">6</text><text x="365" y="297">8</text>
+          </g>
+        </svg>
+      </div>
+      <button class="cover-motion-toggle" data-motion-toggle type="button" aria-pressed="false" aria-label="扉絵の動きを止める" title="扉絵の動きを止める"><span class="motion-pause-icon" aria-hidden="true"></span></button>
+    </section>
+    <section class="lesson-topics" id="topics" aria-label="第8回の教材" tabindex="-1">
+      <ul class="topic-list">
+        <li><a class="topic-card topic-primary" href="./selection-min.html">
+          <span class="topic-number" aria-hidden="true">01</span>
+          <div class="topic-content"><h3>最小値選択法</h3><p class="topic-subtitle">最小の値を選んで、位置を決める</p><p class="topic-description">最小値の候補が変わる様子と、選んだ要素を交換する瞬間を追いかけます。</p></div>
+          <span class="topic-arrow" aria-hidden="true">→</span>
+        </a></li>
+        <li><a class="topic-card topic-primary" href="./selection-max.html">
+          <span class="topic-number" aria-hidden="true">02</span>
+          <div class="topic-content"><h3>最大値選択法</h3><p class="topic-subtitle">最大の値を選んで、位置を決める</p><p class="topic-description">最大値の候補を更新しながら、未整列の範囲をひとつずつ縮めます。</p></div>
+          <span class="topic-arrow" aria-hidden="true">→</span>
+        </a></li>
+        <li><a class="topic-card topic-primary" href="./bubble.html">
+          <span class="topic-number" aria-hidden="true">03</span>
+          <div class="topic-content"><h3>バブルソート</h3><p class="topic-subtitle">隣どうしを比べて、交換する</p><p class="topic-description">隣り合う要素の比較を繰り返し、端の位置が順番に確定する様子を確かめます。</p></div>
+          <span class="topic-arrow" aria-hidden="true">→</span>
+        </a></li>
+        <li><a class="topic-card topic-primary" href="./merge.html">
+          <span class="topic-number" aria-hidden="true">04</span>
+          <div class="topic-content"><span class="topic-badge">発展編</span><h3>マージソート</h3><p class="topic-subtitle">分けてから、順番に合わせる</p><p class="topic-description">範囲を半分に分け、小さく並べた列を作業用配列からひとつにまとめます。</p></div>
+          <span class="topic-arrow" aria-hidden="true">→</span>
+        </a></li>
+        <li><a class="topic-card topic-primary" href="./quick.html">
+          <span class="topic-number" aria-hidden="true">05</span>
+          <div class="topic-content"><span class="topic-badge">発展編</span><h3>クイックソート</h3><p class="topic-subtitle">基準の値で、左右に分ける</p><p class="topic-description">ピボットと要素を比べて範囲を分け、残りの範囲でも同じ操作を繰り返します。</p></div>
+          <span class="topic-arrow" aria-hidden="true">→</span>
+        </a></li>
+        <li><a class="topic-card topic-primary topic-comparison" href="./compare.html">
+          <span class="topic-number" aria-hidden="true">06</span>
+          <div class="topic-content"><h3>5つのソートを比較</h3><p class="topic-subtitle">同じ配列で、動きと回数を見比べる</p><p class="topic-description">入力と並べる順序をそろえ、比較回数・書き込み回数の違いを確かめます。逆順や同じ値でも試せます。</p></div>
+          <span class="topic-arrow" aria-hidden="true">→</span>
+        </a></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

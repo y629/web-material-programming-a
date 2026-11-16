@@ -3,7 +3,8 @@
   const $ = id => document.getElementById(id);
   const source = ['int min = a[0];', 'int max = a[0];', 'double sum = 0.0;', 'for (int i = 0; i < N; i++) {', '    sum += a[i];', '    if (a[i] < min) {', '        min = a[i];', '    }', '    if (a[i] > max) {', '        max = a[i];', '    }', '}'];
   const labels = { sum: '合計', min: '最小値', max: '最大値' };
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const motion = window.LessonMotion;
+  let player;
   let values = [8, -3, 5, 12, 1], trace = [], cursor = 0, shown = null;
   const cellNodes = [], metricNodes = {};
   $('code').replaceChildren(...source.map(line => {
@@ -27,6 +28,7 @@
     box.append(title, value, note); $('variables').append(box); metricNodes[name] = {box, value, note};
   });
   function rebuild() {
+    player?.stop();
     const invalid = cellNodes.filter(({input}) => {
       const ok = /^-?\d+$/.test(input.value) && Number(input.value) >= -999 && Number(input.value) <= 999;
       input.setAttribute('aria-invalid', String(!ok)); return !ok;
@@ -46,6 +48,7 @@
       const current = !!s && s.index === i, processed = !!s && i < s.processed;
       cell.classList.toggle('current', current); cell.classList.toggle('processed', processed);
       state.textContent = current ? '▼ 注目中' : processed ? '✓ 済み' : '○ 未処理';
+      if (animate && current && shown?.index !== i) motion?.pulse(cell, 'focus');
     });
     $('pointer').hidden = !s || s.index == null;
     if (s && s.index != null) {
@@ -63,18 +66,39 @@
       value.textContent = next == null ? '—' : String(next);
       note.textContent = next == null ? 'まだ未処理' : s.done ? '✓ 確定' : changed ? (shown[name] == null ? '—' : shown[name]) + ' → ' + next : (s.processed === 0 ? '初期値' : 'ここまでの' + labels[name]);
       box.getAnimations().forEach(animation => animation.cancel());
-      if (animate && changed && !reducedMotion.matches) box.animate([{transform:'scale(1)'},{transform:'translateY(-4px) scale(1.035)',offset:0.35},{transform:'scale(1)'}],{duration:260,easing:'ease-out'});
+      if (animate && changed) motion?.pulse(box, 'change');
     });
     $('next').disabled = !s || s.done;
     $('back').disabled = !s || cursor === 0;
     $('reset').disabled = !s || cursor === 0;
+    $('array-shuffle').disabled = !s;
+    if (animate && s?.done && !shown?.done) motion?.celebrate($('variables'));
     shown = s;
+    player?.sync();
   }
-  $('next').addEventListener('click', () => { if (cursor < trace.length - 1) { cursor++; render(true); } });
-  $('back').addEventListener('click', () => { if (cursor > 0) { cursor--; render(true); } });
-  $('reset').addEventListener('click', () => { cursor = 0; shown = null; render(false); });
-  reducedMotion.addEventListener('change', () => {
-    if (reducedMotion.matches) Object.values(metricNodes).forEach(({box}) => box.getAnimations().forEach(animation => animation.cancel()));
+  function next() { if (cursor < trace.length - 1) { cursor++; render(true); } }
+  function reset() { cursor = 0; shown = null; render(false); }
+  $('next').addEventListener('click', () => { player?.stop(); next(); });
+  $('back').addEventListener('click', () => { player?.stop(); if (cursor > 0) { cursor--; render(true); } });
+  $('reset').addEventListener('click', () => { player?.stop(); reset(); });
+  function useValues(nextValues) {
+    cellNodes.forEach(({ input }, i) => { input.value = nextValues[i]; });
+    rebuild();
+    motion?.pulse($('cells'), 'focus');
+  }
+  $('array-shuffle').addEventListener('click', () => {
+    if (!trace.length) return;
+    const mixed = values.slice();
+    for (let i = mixed.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [mixed[i], mixed[j]] = [mixed[j], mixed[i]];
+    }
+    useValues(mixed);
   });
+  $('array-negative').addEventListener('click', () => useValues([-8, -3, -5, -12, -1]));
+  $('array-default').addEventListener('click', () => useValues([8, -3, 5, 12, 1]));
   rebuild();
+  player = motion?.connectPlayer({ container: $('array-player'), next, reset,
+    canAdvance: () => Boolean(trace[cursor] && !trace[cursor].done),
+    isComplete: () => Boolean(trace[cursor]?.done) });
 })();

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="プログラミングA 第9回。電卓・勝利判定・ソートの関数定義を見ながら、引数、戻り値、表示と配列の変化を確かめます。">
+  <title>演習で見る関数の役割 | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="./functions.css">
+  <link rel="stylesheet" href="./arguments.css">
+  <script defer src="../assets/lesson-motion.js"></script>
+  <script defer src="./functions-ui.js"></script>
+  <script defer src="./exercise-model.js"></script>
+  <script defer src="./exercise-code.js"></script>
+  <script defer src="./arguments.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#arg-lab">教材へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap function-main">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><a href="./index.html">第9回</a></li><li><span aria-current="page">演習で見る関数の役割</span></li></ol></nav>
+    <h1>演習で見る関数の役割</h1>
+    <p class="function-intro">値を返す、表示する、配列を書き換える。関数にまとめた処理と、呼び出し元との関係を見比べます。</p>
+    <section id="arg-lab" tabindex="-1" aria-label="演習の関数を可視化">
+      <div class="ex-tabs" role="group" aria-label="演習を選ぶ"><button id="ex-tab-calc" type="button" data-exercise="calc" aria-pressed="true"><span>演習9-1</span><strong>電卓</strong></button><button id="ex-tab-judge" type="button" data-exercise="judge" aria-pressed="false"><span>演習9-2</span><strong>勝利判定</strong></button><button id="ex-tab-sort" type="button" data-exercise="sort" aria-pressed="false"><span>演習9-3</span><strong>ソート</strong></button></div>
+      <div class="ex-config">
+        <section id="ex-config-calc" aria-labelledby="ex-tab-calc">
+          <div class="ex-fields"><label class="function-field" for="ex-operation">演算<select id="ex-operation"><option value="1">1：加算 ＋</option><option value="2">2：減算 −</option><option value="3" selected>3：乗算 ×</option><option value="4">4：除算 ÷</option><option value="5">5：剰余 %</option></select></label><label class="function-field" for="ex-a">a<input id="ex-a" type="number" min="-99" max="99" step="any" value="2" aria-describedby="ex-input-note arg-error"></label><label class="function-field" for="ex-b">b<input id="ex-b" type="number" min="-99" max="99" step="any" value="4" aria-describedby="ex-input-note arg-error"></label></div>
+          <p id="ex-remainder-note" class="ex-small-note" hidden>剰余では a と b を int に変換してから計算します。小数部分は0の方向へ切り捨てます。</p>
+        </section>
+        <section id="ex-config-judge" aria-labelledby="ex-tab-judge" hidden><div class="ex-board-editor"><div id="ex-board" class="ex-board" role="group" aria-label="判定する3×3の盤面"></div><div><p>マスを押すと <strong>. → x → o</strong> の順に変わります。</p><p class="ex-small-note">. は空のマスです。入力した盤面を判定します。</p><div class="function-presets"><button type="button" data-board-preset="x">x が勝つ例</button><button type="button" data-board-preset="o">o が勝つ例</button><button type="button" data-board-preset="none">勝者なし</button><button type="button" data-board-preset="both">両方そろう例</button></div></div></div></section>
+        <section id="ex-config-sort" aria-labelledby="ex-tab-sort" hidden><div class="ex-fields"><label class="function-field" for="ex-order">order<input id="ex-order" type="number" min="-99" max="99" step="1" value="0" aria-describedby="ex-order-note arg-error"></label><p id="ex-order-note" class="ex-small-note">0以上 → bubble_asc（昇順）<br>負の数 → bubble_desc（降順）</p><div class="function-presets"><button type="button" data-order="0">昇順</button><button type="button" data-order="-1">降順</button></div></div><div class="ex-array-heading"><strong>main の配列 a</strong><span id="ex-sort-state">呼び出す前の値</span></div><div id="ex-sort-values" class="ex-sort-values" role="group" aria-label="main の配列 a"></div></section>
+        <p id="ex-input-note" class="ex-input-note">値を編集すると最初に戻ります。電卓は−99〜99の数値、ソートは−99〜99の整数です。</p>
+      </div>
+      <p id="arg-error" class="input-error" role="alert" hidden></p>
+      <div class="function-controls"><div class="function-actions"><button id="arg-next" class="primary" type="button">1ステップ →</button><button id="arg-back" type="button" disabled>← 1つ戻る</button><button id="arg-reset" type="button" disabled>最初へ</button><button id="arg-end" type="button">結果まで</button></div><div id="arg-player"></div></div>
+      <div class="ex-stage"><ol id="arg-timeline" class="function-timeline" aria-label="処理の段階"></ol><output id="arg-progress" class="function-progress" aria-live="off">0 / 4 ステップ</output></div>
+      <div class="ex-flow">
+        <section id="arg-main" class="function-panel is-executing" aria-labelledby="arg-main-title"><div class="ex-panel-heading"><h2 id="arg-main-title">main</h2><span id="arg-main-status" class="function-status">実行中</span></div><p class="ex-panel-caption">関数に渡すもの</p><div id="arg-input-packet" class="ex-packet"></div><p id="arg-call-expression" class="ex-call-expression"></p><div id="arg-main-result" class="ex-result-slot"><span>result に受け取る</span><div><span class="return-type-label type-double">double</span><output id="arg-caller-result">—</output></div></div><p id="arg-main-resume" class="ex-resume" hidden></p></section>
+        <div class="ex-bridge" aria-label="呼び出しと戻り"><div id="arg-call-path" class="ex-call-path"><span>引数を渡す</span><strong aria-hidden="true">→</strong></div><div id="arg-return-path" class="ex-return-path"><strong aria-hidden="true">←</strong><span id="arg-return-note">double 型の値が戻る</span><span id="arg-return-value" class="return-type-label type-double" hidden></span></div></div>
+        <section id="arg-function" class="function-panel" aria-labelledby="arg-function-title"><div class="ex-panel-heading"><h2 id="arg-function-title">op</h2><span id="arg-function-status" class="function-status">呼ぶ前</span></div><p class="ex-type-line">戻り値の型 <span id="arg-return-type" class="return-type-label type-double">double</span></p><dl id="arg-parameters" class="ex-parameters"></dl><div class="ex-work"><span id="arg-work-label">関数にまとめた処理</span><strong id="arg-action"></strong><span id="arg-computed" class="return-type-label type-double" hidden></span></div><p id="arg-function-note" class="ex-small-note"></p></section>
+      </div>
+      <p id="arg-message" class="function-note"></p>
+      <div class="ex-detail-grid">
+        <section id="arg-console" class="ex-console" aria-labelledby="arg-output-title"><div class="ex-console-heading"><h2 id="arg-output-title">画面への表示</h2><span id="arg-output-owner">表示を担当：main</span></div><pre id="arg-output" aria-live="off">まだ表示されていません</pre><p id="arg-output-note"></p></section>
+        <section class="ex-definition" aria-labelledby="arg-code-title"><div class="ex-code-heading"><h2 id="arg-code-title">関数定義</h2><span id="arg-code-name">op</span></div><p id="arg-code-note" class="ex-small-note"></p><pre class="function-code" tabindex="0" aria-label="選択した関数の定義"><code id="arg-code"></code></pre><p class="ex-code-legend"><span class="code-type">型</span><span class="code-return">return：値を返す</span><span class="code-output">printf：表示する</span></p></section>
+      </div>
+      <details id="ex-array-details" class="ex-note-details" hidden><summary>配列の値が main 側でも変わるのはなぜ？</summary><p>配列を関数に渡すと、先頭を指すポインタの値が仮引数にコピーされます。配列そのもののコピーは作らないため、関数は main にある同じ配列の要素を書き換えます。</p></details>
+      <p id="arg-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+    </section>
+    <nav class="topic-navigation" aria-label="題材の移動"><a href="./call-return.html"><span>前の教材</span><strong>関数を呼んで、戻り値を受け取る</strong></a><a class="topic-next" href="./index.html"><span>教材一覧へ戻る</span><strong>第9回</strong></a></nav>
+  </main>
+</body>
+</html>

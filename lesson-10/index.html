@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="プログラミングA 第10回の教材一覧。del_charによる文字の削除と、宿題のランレングス符号化を操作して確かめます。">
+  <title>第10回の教材 | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="../lesson-01/home.css">
+  <link rel="stylesheet" href="./lesson-cover.css">
+  <link rel="stylesheet" href="../assets/cover-motion.css">
+  <script defer src="../assets/lesson-motion.js"></script>
+  <script defer src="../assets/cover-motion.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#topics">教材の一覧へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap home-main">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><span aria-current="page">第10回</span></li></ol></nav>
+    <section class="lesson-cover" data-cover-motion aria-labelledby="page-title">
+      <div class="cover-type">
+        <h1 id="page-title">第10回の教材</h1>
+        <p class="cover-title">文字を詰める。<br>まとまりで表す。<span class="cover-cursor cover-motion-cursor" data-cover-motion-element aria-hidden="true">_</span></p>
+      </div>
+      <div class="cover-illustration" aria-hidden="true">
+        <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" focusable="false">
+          <rect x="14" y="16" width="452" height="160" rx="10" fill="#fff"/>
+          <text x="36" y="45" fill="#14216D" font-family="Consolas,monospace" font-size="20" font-weight="700">del_char</text>
+          <g fill="#EDF3FF" stroke="#A4B5DE" stroke-width="2"><rect x="38" y="60" width="60" height="48" rx="5"/><rect x="110" y="60" width="60" height="48" rx="5"/><rect x="254" y="60" width="60" height="48" rx="5"/></g>
+          <rect x="182" y="60" width="60" height="48" rx="5" fill="#FFE5A0" stroke="#B98318" stroke-width="2"/>
+          <g fill="#14216D" font-family="Consolas,monospace" font-size="30" font-weight="700" text-anchor="middle"><text x="68" y="94">a</text><text x="140" y="94">b</text><text x="212" y="94">x</text><text x="284" y="94">c</text></g>
+          <path d="M212 114v16m-7-7 7 7 7-7" stroke="#B98318" stroke-width="3" fill="none"/>
+          <text x="38" y="153" fill="#14216D" font-family="Consolas,monospace" font-size="23" font-weight="700">a b</text>
+          <g class="cover-compact" data-cover-motion-element><rect x="111" y="127" width="43" height="34" rx="5" fill="#B8E8DC"/><text x="132" y="153" fill="#14216D" font-family="Consolas,monospace" font-size="23" font-weight="700" text-anchor="middle">c</text></g>
+          <text x="168" y="153" fill="#566380" font-family="Consolas,monospace" font-size="23">\0</text>
+          <text x="350" y="93" fill="#14216D" font-family="Consolas,monospace" font-size="22" font-weight="700">− x</text>
+          <rect x="14" y="194" width="452" height="90" rx="10" fill="#E3EBFA"/>
+          <g fill="#14216D" font-family="Consolas,monospace" font-size="36" font-weight="700"><text x="42" y="251">A A A</text></g>
+          <path d="M244 238h55m-12-10 12 10-12 10" stroke="#2E3C9E" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <g class="cover-run" data-cover-motion-element><rect x="330" y="210" width="108" height="57" rx="7" fill="#B8E8DC"/><text x="384" y="251" fill="#14216D" font-family="Consolas,monospace" font-size="36" font-weight="700" text-anchor="middle">A3</text></g>
+        </svg>
+      </div>
+      <button class="cover-motion-toggle" data-motion-toggle type="button" aria-pressed="false" aria-label="扉絵の動きを止める" title="扉絵の動きを止める"><span class="motion-pause-icon" aria-hidden="true"></span></button>
+    </section>
+    <section class="lesson-topics" id="topics" aria-label="第10回の教材" tabindex="-1">
+      <ul class="topic-list">
+        <li><a class="topic-card topic-primary" href="./del-char.html">
+          <span class="topic-number" aria-hidden="true">01</span>
+          <div class="topic-content"><h3>del_char：文字を削除する</h3><p class="topic-subtitle">残す文字を前に詰める</p><p class="topic-description">読む文字と書く場所を追いながら、同じ配列が書き換わり、終端の \0 が移る様子を確かめます。</p></div>
+          <span class="topic-arrow" aria-hidden="true">→</span>
+        </a></li>
+        <li><a class="topic-card topic-primary" href="./run-length.html">
+          <span class="topic-number" aria-hidden="true">02</span>
+          <div class="topic-content"><h3>宿題：ランレングス符号化</h3><p class="topic-subtitle">同じ文字の連続を「文字＋回数」に</p><p class="topic-description">連続する文字を数えて符号化し、元の文字列と文字数・圧縮率を見比べます。</p></div>
+          <span class="topic-arrow" aria-hidden="true">→</span>
+        </a></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

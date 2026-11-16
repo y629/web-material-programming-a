@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="プログラミングA 第9回の教材一覧。関数の呼び出し・引数・戻り値と、演習9-1〜9-3の関数の役割を可視化します。int・double・voidの違いを関数定義と対応させます。">
+  <title>第9回の教材 | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="../lesson-01/home.css">
+  <link rel="stylesheet" href="./lesson-cover.css">
+  <link rel="stylesheet" href="../assets/cover-motion.css">
+  <script defer src="../assets/lesson-motion.js"></script>
+  <script defer src="../assets/cover-motion.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
+</head>
+<body>
+  <a class="skip-link" href="#topics">教材の一覧へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap home-main">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><span aria-current="page">第9回</span></li></ol></nav>
+    <section class="lesson-cover" data-cover-motion aria-labelledby="page-title">
+      <div class="cover-type">
+        <h1 id="page-title">第9回の教材</h1>
+        <p class="cover-title">関数へ渡す。<br>戻って、続ける。<span class="cover-cursor cover-motion-cursor" data-cover-motion-element aria-hidden="true">_</span></p>
+      </div>
+      <div class="cover-illustration" aria-hidden="true">
+        <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" focusable="false">
+          <rect x="14" y="43" width="168" height="214" rx="10" fill="#fff"/>
+          <rect x="298" y="43" width="168" height="214" rx="10" fill="#E3EBFA"/>
+          <g fill="#14216D" font-family="Consolas,monospace" font-size="27" font-weight="700" text-anchor="middle"><text x="98" y="85">main</text><text x="382" y="85">add</text></g>
+          <g stroke="#2E3C9E" stroke-width="2" fill="none"><path d="M35 98h126M319 98h126"/><rect x="36" y="119" width="52" height="53" rx="5"/><rect x="108" y="119" width="52" height="53" rx="5"/></g>
+          <g fill="#14216D" font-family="Consolas,monospace" font-size="30" font-weight="700" text-anchor="middle"><text x="62" y="156">3</text><text x="134" y="156">5</text><text x="382" y="156">3 + 5</text></g>
+          <path d="M195 132h90m-12-10 12 10-12 10M285 214h-90m12-10-12 10 12 10" fill="none" stroke="#C8E5FF" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          <g class="cover-arguments" data-cover-motion-element><rect x="203" y="105" width="70" height="28" rx="4" fill="#FFE5A0"/><text x="238" y="125" fill="#14216D" font-family="Consolas,monospace" font-size="17" font-weight="700" text-anchor="middle">3, 5</text></g>
+          <g class="cover-return" data-cover-motion-element><rect x="219" y="184" width="40" height="33" rx="5" fill="#B8E8DC"/><text x="239" y="208" fill="#14216D" font-family="Consolas,monospace" font-size="23" font-weight="700" text-anchor="middle">8</text></g>
+          <g fill="#14216D" font-family="Consolas,monospace" font-weight="700" text-anchor="middle"><text x="98" y="226" font-size="19">result ← 8</text><text x="382" y="226" font-size="22">return 8</text></g>
+        </svg>
+      </div>
+      <button class="cover-motion-toggle" data-motion-toggle type="button" aria-pressed="false" aria-label="扉絵の動きを止める" title="扉絵の動きを止める"><span class="motion-pause-icon" aria-hidden="true"></span></button>
+    </section>
+    <section class="lesson-topics" id="topics" aria-label="第9回の教材" tabindex="-1">
+      <ul class="topic-list">
+        <li><a class="topic-card topic-primary" href="./call-return.html">
+          <span class="topic-number" aria-hidden="true">01</span>
+          <div class="topic-content"><h3>関数を呼んで、戻り値を受け取る</h3><p class="topic-subtitle">引数を渡す → 計算する → 戻って続きを実行</p><p class="topic-description">main と add の間で値と処理が移る様子を追い、戻り値を受け取ることと表示することの違いを確かめます。</p></div>
+          <span class="topic-arrow" aria-hidden="true">→</span>
+        </a></li>
+        <li><a class="topic-card topic-primary" href="./arguments.html">
+          <span class="topic-number" aria-hidden="true">02</span>
+          <div class="topic-content"><h3>演習で見る関数の役割</h3><p class="topic-subtitle">演習9-1〜9-3：何を渡し、何が返る？</p><p class="topic-description">電卓・勝利判定・ソートの関数定義と動きを見比べ、型を持つ戻り値と、表示・配列の変化を区別します。</p></div>
+          <span class="topic-arrow" aria-hidden="true">→</span>
+        </a></li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

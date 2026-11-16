@@ -568,6 +568,12 @@
 .diagram-node.current .file-hint:focus-visible, .diagram-node.created .file-hint:focus-visible, .detail-flow-node.result-file .file-hint:focus-visible { outline-color: #fff; }
 
 /* Basic lesson: motion follows input, transformation, file creation, and output. */
+.basic-skip { position: fixed; right: 22px; bottom: 20px; z-index: 20; }
+.basic-skip button { min-height: 44px; padding: 10px 18px; border: 2px solid #fff; border-radius: 30px; color: #fff; background: var(--blue); box-shadow: 0 3px 18px #17234a33; font-weight: 700; }
+.basic-skip button:focus-visible { outline-offset: 3px; }
+.lesson01-motion-off *, .lesson01-motion-off *::before, .lesson01-motion-off *::after { animation: none !important; transition: none !important; }
+.lesson01-motion-off .flow-packet, .lesson01-motion-off .detail-packet, .lesson01-motion-off #node-executable.born::after { display: none !important; }
+.lesson01-motion-off .output-reveal { clip-path: none; }
 .basic-lesson {
   --arrival-duration: 380ms;
   --output-duration: 180ms;

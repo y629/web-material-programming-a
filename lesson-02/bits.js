@@ -6,6 +6,7 @@
   const typeSelect = byId('integer-type');
   const grid = byId('byte-grid');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const motionEnabled = () => !reducedMotion.matches && window.LessonMotion?.enabled !== false;
   let typeId = 'char';
   let representation = model.encode(typeId, '5');
   let selectedBit = 0;
@@ -26,6 +27,13 @@
     byId('input-message').classList.toggle('error', inputStatus === 'error');
     input.setAttribute('aria-invalid', inputStatus === 'error' ? 'true' : 'false');
     byId('current-value-label').textContent = inputStatus === 'valid' ? '現在の値' : '直前の有効な値';
+    updateNudge();
+  }
+
+  function updateNudge() {
+    const limits = model.limits(typeId);
+    byId('value-decrement').disabled = inputStatus !== 'valid' || representation.value <= limits.min;
+    byId('value-increment').disabled = inputStatus !== 'valid' || representation.value >= limits.max;
   }
 
   function clearChanged() {
@@ -117,13 +125,13 @@
     const oldTimer = changedTimers.get(button);
     if (oldTimer) clearTimeout(oldTimer);
     button.classList.remove('bit-changed');
-    if (reducedMotion.matches) return;
+    if (!motionEnabled()) return;
     void button.offsetWidth;
     button.classList.add('bit-changed');
     changedTimers.set(button, setTimeout(() => {
       button.classList.remove('bit-changed');
       changedTimers.delete(button);
-    }, 340));
+    }, 420));
   }
 
   function render(previousBits) {
@@ -153,6 +161,11 @@
     byId('value-negative').hidden = !selectedType.signed;
     renderNumbers();
     renderWeight();
+    updateNudge();
+    if (previousBits && previousBits !== representation.bits) {
+      window.LessonMotion?.pulse(byId('current-value'), 'change');
+      window.LessonMotion?.pulse(byId('calculation-value'), 'output');
+    }
   }
 
   function setValue(value) {
@@ -174,6 +187,7 @@
     clearTypeNotice();
     message('ビット' + index + ' を変更。10進数の値も更新しました。');
     render(previousBits);
+    window.LessonMotion?.pulse(byId('weight-number'), 'focus');
   }
 
   function changeType() {
@@ -199,6 +213,7 @@
     input.value = representation.value.toString();
     message('入力とビット列は同期しています。');
     render();
+    if (oldValue !== representation.value) window.LessonMotion?.pulse(byId('current-value'), 'change');
   }
 
   function onInput() {
@@ -251,7 +266,14 @@
   byId('value-max').addEventListener('click', () => setValue(model.limits(typeId).max));
   byId('value-zero').addEventListener('click', () => setValue(0n));
   byId('value-negative').addEventListener('click', () => setValue(-1n));
+  byId('value-decrement').addEventListener('click', () => {
+    if (inputStatus === 'valid') setValue(representation.value - 1n);
+  });
+  byId('value-increment').addEventListener('click', () => {
+    if (inputStatus === 'valid') setValue(representation.value + 1n);
+  });
   byId('bits-reset').addEventListener('click', reset);
   reducedMotion.addEventListener('change', () => { if (reducedMotion.matches) clearChanged(); });
+  document.addEventListener('lesson-motion-change', () => { if (!motionEnabled()) clearChanged(); });
   reset();
 })();

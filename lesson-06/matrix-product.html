@@ -3,17 +3,77 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="Aの行とBの列をたどり、1ステップずつ積を加えて行列積Cをつくる教材。行列の数値を直接編集できます。">
   <title>宿題：行列積 | プログラミングA</title>
   <link rel="stylesheet" href="../assets/site.css">
-  <link rel="stylesheet" href="./array-loop.css">
+  <link rel="stylesheet" href="./matrix-product.css">
+  <script defer src="../assets/lesson-motion.js"></script>
+  <script defer src="./matrix-model.js"></script>
+  <script defer src="./matrix-product.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
 </head>
 <body>
+  <a class="skip-link" href="#matrix-lab">教材へ移動</a>
   <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
   <main class="wrap">
     <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><a href="./index.html">第6回</a></li><li><span aria-current="page">宿題：行列積</span></li></ol></nav>
     <h1>宿題：行列積</h1>
-    <p class="intro">この教材は準備中です。</p>
-    <nav class="topic-navigation" aria-label="題材の移動"><a href="./index.html"><span>教材一覧へ戻る</span><strong>第6回</strong></a></nav>
+    <p class="intro">Aの行とBの列を掛け合わせて、Cの1要素をつくります。1ステップで1組の積を足してみましょう。</p>
+    <section id="matrix-lab" tabindex="-1" aria-label="行列積の実行">
+      <div class="matrix-sizes" role="group" aria-label="行列のサイズ">
+        <label for="matrix-rows">Aの行数<select id="matrix-rows" aria-describedby="matrix-size-note"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></label>
+        <label for="matrix-inner">Aの列数 ＝ Bの行数<select id="matrix-inner" aria-describedby="matrix-size-note"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select></label>
+        <label for="matrix-columns">Bの列数<select id="matrix-columns" aria-describedby="matrix-size-note"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></label>
+        <p id="matrix-size-note">それぞれ1〜5で変更できます。Aの列数とBの行数は連動します。サイズを変えると計算は最初に戻り、新しい要素は0になります。</p>
+      </div>
+      <div class="execution-toolbar">
+        <div class="execution-buttons"><button id="matrix-next" class="primary" type="button">次の積を足す →</button><button id="matrix-back" type="button" disabled>← 1つ戻る</button><button id="matrix-reset" type="button" disabled>初期化</button></div>
+        <div id="matrix-player"></div>
+        <span id="matrix-step">0 / 12 ステップ</span>
+        <div class="mobile-calculation" aria-hidden="true"><span id="matrix-mobile-focus">A[i][k] × B[k][j] → C[i][j]</span><strong id="matrix-mobile-formula">0 からスタート</strong></div>
+      </div>
+      <p class="input-note" id="matrix-input-note">A・Bの数値を直接編集できます（整数 −99〜99）。変更すると計算は最初に戻ります。</p>
+      <p id="matrix-error" role="alert" hidden></p>
+      <div class="lesson-preset-row" aria-label="行列を試す"><button id="matrix-random" type="button">↻ 別の数値で試す</button><button id="matrix-zero" type="button">Aをすべて0にする</button><button id="matrix-default" type="button">初期値</button></div>
+      <div class="matrix-equation" aria-label="行列 A かける行列 B は行列 C">
+        <section class="matrix-panel operand-panel" aria-labelledby="matrix-a-title">
+          <div class="matrix-heading"><h2 id="matrix-a-title">A</h2><span id="matrix-a-size">2 行 × 3 列</span></div>
+          <p class="axis-guide">行 <code>i</code> ・ 列 <code>k</code></p>
+          <div class="matrix-table-wrap" tabindex="0" role="region" aria-label="行列 A。幅が足りないときは横にスクロールできます"><table class="matrix-table" id="matrix-a"><caption class="sr-only">行列 A。2行3列。各要素を編集できます。</caption></table></div>
+          <p class="matrix-selection" id="a-selection"><code>A[i][k]</code></p>
+        </section>
+        <span class="matrix-operator" aria-hidden="true">×</span>
+        <section class="matrix-panel operand-panel" aria-labelledby="matrix-b-title">
+          <div class="matrix-heading"><h2 id="matrix-b-title">B</h2><span id="matrix-b-size">3 行 × 2 列</span></div>
+          <p class="axis-guide">行 <code>k</code> ・ 列 <code>j</code></p>
+          <div class="matrix-table-wrap" tabindex="0" role="region" aria-label="行列 B。幅が足りないときは横にスクロールできます"><table class="matrix-table" id="matrix-b"><caption class="sr-only">行列 B。3行2列。各要素を編集できます。</caption></table></div>
+          <p class="matrix-selection" id="b-selection"><code>B[k][j]</code></p>
+        </section>
+        <span class="matrix-operator" aria-hidden="true">=</span>
+        <section class="matrix-panel result-panel" aria-labelledby="matrix-c-title">
+          <div class="matrix-heading"><h2 id="matrix-c-title">C</h2><span id="matrix-c-size">2 行 × 2 列</span></div>
+          <p class="axis-guide">行 <code>i</code> ・ 列 <code>j</code></p>
+          <div class="matrix-table-wrap" tabindex="0" role="region" aria-label="結果の行列 C。幅が足りないときは横にスクロールできます"><table class="matrix-table" id="matrix-c"><caption class="sr-only">結果の行列 C。2行2列。各要素は0から始まります。</caption></table></div>
+          <p class="matrix-selection" id="c-selection"><code>C[i][j]</code></p>
+        </section>
+      </div>
+      <div class="matrix-legend"><span><i class="legend-range" aria-hidden="true"></i>Aの行・Bの列</span><span><i class="legend-active" aria-hidden="true"></i>いま掛ける2要素</span><span><i class="legend-complete" aria-hidden="true"></i>確定したCの要素</span></div>
+      <section class="calculation-panel" aria-labelledby="calculation-title">
+        <div class="calculation-heading">
+          <h2 id="calculation-title">Cの1要素に足し合わせる</h2>
+          <dl class="index-values"><div><dt>i</dt><dd id="matrix-i">—</dd></div><div><dt>j</dt><dd id="matrix-j">—</dd></div><div><dt>k</dt><dd id="matrix-k">—</dd></div></dl>
+        </div>
+        <div class="calculation-body">
+          <div class="current-calculation"><p id="calculation-target">C[i][j]</p><p class="calculation-formula" id="matrix-formula">0 からスタート</p><p class="product-note" id="matrix-product-value">Aの行を横に、Bの列を縦にたどります。</p></div>
+          <div class="terms-panel"><p class="terms-heading" id="matrix-terms-heading">この要素に足す 3 つの積</p><ol id="matrix-terms" class="terms-list"></ol></div>
+        </div>
+      </section>
+      <div class="matrix-progress-heading"><span id="matrix-progress-text">0 / 4 要素が確定</span><span id="matrix-complete" hidden>✓ 計算完了</span></div>
+      <progress id="matrix-progress" max="12" value="0" aria-label="掛け算と加算の進捗"></progress>
+      <p id="matrix-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+    </section>
+    <nav class="topic-navigation" aria-label="題材の移動"><a class="topic-prev" href="./search.html"><span>前の教材</span><strong>線形探索・二分探索</strong></a><a href="./index.html"><span>教材一覧へ戻る</span><strong>第6回</strong></a></nav>
   </main>
 </body>
 </html>

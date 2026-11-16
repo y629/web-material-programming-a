@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2E3C9E">
+  <meta name="description" content="2の累乗を配列の1桁ずつで計算する教材。各桁への掛け算と、隣の桁へ渡る繰り上がりを確かめます。">
+  <title>配列で2^100を計算 | プログラミングA</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <link rel="stylesheet" href="./bigint.css">
+  <script defer src="../assets/lesson-motion.js"></script>
+  <script defer src="./bigint-model.js"></script>
+  <script defer src="./bigint.js"></script>
+  <link rel="stylesheet" href="../assets/lesson-motion.css">
+</head>
+<body data-bigint-mode="power">
+  <a class="skip-link" href="#bigint-lab">教材へ移動</a>
+  <header class="site-header wrap"><a class="brand" href="../index.html"><span class="brand-mark">A<span>_</span></span><span>プログラミングA</span></a></header>
+  <main class="wrap bigint-main">
+    <nav class="breadcrumbs" aria-label="現在地"><ol><li><a href="../index.html">講義一覧</a></li><li><a href="./index.html">第7回</a></li><li><span aria-current="page">2の累乗</span></li></ol></nav>
+    <h1>配列で <span id="page-goal">2^100</span> を計算</h1>
+    <p class="intro">1つの数を、配列の1桁ずつに分けて計算。2倍するたびに、繰り上がりが左の桁へ渡ります。</p>
+    <section id="bigint-lab" tabindex="-1" aria-label="2の累乗の計算">
+      <div class="target-controls">
+        <label class="target-field" for="target-n">指数 <span class="math-symbol">n</span><input id="target-n" type="number" min="0" max="100" step="1" value="100" inputmode="numeric" aria-describedby="target-hint target-error"></label>
+        <div class="lesson-preset-row" aria-label="指数の例"><button type="button" data-target="4">2^4</button><button type="button" data-target="10">2^10</button><button type="button" data-target="100">2^100</button></div>
+        <p id="target-hint">0〜100。変えると計算は最初に戻ります。</p>
+      </div>
+      <p id="target-error" class="input-error" role="alert" hidden></p>
+      <div class="step-toolbar">
+        <div class="step-actions"><button id="digit-next" class="primary" type="button">1ステップ →</button><button id="round-next" type="button">次の2倍まで</button></div>
+        <div id="bigint-player"></div>
+      </div>
+      <div class="secondary-toolbar">
+        <div class="secondary-actions"><button id="digit-back" type="button" disabled>← 1つ戻る</button><button id="digit-reset" type="button" disabled>最初へ</button><button id="jump-end" type="button">結果まで</button></div>
+        <label class="play-unit-label" for="play-unit">再生単位<select id="play-unit"><option value="round" selected>掛け算ごと</option><option value="step">1ステップずつ</option></select></label>
+      </div>
+      <section class="digit-panel" aria-labelledby="array-title">
+        <div class="panel-heading"><h2 id="array-title">配列 <span class="math-symbol">a</span></h2><div class="array-status"><span id="digit-count">表示中：1 桁</span><span id="phase-label" class="phase-label">初期化</span></div></div>
+        <div class="array-directions"><span>← 上位の桁</span><span>下位の桁 → <span class="math-symbol">a[0]</span></span></div>
+        <div id="digit-scroll" class="digit-scroll" tabindex="0" role="region" aria-label="計算途中の配列。左が上位、右が下位。桁が増えたら横にスクロールできます"><div id="digit-track" class="digit-track"></div></div>
+        <div class="array-footer"><div class="digit-legend"><span><i class="legend-active" aria-hidden="true"></i>注目中</span><span><i class="legend-receiver" aria-hidden="true"></i>繰り上がり先</span><span><i class="legend-processed" aria-hidden="true"></i>処理済み</span></div><div class="scroll-actions"><button id="scroll-high" type="button">← 上位の桁へ</button><button id="scroll-low" type="button">下位の桁へ →</button></div></div>
+        <p class="array-note">配列は50要素。上位の0は省略表示。1セル＝1桁（10以上は繰り上がり前）。</p>
+      </section>
+      <div class="details-grid">
+        <section class="calculation-panel" aria-labelledby="calculation-title">
+          <div class="calculation-heading"><h2 id="calculation-title">いまの計算</h2><span id="round-label">1からスタート</span></div>
+          <p id="digit-focus" class="digit-focus">a[0] = 1</p>
+          <p id="digit-equation" class="digit-equation">1</p>
+          <p id="carry-equation" class="carry-equation">右の桁から、順番に繰り上がりを処理します。</p>
+        </section>
+        <section class="result-panel" aria-labelledby="result-label">
+          <div class="panel-heading"><h2 id="result-label">最後に完成した数</h2><span id="result-digits" class="result-digits">1 桁</span></div>
+          <output id="result-value" class="result-value" for="target-n" aria-live="off">1</output>
+        </section>
+      </div>
+      <div class="progress-heading"><span id="progress-text">0 / 100 回の掛け算</span><span id="lesson-complete" hidden>✓ 計算完了</span></div>
+      <progress id="target-progress" max="100" value="0" aria-label="掛け算の進み具合"></progress>
+      <p id="bigint-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+    </section>
+    <nav class="topic-navigation" aria-label="題材の移動"><a href="./index.html"><span>教材一覧へ戻る</span><strong>第7回</strong></a><a class="topic-next" href="./factorial.html"><span>次の教材</span><strong>宿題：100!</strong></a></nav>
+  </main>
+</body>
+</html>

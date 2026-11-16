@@ -6,6 +6,7 @@
   const contentCards = new Map();
   const animations = new Set();
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const motionEnabled = function () { return !reducedMotion.matches && window.LessonMotion?.enabled !== false; };
   let state = lab.createState();
 
   function icon(type) {
@@ -30,10 +31,15 @@
   }
   function makeBranch(item) {
     const li = document.createElement('li');
-    const row = document.createElement('div');
+    const row = document.createElement(item.type === 'directory' ? 'button' : 'div');
     row.className = 'file-node ' + item.type;
     row.dataset.path = item.path;
     row.title = item.path;
+    if (item.type === 'directory') {
+      row.type = 'button';
+      row.dataset.command = 'cd ' + item.path;
+      row.setAttribute('aria-label', item.name + ' へ移動（' + row.dataset.command + '）');
+    }
     const name = document.createElement('code');
     name.className = 'node-name';
     name.textContent = item.name;
@@ -57,7 +63,7 @@
     lab.TREE.filter(function (item) { return item.parent === null; }).forEach(function (item) { tree.append(makeBranch(item)); });
   }
   function animate(element, frames, ms) {
-    if (!element || reducedMotion.matches || !element.animate) return Promise.resolve();
+    if (!element || !motionEnabled() || !element.animate) return Promise.resolve();
     const animation = element.animate(frames, { duration: ms, easing: 'cubic-bezier(.2,.7,.2,1)' });
     animations.add(animation);
     return animation.finished.catch(function () {}).then(function () { animations.delete(animation); });
@@ -68,14 +74,18 @@
     document.querySelectorAll('.directory-mover').forEach(function (marker) { marker.remove(); });
   }
   function pulse(element) {
+    if (window.LessonMotion) {
+      window.LessonMotion.pulse(element, 'focus');
+      return;
+    }
     return animate(element, [
       { transform: 'scale(1)', boxShadow: '0 0 0 0 #2E3C9E' },
       { transform: 'scale(1.018)', boxShadow: '0 0 0 3px #2E3C9E', offset: 0.4 },
       { transform: 'scale(1)', boxShadow: '0 0 0 0 #2E3C9E' }
-    ], 430);
+    ], 280);
   }
   function moveMarker(from, to) {
-    if (reducedMotion.matches || !treeNodes.has(from) || !treeNodes.has(to)) return;
+    if (!motionEnabled() || !treeNodes.has(from) || !treeNodes.has(to)) return;
     const stage = byId('filesystem-stage');
     const bounds = stage.getBoundingClientRect();
     const origin = treeNodes.get(from).querySelector('.node-icon').getBoundingClientRect();
@@ -88,7 +98,7 @@
     stage.append(marker);
     const x = destination.left - origin.left;
     const y = destination.top - origin.top;
-    animate(marker, [{ transform: 'translate(0,0)' }, { transform: 'translate(' + x + 'px,' + y + 'px)' }], 400).then(function () { marker.remove(); });
+    animate(marker, [{ transform: 'translate(0,0) scale(.75)' }, { transform: 'translate(' + x + 'px,' + y + 'px) scale(1)' }], 270).then(function () { marker.remove(); });
   }
   function renderLocation(highlightPaths) {
     const highlighted = new Set(highlightPaths || []);
@@ -99,7 +109,7 @@
       const listed = highlighted.has(path) && !current;
       row.classList.toggle('current-directory', current);
       row.classList.toggle('listed', listed);
-      row.querySelector('.node-status').textContent = current ? '現在地' : listed ? '表示' : '';
+      row.querySelector('.node-status').textContent = current ? '現在地' : listed ? '表示' : row.dataset.command ? '↗' : '';
       if (current) row.setAttribute('aria-current', 'location');
       else row.removeAttribute('aria-current');
     });
@@ -109,13 +119,18 @@
     cards.replaceChildren();
     contentCards.clear();
     children.forEach(function (item) {
-      const card = document.createElement('div');
+      const card = document.createElement(item.type === 'directory' ? 'button' : 'div');
       card.className = 'content-card';
+      if (item.type === 'directory') {
+        card.type = 'button';
+        card.dataset.command = 'cd ' + item.path;
+        card.setAttribute('aria-label', item.name + ' へ移動（' + card.dataset.command + '）');
+      }
       card.classList.toggle('listed', highlighted.has(item.path));
       const name = document.createElement('code');
       name.textContent = item.name;
       const type = document.createElement('span');
-      type.textContent = item.type === 'directory' ? 'ディレクトリ' : 'ファイル';
+      type.textContent = item.type === 'directory' ? 'ディレクトリ →' : 'ファイル';
       card.append(icon(item.type), name, type);
       cards.append(card);
       contentCards.set(item.path, card);
@@ -170,7 +185,7 @@
     }
     log.append(entry);
     log.scrollTop = log.scrollHeight;
-    animate(entry, [{ transform: 'translateY(6px)' }, { transform: 'translateY(0)' }], 180);
+    animate(entry, [{ transform: 'translateX(-7px)', opacity: .5 }, { transform: 'translateX(0)', opacity: 1 }], 180);
   }
   function execute(command) {
     const result = lab.execute(state, command);
@@ -192,6 +207,12 @@
       feedback.textContent = result.changed ? '現在地：' + result.from + ' → ' + result.to + '。標準出力はなし。' : '現在地：' + state.cwd + '。変更なし。';
       if (result.changed) moveMarker(result.from, result.to);
       pulse(treeNodes.get(state.cwd));
+      if (result.changed) {
+        window.LessonMotion?.pulse(byId('visual-path'), 'change');
+        contentCards.forEach(function (card) {
+          animate(card, [{ transform: 'translateY(7px)', opacity: .45 }, { transform: 'translateY(0)', opacity: 1 }], 220);
+        });
+      }
     } else {
       feedback.textContent = result.output;
     }
@@ -207,16 +228,18 @@
     byId('command-feedback').textContent = '現在地：ホームディレクトリ ' + lab.HOME;
     renderLocation([]);
   }
-  document.querySelector('.command-presets').addEventListener('click', function (event) {
+  document.querySelector('.directory-layout').addEventListener('click', function (event) {
     const button = event.target.closest('button[data-command]');
     if (!button) return;
     execute(button.dataset.command);
     if (!button.isConnected) {
-      document.querySelector('button[data-command="cd .."]').focus({ preventScroll: true });
+      const target = button.classList.contains('content-card') ? treeNodes.get(state.cwd) : document.querySelector('button[data-command="cd .."]');
+      target.focus({ preventScroll: true });
     }
   });
   byId('directory-reset').addEventListener('click', reset);
   reducedMotion.addEventListener('change', function () { if (reducedMotion.matches) cancelMotion(); });
+  document.addEventListener('lesson-motion-change', function () { if (!motionEnabled()) cancelMotion(); });
   initializeTree();
   reset();
 })();

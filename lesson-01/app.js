@@ -5,19 +5,29 @@
   let state = Lab.saveSource(Lab.createState());
   let busy = false;
   let generation = 0;
+  let skipCurrent = false;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const timing = {read:600, compile:1050, create:350, arrive:380, run:1000, reveal:180, shortScale:0.18};
+  const timing = {read:260, compile:440, create:180, arrive:320, run:420, reveal:180, shortScale:0.35};
   const pendingWaits = new Set();
+  function motionEnabled() {
+    return !reducedMotion.matches && window.LessonMotion?.enabled !== false;
+  }
   function motionScale() {
-    return reducedMotion.matches ? 0 : $('#motion-mode').value === 'short' ? timing.shortScale : 1;
+    return !motionEnabled() || skipCurrent ? 0 : $('#motion-mode').value === 'short' ? timing.shortScale : 1;
   }
   function syncMotion() {
+    document.body.classList.toggle('lesson01-motion-off', !motionEnabled());
     document.body.classList.toggle('short-motion',$('#motion-mode').value === 'short');
     document.body.style.setProperty('--arrival-duration',Math.max(1,timing.arrive * motionScale()) + 'ms');
     document.body.style.setProperty('--output-duration',Math.max(1,timing.reveal * motionScale()) + 'ms');
     document.body.style.setProperty('--ring-delay',Math.max(0,80 * motionScale()) + 'ms');
+    if (!motionEnabled()) {
+      clearMotion();
+      releaseWaits(true);
+    }
   }
   function press(button) {
+    if (!motionEnabled()) return;
     button.classList.remove('pressed');
     void button.offsetWidth;
     button.classList.add('pressed');
@@ -50,6 +60,7 @@
     $('#run').disabled = busy || !state.compiled;
     $('#show-source').disabled = busy;
     $('#motion-mode').disabled = busy;
+    $('#skip-motion').hidden = !busy;
     const showCompileBack = !busy && state.compiled && !state.executed;
     const showRunBack = !busy && state.executed;
     $('#back-compile').hidden = !showCompileBack;
@@ -69,15 +80,15 @@
       pendingWaits.add(pending);
     });
   }
-  function cancelWaits() {
+  function releaseWaits(continueRun) {
     pendingWaits.forEach(pending => {
       clearTimeout(pending.timer);
-      pending.resolve(false);
+      pending.resolve(continueRun);
     });
     pendingWaits.clear();
   }
   function mobileDiagram() {
-    if (window.matchMedia('(max-width: 760px)').matches && !reducedMotion.matches) $('#diagram-title').scrollIntoView({behavior:'smooth',block:'start'});
+    if (window.matchMedia('(max-width: 760px)').matches && motionEnabled()) $('#diagram-title').scrollIntoView({behavior:'smooth',block:'start'});
   }
   function clearOutput() {
     $('#stdout').innerHTML = '<span class="output-placeholder">出力なし</span>';
@@ -91,7 +102,8 @@
   }
   function restoreState(nextState) {
     generation++;
-    cancelWaits();
+    releaseWaits(false);
+    skipCurrent = false;
     syncMotion();
     state = nextState;
     busy = false;
@@ -130,6 +142,7 @@
   async function compile() {
     if (busy) return;
     busy = true;
+    skipCurrent = false;
     const token = ++generation;
     const firstBuild = !state.compiled;
     buttons();
@@ -145,10 +158,11 @@
     $('#compile-result').textContent = '入力ファイル：hello.c';
     $('#run-result').textContent = 'コンパイル中';
     $('#source-badge').textContent = '読み込み中';
+    window.LessonMotion?.pulse($('#node-source'), 'focus');
     flow('#connector-compile',timing.read);
     explain('実行コマンド：<strong>gcc hello.c</strong><br>入力ファイル：hello.c');
     mobileDiagram();
-    if (!await wait(timing.read,token)) return;
+    if (!await wait(timing.read,token) || token !== generation) return;
     highlight(null);
     $('#tree-source').classList.remove('highlight');
     $('#source-badge').textContent = '読み込み済み';
@@ -156,11 +170,12 @@
     $('#node-compiler').style.setProperty('--process-duration',Math.max(1,timing.compile * motionScale()) + 'ms');
     $('#node-compiler').classList.add('running');
     $('#compiler-status').textContent = '変換中…';
+    window.LessonMotion?.pulse($('#node-compiler'), 'focus');
     $('#compile-result').textContent = 'ソースコードを変換中';
     explain('<strong>コンパイル中</strong><br>hello.c から実行ファイルを生成');
-    if (!await wait(timing.compile,token)) return;
+    if (!await wait(timing.compile,token) || token !== generation) return;
     flow('#connector-created',timing.create);
-    if (!await wait(timing.create,token)) return;
+    if (!await wait(timing.create,token) || token !== generation) return;
     state = Lab.compile(state).state;
     clearMotion();
     $('#node-compiler').classList.add('done');
@@ -176,6 +191,7 @@
     $('#compile .button-label').textContent = '再実行';
     $('#compile-result').textContent = '生成ファイル：a.out（実行ファイル）';
     $('#run-result').textContent = '実行ファイル：a.out';
+    window.LessonMotion?.celebrate($('#node-executable'));
     explain('生成ファイル：<strong title="-o を指定しないときの、実行ファイルのデフォルト名。">a.out</strong><br>hello.c は保持。標準出力はなし。');
     busy = false;
     buttons();
@@ -183,6 +199,7 @@
   async function run() {
     if (busy || !state.compiled) return;
     busy = true;
+    skipCurrent = false;
     const token = ++generation;
     buttons();
     clearMotion();
@@ -199,10 +216,11 @@
     $('#step-run').classList.add('running');
     $('#run .button-label').textContent = '実行中…';
     $('#run-result').textContent = 'a.out を実行中';
+    window.LessonMotion?.pulse($('#node-executable'), 'focus');
     flow('#connector-run',timing.run);
     explain('実行コマンド：<strong>./a.out</strong><br>対象：現在のフォルダにある a.out');
     mobileDiagram();
-    if (!await wait(timing.run,token)) return;
+    if (!await wait(timing.run,token) || token !== generation) return;
     state = Lab.run(state).state;
     clearMotion();
     $('#executable-badge').textContent = '実行済み';
@@ -220,6 +238,8 @@
     $('#run .button-label').textContent = '再実行';
     $('#step-run').classList.add('done');
     $('#takeaway').classList.add('complete');
+    window.LessonMotion?.pulse($('#stdout'), 'output');
+    window.LessonMotion?.celebrate($('#node-output'));
     explain('標準出力：<strong>Hello, world!</strong><br>実行コマンド：./a.out');
     busy = false;
     buttons();
@@ -231,7 +251,15 @@
   $('#back-compile').addEventListener('click',back);
   $('#back-run').addEventListener('click',back);
   $('#motion-mode').addEventListener('change',syncMotion);
+  $('#skip-motion').addEventListener('click', () => {
+    if (!busy) return;
+    skipCurrent = true;
+    clearMotion();
+    syncMotion();
+    releaseWaits(true);
+  });
   reducedMotion.addEventListener('change',syncMotion);
+  document.addEventListener('lesson-motion-change',syncMotion);
   document.addEventListener('animationend',event => {
     if (event.animationName === 'basic-button-press') event.target.classList.remove('pressed');
   });
@@ -240,6 +268,7 @@
     focusStep('source');
     highlight('#node-source');
     $('#tree-source').classList.add('highlight');
+    window.LessonMotion?.pulse($('#node-source'), 'focus');
     explain('ソースファイル：<strong>hello.c</strong><br>gcc の入力ファイル');
     mobileDiagram();
   });

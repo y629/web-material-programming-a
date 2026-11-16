@@ -1,0 +1,13 @@
+.cover-title { font-family: var(--font); font-size: clamp(32px, 3.8vw, 50px); line-height: 1.35; letter-spacing: -.04em; }
+.lesson-topics { margin-top: 26px; scroll-margin-top: 24px; }
+.topic-list { padding: 0; list-style: none; }
+.topic-content h3 { font-size: 26px; font-weight: 750; line-height: 1.45; overflow-wrap: anywhere; }
+.topic-content h3 sup { font-size: .6em; }
+.topic-description { color: var(--secondary); font-size: 18px; line-height: 1.8; overflow-wrap: anywhere; }
+.carry-arrow { animation: carry-to-left 3.6s ease-in-out infinite; }
+@keyframes carry-to-left { 0%, 20%, 100% { transform: translateX(0); } 55%, 70% { transform: translateX(-7px); } }
+@media (max-width: 760px) {
+  .cover-title { font-size: clamp(27px, 7vw, 42px); }
+  .topic-content h3 { font-size: 24px; }
+}
+@media (prefers-reduced-motion: reduce) { .carry-arrow { animation: none; } }
